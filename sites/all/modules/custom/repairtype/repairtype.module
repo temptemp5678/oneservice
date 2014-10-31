@@ -1,0 +1,36 @@
+<?php
+/**
+ * @file
+ *
+ */
+
+/*
+ * Implementation of hook_init()
+ */
+// function repairtype_init() {
+// }
+
+/**
+ * hook_form_alter()
+ * hide title field, and assign a default title
+ */
+function repairtype_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'repair_node_form') {
+    // revise node title is optional instead of required mandatory
+    $form['title']['#default_value'] = t('Repair');
+    // $form['title']['#type'] = 'hidden';
+    // $form['title']['#required'] = FALSE;
+
+    /**
+     * it should be go to form_submit
+     */
+    if ( isset($form_state['input']['field_meeting_date']['und'][0]['value']['year']) && isset($form_state['input']['field_meeting_date']['und'][0]['value']['day']) ) {
+      $form['title']['#default_value'] .= ' - '.
+      $form_state['input']['field_meeting_date']['und'][0]['value']['year'] . '-' .
+      $form_state['input']['field_meeting_date']['und'][0]['value']['month'] . '-' .
+      $form_state['input']['field_meeting_date']['und'][0]['value']['day'];
+    }
+
+    $form['field_program_representative']['und']['#description'] = t('Optional.In the menu, the heavier items will sink and the lighter items');
+  }
+}
