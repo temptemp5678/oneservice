@@ -1,0 +1,166 @@
+/**
+ * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
+ * remove this comment and start adding your styles to this file.
+ */
+
+ 
+.clear-both {
+  clear: both;
+}
+
+/**
+ * background
+ */
+.bg-449bb5 {
+  background-color: #449bb5;
+  color: #f0f0f0;
+}
+.bg-d9534f {
+  background-color: #d9534f;
+  color: #f0f0f0;
+}
+
+/**
+ * color
+ */
+.color-449bb5 {
+  color: #449bb5;
+}
+
+/**
+ * border radius
+ */
+.border-radius-6 {
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+/**
+ * float left
+ */
+.font-bold{
+  font-weight: bold;
+}
+
+/**
+ * float left
+ */
+.float-left {
+  float: left;
+}
+
+/**
+ * margin
+ */
+.min-heigth-px-280{
+  min-height: 280px;
+}
+
+/**
+ * margin
+ */
+.mg-left-n-24 {
+  margin-left: -24px;
+}
+.mg-right-24 {
+  margin-right: 24px;
+}
+/**
+ * padding
+ */
+.padding-px-24 {
+  padding: 24px;
+}
+.padding-left-6 {
+  padding-left: 6px;
+}
+
+
+/**
+ * position: 
+ */
+.position-absolute {
+  position: absolute;
+}
+
+/**
+ * Typography more
+ */
+.text-underline{
+  text-decoration: underline;
+}
+  #edit-foot-addmore-foot > .panel-body .col-xs-2.col-sm-2,
+  #edit-wall-addmore-wall > .panel-body .col-xs-2.col-sm-2,
+  #edit-wall-addmore-ledge > .panel-body .col-xs-2.col-sm-2{
+/*     padding-left: 5px;
+    padding-right: 5px; */
+  }
+
+/**
+ * width
+ */
+.width-p-9 {
+  float: left;
+  width: 9%;
+}
+.width-p-25 {
+  float: left;
+  width: 25%;
+}
+ 
+.width-px-28 {
+  width: 28px;
+}
+
+/** - - - - - - - - - - - - - - - - - - - -  */
+/* Media queries */
+
+/* Extra small devices (phones, less than 768px), @screen-sm-min */
+@media (max-width: 767px ){ 
+  .clear-xs-both {
+    clear: both;  
+  }
+  
+  .col-xs-width-p-11{
+    width: 11%;
+  }
+}
+
+/* Small devices (tablets, 768px and up), @screen-sm-min */
+@media (min-width: 768px){ 
+  .mg-left-sm-n-12 {
+    margin-left: -12px;
+  }  
+  .mg-left-sm-n-18 {
+    margin-left: -18px;
+  }  
+  .mg-left-sm-n-24 {
+    margin-left: -24px;
+  }
+  .mg-left-sm-n-48 {
+    margin-left: -48px;
+  }
+  
+  .col-sm-width-p-9{
+    width: 9%;
+  }
+  
+  /* other  */
+  #edit-addon-option > .form-type-checkbox  {
+    width: 50%;
+  }
+}
+
+/* Medium devices (desktops, 992px and up), @screen-md-min */
+@media (min-width: 992px) { 
+  .mg-left-md-n-24 {
+    margin-left: -24px;
+  }
+  
+  /* other  */
+  #edit-addon-option > .form-type-checkbox  {
+    width: 33%;
+  }
+}
+
