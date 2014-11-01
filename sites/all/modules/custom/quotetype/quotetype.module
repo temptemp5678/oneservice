@@ -4,11 +4,23 @@
  *
  */
 
-/*
- * Implementation of hook_init()
+/**
+ * Implements hook_menu()
  */
-// function repairtype_init() {
-// }
+function quotetype_menu() {
+  $items = array();
+
+  $items['add_new_quotation'] = array(
+    'title' => 'Create New Quotation',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('quotetype_add_quote_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'quotetype_page_form.inc',
+  );
+
+  return $items;
+}
 
 /**
  * hook_form_alter()
@@ -20,5 +32,5 @@ function quotetype_form_alter(&$form, &$form_state, $form_id) {
     $form['title']['#default_value'] = t('Quotation');
     // $form['title']['#type'] = 'hidden';
     // $form['title']['#required'] = FALSE;
-
+  }
 }
