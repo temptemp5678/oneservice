@@ -21,6 +21,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#markup' => t(''),
     '#prefix' => '<div class="col-xs-6 col-md-3 clear-both">',
     '#suffix' => '</div>',
+    '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'event' => 'change'),
   );
   $form['top']['title'] = array(
     '#type' => 'item',
@@ -28,7 +29,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-5 col-xs-offset-0">',
     '#suffix' => '</div>',
   );
-  $form['top']['text_one'] = array(
+  $form['top']['top_one'] = array(
     '#type' => 'item',
     '#markup' => t('贵公司送修的解码器') . '<br />'
                . t('型号IRD2900，SN:246053/243120') . '<br />'
@@ -50,10 +51,15 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
+  $form['bottom']['text_one'] = array(
+    '#type' => 'item',
+    '#markup' => t('以下是我司有关汇款信息：'),
+    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
+    '#suffix' => '</div>',
+  );
   $form['bottom']['text_two'] = array(
     '#type' => 'item',
-    '#markup' => t('以下是我司有关汇款信息：') . '<br />' 
-               . t('名称：北京万博信普通讯技术有限公司') . '<br />' 
+    '#markup' => t('名称：北京万博信普通讯技术有限公司') . '<br />' 
                . t('开户行：交通银行北京水碓子支行') . '<br />'
                . t('帐号：110060970018010024476'),
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
@@ -131,4 +137,5 @@ function quotetype_callback_summit_cancel() {
  * Implements hook_form_submit()
  */
 function quotetype_add_quote_form_submit($form, &$form_state) {
+  dpm($form_state);
 }

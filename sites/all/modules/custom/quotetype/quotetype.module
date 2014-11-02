@@ -5,6 +5,14 @@
  */
 
 /**
+ * Implements hook_init()
+ */
+function quotetype_init() {
+  // add ajax function for form page.
+  module_load_include('inc', 'quotetype', 'ajax_estimate_foot_dimension_input');
+}
+
+/**
  * Implements hook_menu()
  */
 function quotetype_menu() {
