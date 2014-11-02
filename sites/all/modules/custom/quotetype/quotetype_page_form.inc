@@ -39,8 +39,9 @@ function quotetype_add_quote_form($form, &$form_state) {
   );
   $form['mid']['quote_item'] = array(
     '#type' => 'item',
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both"><p>',
-    '#suffix' => '</p></div>',
+    '#markup' => '<p></p>',
+    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 quote-row-output-html color-449bb5 clear-both">',
+    '#suffix' => '</div>',
   );
   
   $form['bottom']['title'] = array(
