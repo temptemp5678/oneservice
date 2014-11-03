@@ -37,6 +37,9 @@
         jQuery('.quote-row-output-html  div').html(output);
         // write HTML
       }
+      
+      /** - - - - - - - - - - - - - - - - - - - -  */
+
 
     // --- end for attach: function()
     }

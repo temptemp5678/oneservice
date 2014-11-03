@@ -18,10 +18,9 @@ function quotetype_add_quote_form($form, &$form_state) {
       0 => t('北京万博信普公司'),
       1 => t('北京万博一梦公司'),
     ),
-    '#markup' => t(''),
     '#prefix' => '<div class="col-xs-6 col-md-3 clear-both">',
     '#suffix' => '</div>',
-    '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'event' => 'change'),
+    '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'effect' => 'fade',),
   );
   $form['top']['title'] = array(
     '#type' => 'item',
@@ -62,7 +61,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#markup' => t('名称：北京万博信普通讯技术有限公司') . '<br />' 
                . t('开户行：交通银行北京水碓子支行') . '<br />'
                . t('帐号：110060970018010024476'),
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
+    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 text-two-wrapper clear-both">',
     '#suffix' => '</div>',
   );
   $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
@@ -92,11 +91,11 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
-  $form['bottom']['text_four'] = array(
+  $form['bottom']['apply_date'] = array(
     '#type' => 'date',
-    // '#default_value' => array('year' => 2007, 'month' => 2, 'day'=> 15),
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
+    '#ajax' => array('callback' => 'ajax_quotetype_select_company_name'),
   );
   
   /** submit button - - - - - - - - - - - - - - - - - - - -  */
@@ -105,7 +104,6 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#value' => t('Save'),
     '#prefix' => '<div class="estimate-page-submit-wrapper text-center">',
   );
-
   $form['Cancel'] = array(
     '#type' => 'submit',
     '#value' => t('Reset'),
