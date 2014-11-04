@@ -22,31 +22,63 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'effect' => 'fade',),
   );
-  $form['top']['title'] = array(
+  $form['quotation_title'] = array(
     '#type' => 'item',
     '#markup' => t('产品保修期外维修单'),
     '#prefix' => '<div class="col-xs-5 col-xs-offset-0">',
     '#suffix' => '</div>',
   );
-  $form['top']['top_one'] = array(
+  $form['quotation_markup_one'] = array(
     '#type' => 'item',
-    '#markup' => t('贵公司送修的解码器') . '<br />'
-               . t('型号IRD2900，SN:246053/243120') . '<br />'
-               . t('已经超过保修期。需要更换配件，维修后仅对该设备配件将提供为期6（3,6）个月的保修服务。') . '<br />'
-               . t('维修情况如下：') . '<br />',
+    '#markup' => t('贵公司送修的解码器'),
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
-  $form['mid']['quote_item'] = array(
+  $form['quotation_markup_three'] = array(
+    '#type' => 'item',
+    '#markup' => t('型号IRD2900，SN:246053/243120'),
+    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
+    '#suffix' => '</div>',
+  );
+  $form['quotation_markup_five'] = array(
+    '#type' => 'item',
+    '#markup' => t('已经超过保修期。需要更换配件，维修后仅对该设备配件将提供为期'),
+    '#prefix' => '<div class="col-xs-6 col-xs-offset-2 clear-both">',
+    '#suffix' => '</div>',
+  );
+  $form['warranty_day'] = array(
+    '#type' => 'textfield',
+    '#default_value' => 6, 
+    '#prefix' => '<div class="col-xs-1">',
+    '#suffix' => '</div>',
+    '#ajax' => array('callback' => 'ajax_quotetype_input_warranty_day', 'effect' => 'fade',),
+  );
+  $form['quotation_markup_seven'] = array(
+    '#type' => 'item',
+    '#markup' => t('个月的保修服务。'),
+    '#prefix' => '<div class="col-xs-2">',
+    '#suffix' => '</div>',
+  );
+  $form['quotation_markup_nine'] = array(
+    '#type' => 'item',
+    '#markup' => t('维修情况如下：'),
+    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
+    '#suffix' => '</div>',
+  );
+  $form['quote_item'] = array(
     '#type' => 'item',
     '#markup' => '<p></p>',
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 quote-row-output-html color-449bb5 clear-both">',
     '#suffix' => '</div>',
   );
   
-  $form['bottom']['title'] = array(
+  $form['quotation_markup_eleven'] = array(
     '#type' => 'item',
-    '#markup' => t('因已经超过保修期，需要支付维修费.费用为￥6900.00 (人民币陆仟玖佰元整)。维修后该设备相同部件将提供为期6个月的保修服务.'),
+    '#markup' => t('因已经超过保修期，需要支付维修费.费用为￥6900.00 (人民币陆仟玖佰元整)。维修后该设备相同部件将提供为期') 
+               . '<span class="quotation_markup_eleven_insert">'
+               .  6 
+               . '</span>'
+               . t('个月的保修服务.'),
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
