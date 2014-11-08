@@ -14,6 +14,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   /** form - - - - - - - - - - - - - - - - - - - -  */
   $form['top']['company_name'] = array(
     '#type' => 'select',
+    '#title' => t('公司名称'),
     '#options' => array(
       0 => t('北京万博信普公司'),
       1 => t('北京万博一梦公司'),
@@ -22,10 +23,34 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'effect' => 'fade',),
   );
+  $form['top']['warranty_day'] = array(
+    '#type' => 'textfield',
+    '#title' => t('保修长度'),
+    '#default_value' => 180, 
+    '#prefix' => '<div class="col-xs-1">',
+    '#suffix' => '</div>',
+    '#ajax' => array('callback' => 'ajax_quotetype_input_warranty_day', 'effect' => 'fade',),
+  );
+  $form['top']['apply_date'] = array(
+    '#type' => 'date',
+    '#title' => t('日期'),
+    '#prefix' => '<div class="col-xs-4">',
+    '#suffix' => '</div>',
+    '#ajax' => array('callback' => 'ajax_quotetype_select_company_name'),
+  );
+  $form['top']['authorize_stamp'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('授权'),
+    '#prefix' => '<div class="col-xs-1"><div class="btn btn-warning checkbox-authorize-stamp">',
+    '#suffix' => '</div></div>',
+    '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp', 'effect' => 'fade',),
+  );
+  
+  
   $form['quotation_title'] = array(
     '#type' => 'item',
     '#markup' => t('产品保修期外维修单'),
-    '#prefix' => '<div class="col-xs-5 col-xs-offset-0">',
+    '#prefix' => '<div class="col-xs-5 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
   $form['quotation_markup_one'] = array(
@@ -42,21 +67,12 @@ function quotetype_add_quote_form($form, &$form_state) {
   );
   $form['quotation_markup_five'] = array(
     '#type' => 'item',
-    '#markup' => t('已经超过保修期。需要更换配件，维修后仅对该设备配件将提供为期'),
+    '#markup' => t('已经超过保修期。需要更换配件，维修后仅对该设备配件将提供为期')
+                   . '<span class="quotation_markup_eleven_insert">'
+               .  6 
+               . '</span>'
+               . t('天的保修服务。'),
     '#prefix' => '<div class="col-xs-6 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['warranty_day'] = array(
-    '#type' => 'textfield',
-    '#default_value' => 6, 
-    '#prefix' => '<div class="col-xs-1">',
-    '#suffix' => '</div>',
-    '#ajax' => array('callback' => 'ajax_quotetype_input_warranty_day', 'effect' => 'fade',),
-  );
-  $form['quotation_markup_seven'] = array(
-    '#type' => 'item',
-    '#markup' => t('个月的保修服务。'),
-    '#prefix' => '<div class="col-xs-2">',
     '#suffix' => '</div>',
   );
   $form['quotation_markup_nine'] = array(
@@ -78,7 +94,7 @@ function quotetype_add_quote_form($form, &$form_state) {
                . '<span class="quotation_markup_eleven_insert">'
                .  6 
                . '</span>'
-               . t('个月的保修服务.'),
+               . t('天的保修服务.'),
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
@@ -96,6 +112,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 text-two-wrapper clear-both">',
     '#suffix' => '</div>',
   );
+  
   $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
   $stamp_image_variables = array(
                             'path' => $stamp_image_path,
@@ -108,9 +125,10 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['bottom']['text_three'] = array(
     '#type' => 'item',
     '#markup' => $stamp_image,
-    '#prefix' => '<div class="col-xs-12 text-right clear-both">',
+    '#prefix' => '<div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">',
     '#suffix' => '</div>',
   );
+  
   $form['bottom']['text_four'] = array(
     '#type' => 'item',
     '#markup' => t('收到维修费后，北京万博信普通讯技术有限公司负责开具发票，并将设备快递回贵公司。'),
@@ -123,18 +141,13 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
-  $form['bottom']['apply_date'] = array(
-    '#type' => 'date',
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-    '#ajax' => array('callback' => 'ajax_quotetype_select_company_name'),
-  );
+
   
   /** submit button - - - - - - - - - - - - - - - - - - - -  */
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
-    '#prefix' => '<div class="estimate-page-submit-wrapper text-center">',
+    '#prefix' => '<div class="estimate-page-submit-wrapper text-center clear-both">',
   );
   $form['Cancel'] = array(
     '#type' => 'submit',

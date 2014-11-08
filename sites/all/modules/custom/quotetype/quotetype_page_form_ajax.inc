@@ -47,3 +47,29 @@ function ajax_quotetype_input_warranty_day($form, &$form_state) {
   
   return array('#type' => 'ajax', '#commands' => $commands);
 }
+
+/**
+ * 
+ */
+function ajax_quotetype_check_authorize_stamp($form, &$form_state) {
+  // Ajax framework commands
+  $commands = array();
+
+  // get check value, 1 for true, 0 for false
+  $check_val = $form_state['values']['authorize_stamp'];
+  
+  // if ($check_val) {
+  if ($check_val) {
+    $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'removeClass', array('btn-warning'));
+    $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'addClass', array('btn-primary'));
+    $commands[] = ajax_command_invoke('.page-add-new-quotation .authorize-stamp-image', 'removeClass', array('element-invisible'));
+  }
+  else {
+    $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'removeClass', array('btn-primary'));
+    $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'addClass', array('btn-warning'));
+    $commands[] = ajax_command_invoke('.page-add-new-quotation .authorize-stamp-image', 'addClass', array('element-invisible'));
+  }
+  // Ajax commands
+  
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
