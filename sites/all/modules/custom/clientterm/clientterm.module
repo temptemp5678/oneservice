@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ *
+ */
+
+/*
+ * Implementation of hook_init()
+ */
+
+/**
+ * Implements hook_menu()
+ */
+function clientterm_menu() {
+  $items = array();
+
+  $items['clientterm/add_new'] = array(
+    'title' => 'Client Term Default Title',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clientterm_add_new_term_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'clientterm_add_new_form_page.inc',
+  );
+  
+  return $items;
+}
+
+/**
+ * hook_form_alter()
+ * hide title field, and assign a default title
+ */
+function clientterm_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'taxonomy_form_term' && $form['#term']['vocabulary_machine_name'] == 'program') {
+  // dpm($form);
+  // dpm($form_state);
+  // dpm($form['field_taxpro_title_two_one']['und']['#title']);
+  // dpm($form['field_taxpro_title_two_one']['und'][0]['#title']);
+  
+    // call variable to set default title
+    // $form['name']['#default_value'] = 'Virtual Meeting';
+    // $form['name']['#title'] = 'Virtual Meeting';
+    
+    // $form['field_taxpro_title_two_one']['#default_value'] = variable_get('evaluation_question_title_two_one');
+    // $form['field_taxpro_title_two_one']['und']['#title'] = 'title cc';
+    // $form['field_taxpro_title_one_one']['und'][0]['#title'] = 'title cc';
+    
+    // $form['field_taxpro_title_one_one']['und']['#default_value'] = 'cc';
+    // $form['field_taxpro_title_one_one']['und']['#default_value'] = 'cce';
+    // $form['field_taxpro_title_one_one']['und']['#default_value'] = 'ccd';
+  }
+
+}
