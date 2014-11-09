@@ -15,10 +15,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['top']['company_name'] = array(
     '#type' => 'select',
     '#title' => t('公司名称'),
-    '#options' => array(
-      0 => t('北京万博信普公司'),
-      1 => t('北京万博一梦公司'),
-    ),
+    '#options' => drupal_map_assoc(array(t('北京万博信普公司'), t('北京万博一梦公司'))),
     '#prefix' => '<div class="col-xs-6 col-md-3 clear-both">',
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'effect' => 'fade',),
@@ -49,35 +46,23 @@ function quotetype_add_quote_form($form, &$form_state) {
   
   $form['quotation_title'] = array(
     '#type' => 'item',
-    '#markup' => t('产品保修期外维修单'),
     '#prefix' => '<div class="col-xs-5 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
   $form['quotation_markup_one'] = array(
     '#type' => 'item',
-    '#markup' => t('贵公司送修的解码器'),
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['quotation_markup_three'] = array(
-    '#type' => 'item',
-    '#markup' => t('型号IRD2900，SN:246053/243120'),
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['quotation_markup_five'] = array(
-    '#type' => 'item',
-    '#markup' => t('已经超过保修期。需要更换配件，维修后仅对该设备配件将提供为期')
-                   . '<span class="quotation_markup_eleven_insert">'
-               .  6 
+    '#markup' => t('产品保修期外维修单') . '<br />'
+               . t('贵公司送修的解码器')
+               . t('型号:') . '<br />'
+               . '<p><span class="quotation_insert_markup_device_type">'
+               . '</span></p>'
+               . t('已经超过保修期, 需要更换配件, 维修后仅对该设备配件将提供为期')
+               . '<span class="quotation_insert_markup_warranty_day">'
+               .  180 
                . '</span>'
-               . t('天的保修服务。'),
-    '#prefix' => '<div class="col-xs-6 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['quotation_markup_nine'] = array(
-    '#type' => 'item',
-    '#markup' => t('维修情况如下：'),
+               . t('天的保修服务。')
+               . '<br />'
+               . t('维修情况如下：'),
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
@@ -91,25 +76,25 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['quotation_markup_eleven'] = array(
     '#type' => 'item',
     '#markup' => t('因已经超过保修期，需要支付维修费.费用为￥6900.00 (人民币陆仟玖佰元整)。维修后该设备相同部件将提供为期') 
-               . '<span class="quotation_markup_eleven_insert">'
-               .  6 
+               . '<span class="quotation_insert_markup_warranty_day">'
+               .  180 
                . '</span>'
-               . t('天的保修服务.'),
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['bottom']['text_one'] = array(
-    '#type' => 'item',
-    '#markup' => t('以下是我司有关汇款信息：'),
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['bottom']['text_two'] = array(
-    '#type' => 'item',
-    '#markup' => t('名称：北京万博信普通讯技术有限公司') . '<br />' 
+               . t('天的保修服务.')
+               . '<br />'
+               . t('以下是我司有关汇款信息：') . '<br /><br />'
+               . '<span class="quotation_insert_markup_company_info">'
+               . t('名称：北京万博信普通讯技术有限公司') . '<br />' 
                . t('开户行：交通银行北京水碓子支行') . '<br />'
-               . t('帐号：110060970018010024476'),
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 text-two-wrapper clear-both">',
+               . t('帐号：110060970018010024476') 
+               . '</span>'
+               . '<br /><br />'
+               . t('收到维修费后，')
+               . '<span class="quotation_insert_markup_company_name">'
+               . t('北京万博信普通讯技术有限公司')
+               . '</span>'
+               . t('负责开具发票，并将设备快递回贵公司。') . '<br />'
+               . t('李靖'),
+    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
   
@@ -128,16 +113,9 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">',
     '#suffix' => '</div>',
   );
-  
-  $form['bottom']['text_four'] = array(
-    '#type' => 'item',
-    '#markup' => t('收到维修费后，北京万博信普通讯技术有限公司负责开具发票，并将设备快递回贵公司。'),
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-  );
+
   $form['bottom']['text_five'] = array(
     '#type' => 'item',
-    '#markup' => t('李靖'),
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
@@ -181,4 +159,42 @@ function quotetype_callback_summit_cancel() {
  */
 function quotetype_add_quote_form_submit($form, &$form_state) {
   dpm($form_state);
+  // global $user;
+  if (!isset($account)) {
+    $account = $GLOBALS['user'];
+  }
+  /** - - - - - - - - - - - - - - - - - - - -  */
+  // create new node
+  $node = new stdClass();
+  $node->type = 'quote';
+
+  // The node_object_prepare() function provides the default values for the status, promote, sticky, and revision flags.
+  node_object_prepare($node);
+
+  $node->status = 1;
+  $node->uid = $account->uid;
+  $node->title = 'New Quote';
+  $node->promote = 1;
+  $node->created = time();;
+  $node->timestamp = time();;
+  $node->sticky = 0;
+  $node->language = LANGUAGE_NONE;   // und
+  $node->revision = 0;
+  
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  $node->field_quote_company_name[$node->language][0]['value'] = $form_state['values']['company_name'];
+
+  // update field
+  // field_attach_presave('node', $node);
+  // field_attach_update('node', $node);
+
+  // save node
+  node_save($node);
+
+  /** - - - - - - - - - - - - - - - - - - - -  */
+  watchdog('quotetype', 'New Quote Node - @name - created successfully', array('@name' => $node->nid), WATCHDOG_NOTICE);
+  drupal_set_message(t('The new Quote - @name- has been saved successfully.', array('@name' => $node->nid)));
+
+  // redirect page
+  $form_state['redirect'] = array('node/'. $node->nid);
 }
