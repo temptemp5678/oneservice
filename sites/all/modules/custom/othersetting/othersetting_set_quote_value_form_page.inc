@@ -30,6 +30,14 @@ function othersetting_set_quote_value_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-12">',
     '#suffix' => '</div>',
   );
+  $form['quote_value']['quote_default_value_company_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Company Name'),
+    '#attributes' => array('class' => array('quote-default-value-company-name-wrapper'), 'placeholder' => 'Company Name'),
+    '#default_value' => variable_get('quote_default_value_company_name'),
+    '#prefix' => '<div class="col-xs-12">',
+    '#suffix' => '</div>',
+  );
 
   /** - - - - - - - - - - - - - - - - - - - -  */
   // submit

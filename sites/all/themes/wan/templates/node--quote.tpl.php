@@ -99,8 +99,10 @@
   <div class="content"<?php print $content_attributes; ?>>
     <?php
       // We hide the comments and links now so that we can render them later.
-      print render(othersetting_quote_page_content());
+      print render(othersetting_quote_page_content($node));
+      dpm($node->field_quote_repair_nid['und'][0]['value']);
     ?>
+
     <?php
       // dpm($node);
       // We hide the comments and links now so that we can render them later.

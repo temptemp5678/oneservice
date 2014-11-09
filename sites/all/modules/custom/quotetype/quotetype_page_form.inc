@@ -53,12 +53,16 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_input_warranty_day', 'effect' => 'fade',),
   );
-  $form['top']['apply_date'] = array(
-    '#type' => 'date',
+  $form['top']['create_date'] = array(
+    '#type' => 'date_popup',
     '#title' => t('日期'),
+    '#default_value' => date('Y-m-d'),
+    '#date_format' => 'Y-m-d',
+    '#date_label_position' => 'within',
+    '#attributes' => array('placeholder' => 'Date'),
     '#prefix' => '<div class="col-xs-4">',
     '#suffix' => '</div>',
-    '#ajax' => array('callback' => 'ajax_quotetype_select_company_name'),
+    '#ajax' => array('callback' => 'ajax_quotetype_select_create_date', 'event' => 'change'),
   );
   $form['top']['authorize_stamp'] = array(
     '#type' => 'checkbox',
@@ -167,8 +171,8 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // format date value
   $date_value = time();
-  if (isset($form_state['values']['apply_date'])) {
-    $date_value = mktime(0, 0, 0, $form_state['values']['apply_date']['month'], $form_state['values']['apply_date']['day'], $form_state['values']['apply_date']['year']);
+  if (isset($form_state['values']['create_date'])) {
+    $date_value = strtotime($form_state['values']['create_date']);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // save repair_nid
@@ -181,7 +185,7 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
   $node->field_quote_client_name[$node->language][0]['value'] = $form_state['values']['client_name'];
   $node->field_quote_sum_price[$node->language][0]['value'] = $form_state['values']['sum_price'];
   $node->field_quote_warranty_day[$node->language][0]['value'] = $form_state['values']['warranty_day'];
-  $node->field_quote_apply_date[$node->language][0]['value'] = $date_value;
+  $node->field_quote_create_date[$node->language][0]['value'] = $date_value;
   $node->field_quote_authorize_stamp[$node->language][0]['value'] = $form_state['values']['authorize_stamp'];
 
   // update field

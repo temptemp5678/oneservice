@@ -1,3 +1,7 @@
 #repair-node-form .vertical-tabs {
   display: none;
 }
+
+#edit-create-date.date-padding{
+  padding: 0px;
+}

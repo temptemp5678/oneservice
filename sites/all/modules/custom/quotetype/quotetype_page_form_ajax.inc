@@ -51,6 +51,22 @@ function ajax_quotetype_input_warranty_day($form, &$form_state) {
 /**
  * 
  */
+function ajax_quotetype_select_create_date($form, &$form_state) {
+  // Ajax framework commands
+  $commands = array();
+
+  // get selected value for "create_date"
+  $create_date_val = $form_state['values']['create_date'];
+  
+  // Ajax commands
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation_insert_markup_create_date', 'text', array($create_date_val));
+  
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * 
+ */
 function ajax_quotetype_check_authorize_stamp($form, &$form_state) {
   // Ajax framework commands
   $commands = array();
