@@ -12,6 +12,19 @@ function quotetype_add_quote_form($form, &$form_state) {
   }
 
   /** form - - - - - - - - - - - - - - - - - - - -  */
+  // Because we have many fields with the same values, we have to set
+  // #tree to be able to access them.
+  $form['nid']['#tree'] = TRUE;
+  for ($f = 0; $f < 10; $f++) {
+    $form['nid'][$f]['repair_nid'] = array(
+      '#type' => 'textfield',
+      '#attributes' => array('class' => array('addmore-select-repair-nid')),
+      '#prefix' => '<div class="col-xs-1 col-xs-width-p-11 col-xs-offset-1">',
+      '#suffix' => '</div>',
+      '#element_validate' => array('element_estimate_integer_validate'),
+    );
+  }
+  
   $form['top']['company_name'] = array(
     '#type' => 'select',
     '#title' => t('公司名称'),
@@ -19,6 +32,18 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-6 col-md-3 clear-both">',
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'effect' => 'fade',),
+  );
+  $form['top']['client_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('公司名称'),
+    '#prefix' => '<div class="col-xs-2">',
+    '#suffix' => '</div>',
+  );
+  $form['top']['sum_price'] = array(
+    '#type' => 'textfield',
+    '#title' => t('总价'),
+    '#prefix' => '<div class="col-xs-1">',
+    '#suffix' => '</div>',
   );
   $form['top']['warranty_day'] = array(
     '#type' => 'textfield',
@@ -51,49 +76,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   );
   $form['quotation_markup_one'] = array(
     '#type' => 'item',
-    '#markup' => t('产品保修期外维修单') . '<br />'
-               . t('贵公司送修的解码器')
-               . t('型号:') . '<br />'
-               . '<p><span class="quotation_insert_markup_device_type">'
-               . '</span></p>'
-               . t('已经超过保修期, 需要更换配件, 维修后仅对该设备配件将提供为期')
-               . '<span class="quotation_insert_markup_warranty_day">'
-               .  180 
-               . '</span>'
-               . t('天的保修服务。')
-               . '<br />'
-               . t('维修情况如下：'),
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['quote_item'] = array(
-    '#type' => 'item',
-    '#markup' => '<p></p>',
-    '#prefix' => '<div class="col-xs-10 col-xs-offset-2 quote-row-output-html color-449bb5 clear-both">',
-    '#suffix' => '</div>',
-  );
-  
-  $form['quotation_markup_eleven'] = array(
-    '#type' => 'item',
-    '#markup' => t('因已经超过保修期，需要支付维修费.费用为￥6900.00 (人民币陆仟玖佰元整)。维修后该设备相同部件将提供为期') 
-               . '<span class="quotation_insert_markup_warranty_day">'
-               .  180 
-               . '</span>'
-               . t('天的保修服务.')
-               . '<br />'
-               . t('以下是我司有关汇款信息：') . '<br /><br />'
-               . '<span class="quotation_insert_markup_company_info">'
-               . t('名称：北京万博信普通讯技术有限公司') . '<br />' 
-               . t('开户行：交通银行北京水碓子支行') . '<br />'
-               . t('帐号：110060970018010024476') 
-               . '</span>'
-               . '<br /><br />'
-               . t('收到维修费后，')
-               . '<span class="quotation_insert_markup_company_name">'
-               . t('北京万博信普通讯技术有限公司')
-               . '</span>'
-               . t('负责开具发票，并将设备快递回贵公司。') . '<br />'
-               . t('李靖'),
+    '#markup' => othersetting_quote_page_content(),
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
@@ -182,7 +165,24 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
   $node->revision = 0;
   
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // format date value
+  $date_value = time();
+  if (isset($form_state['values']['apply_date'])) {
+    $date_value = mktime(0, 0, 0, $form_state['values']['apply_date']['month'], $form_state['values']['apply_date']['day'], $form_state['values']['apply_date']['year']);
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // save repair_nid
+  for ($f = 0; $f < 10; $f++) {
+    // add "(int)", transform "NULL value" to 0 for field value saving
+    $node->field_quote_repair_nid[$node->language][$f]['value'] = (int) $form_state['values']['nid'][$f]['repair_nid'];
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   $node->field_quote_company_name[$node->language][0]['value'] = $form_state['values']['company_name'];
+  $node->field_quote_client_name[$node->language][0]['value'] = $form_state['values']['client_name'];
+  $node->field_quote_sum_price[$node->language][0]['value'] = $form_state['values']['sum_price'];
+  $node->field_quote_warranty_day[$node->language][0]['value'] = $form_state['values']['warranty_day'];
+  $node->field_quote_apply_date[$node->language][0]['value'] = $date_value;
+  $node->field_quote_authorize_stamp[$node->language][0]['value'] = $form_state['values']['authorize_stamp'];
 
   // update field
   // field_attach_presave('node', $node);
@@ -197,4 +197,28 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
 
   // redirect page
   $form_state['redirect'] = array('node/'. $node->nid);
+}
+
+/**
+ * check string is valid decimal or not
+ */
+function element_estimate_decimal_validate($element, &$form_state) {
+  if(!is_numeric($element['#value']) && !empty($element['#value'])) {
+    form_error($element, t('You must input a number.'));
+  }
+}
+
+/**
+ * check string is valid integer or not
+ */
+function element_estimate_integer_validate($element, &$form_state) {
+  $check_integer = '';
+  $check_integer = (intval( $element['#value'] ) == $element['#value']);
+  if( !empty($element['#value']) && (!is_numeric($element['#value'])) ) {
+    form_error($element, t('You must input a number.'));
+  }
+
+  if( !empty($element['#value']) && is_numeric($element['#value']) && (intval( $element['#value'] ) != $element['#value']) ) {
+    form_error($element, t('You must input a integer number.'));
+  }
 }

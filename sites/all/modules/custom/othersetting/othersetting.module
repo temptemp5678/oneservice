@@ -1,0 +1,66 @@
+<?php
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implements hook_menu()
+ */
+function othersetting_menu() {
+  $items = array();
+
+  $items['othersetting/set_quote_value'] = array(
+    'title' => 'Quote Default Value',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('othersetting_set_quote_value_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'othersetting_set_quote_value_form_page.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * @return
+ * default Quotation page text content
+ */
+function othersetting_quote_page_content() {
+  $output = '';
+  $output =  t('产品保修期外维修单') . '<br />'
+               . t('贵公司送修的解码器')
+               . t('型号:') . '<br />'
+               . '<p><span class="quotation_insert_markup_device_type">'
+               . '</span></p>'
+               . t('已经超过保修期, 需要更换配件, 维修后仅对该设备配件将提供为期')
+               . '<span class="quotation_insert_markup_warranty_day">'
+               . variable_get('quote_default_value_warranty_day')
+               . '</span>'
+               . t('天的保修服务。')
+               . '<br />'
+               . t('维修情况如下：')
+               . '<div class="col-xs-10 col-xs-offset-2 quote-row-output-html color-449bb5">'
+               . '</div>'
+               . t('因已经超过保修期，需要支付维修费.费用为￥6900.00 (人民币陆仟玖佰元整)。维修后该设备相同部件将提供为期') 
+               . '<span class="quotation_insert_markup_warranty_day">'
+               . variable_get('quote_default_value_warranty_day')
+               . '</span>'
+               . t('天的保修服务.')
+               . '<br />'
+               . t('以下是我司有关汇款信息：') . '<br /><br />'
+               . '<span class="quotation_insert_markup_company_info">'
+               . t('名称：北京万博信普通讯技术有限公司') . '<br />' 
+               . t('开户行：交通银行北京水碓子支行') . '<br />'
+               . t('帐号：110060970018010024476') 
+               . '</span>'
+               . '<br /><br />'
+               . t('收到维修费后，')
+               . '<span class="quotation_insert_markup_company_name">'
+               . t('北京万博信普通讯技术有限公司')
+               . '</span>'
+               . t('负责开具发票，并将设备快递回贵公司。') . '<br />'
+               . t('李靖');
+  
+  return $output;
+}

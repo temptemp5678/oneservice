@@ -1,0 +1,10 @@
+name = Other Setting
+description = Other Settings for Misc
+core = 7.x
+package = Zen Other
+
+stylesheets[all][] = css/othersetting.css
+
+;scripts[] = js/othersetting.js
+
+version  = 7.x-1.1

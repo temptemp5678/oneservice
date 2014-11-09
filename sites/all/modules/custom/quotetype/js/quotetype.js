@@ -34,7 +34,7 @@
           output = '<p>No selected Device</p>';
         }
         
-        jQuery('.quote-row-output-html div').html(output);
+        jQuery('.quote-row-output-html').html(output);
         // write HTML
       }
       
