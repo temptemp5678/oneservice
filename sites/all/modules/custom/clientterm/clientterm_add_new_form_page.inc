@@ -64,5 +64,5 @@ function clientterm_add_new_term_form_submit($form, &$form_state) {
   drupal_set_message(t('The new Cilent - @name- has been saved successfully.', array('@name' => $name)));
 
   // redirect page
-  $form_state['redirect'] = array('home');
+  // $form_state['redirect'] = array('home');
 }

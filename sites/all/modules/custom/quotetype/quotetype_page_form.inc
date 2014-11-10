@@ -19,7 +19,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     $form['nid'][$f]['repair_nid'] = array(
       '#type' => 'textfield',
       '#attributes' => array('class' => array('addmore-select-repair-nid')),
-      '#prefix' => '<div class="col-xs-1 col-xs-width-p-11 col-xs-offset-1">',
+      '#prefix' => '<div class="col-xs-1 quotation-js-insert-repair-nid">',
       '#suffix' => '</div>',
       '#element_validate' => array('element_estimate_integer_validate'),
     );
@@ -138,14 +138,13 @@ function quotetype_add_quote_form($form, &$form_state) {
  * redirect page
  */
 function quotetype_callback_summit_cancel() {
-  drupal_goto('estimate-archives');
+  // drupal_goto('estimate-archives');
 }
 
 /**
  * Implements hook_form_submit()
  */
 function quotetype_add_quote_form_submit($form, &$form_state) {
-  dpm($form_state);
   // global $user;
   if (!isset($account)) {
     $account = $GLOBALS['user'];

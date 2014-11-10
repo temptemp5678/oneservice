@@ -24,6 +24,6 @@
 ?>
 <?php // print $output; ?>
 <?php
-  $new_output = '<input type="checkbox" name="animal" value="' . $output . '" />';
+  $new_output = '<input type="checkbox" name="nid checkbox" nid="' . $row->nid . '" value="' . $output . '"/>';
   print $new_output;
 ?>
