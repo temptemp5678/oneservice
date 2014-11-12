@@ -5,3 +5,7 @@
 #edit-create-date.date-padding{
   padding: 0px;
 }
+
+#quotetype-add-quote-form .quotation-js-insert-repair-nid {
+  display: none;
+}
