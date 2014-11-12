@@ -33,12 +33,12 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'effect' => 'fade',),
   );
-  // $form['top']['client_name'] = array(
-    // '#type' => 'textfield',
-    // '#title' => t('公司名称'),
-    // '#prefix' => '<div class="col-xs-2">',
-    // '#suffix' => '</div>',
-  // );
+  $form['top']['client_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('公司名称'),
+    '#prefix' => '<div class="col-xs-2 element-invisible">',
+    '#suffix' => '</div>',
+  );
   $form['top']['sum_price'] = array(
     '#type' => 'textfield',
     '#title' => t('总价'),
