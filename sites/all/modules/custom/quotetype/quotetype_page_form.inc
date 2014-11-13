@@ -48,7 +48,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['top']['warranty_day'] = array(
     '#type' => 'textfield',
     '#title' => t('保修长度'),
-    '#default_value' => 180, 
+    '#default_value' => variable_get('quote_default_value_warranty_day'), 
     '#prefix' => '<div class="col-xs-1">',
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_input_warranty_day', 'effect' => 'fade',),

@@ -2,11 +2,9 @@
   Drupal.behaviors.zencharts = {
     attach: function (context, settings) {
       /**
-       *
+       * Check box to select "repair item"
        */
       jQuery('.view-repair-list-no-quote-yet .views-field-nothing input').on('click', function() {
-         // console.log(jQuery(this.checked)[0]);
-         // console.log(jQuery(this.val());
          checkSelectedLength();
       });
 
@@ -26,30 +24,52 @@
         });
         
         var output = '';
+            output += '<table class="table table-striped">';
+              output += '<caption>Optional table caption.</caption>'
+              output += '<thead>';
+                output += '<tr>';
+                  output += '<th>#</th>';
+                  output += '<th>' + Drupal.t('型号') + '</th>';
+                  output += '<th>' + Drupal.t('价格') + '</th>';
+                output += '</tr>';
+              output += '</thead>';
+              output += '<tbody>';
+
         if (rowContent.length > 0 ) {
           jQuery.each(rowContent, function( index, value ) {
-            output += '<p>' + value + '</p>';
+                output += '<tr><td>' + value + '</td></tr>';
           });
         }
         else {
-          output = '<p>No selected Device</p>';
+                output += '<tr><td>No selected Device</td></tr>';
         }
+              output += '</tbody>';
+              output += '<caption>Optional table caption.</caption>'
+            output += '</table>';
+        
         // insert HTML
         jQuery('.quote-row-output-html').html(output);
         
         /** - - - - - - - - - - - - - - - - - - - -  */
-        // Firstly, empty all value for NID field
+        
+        // Insert NID of "repair" to hide field
         jQuery('#quotetype-add-quote-form .quotation-js-insert-repair-nid input').each(function () {
+          // firstly, empty all value for NID field
           jQuery(this).val('');
         });
         if (nidSelected.length > 0) {
-          console.log(nidSelected.length);
           jQuery.each(nidSelected, function( index, value ) {
-            // jQuery('#quotetype-add-quote-form .quotation-js-insert-repair-nid input:nth-child(3)').val(6);
+            // insert NID
             jQuery('#quotetype-add-quote-form .quotation-js-insert-repair-nid input').eq(index).val(value);
           });
-          console.log(nidSelected);
         }
+      }
+      
+      /**
+       *  quote table header
+       */
+      function quoteTable() {
+      
       }
       
       /** - - - - - - - - - - - - - - - - - - - -  */
