@@ -50,7 +50,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['top']['basic_price'] = array(
     '#type' => 'textfield',
     '#title' => t('原始价格'),
-    '#prefix' => '<div class="col-xs-1 element-invisible1">',
+    '#prefix' => '<div class="col-xs-1 element-invisible">',
     '#suffix' => '</div>',
   );
   $form['top']['warranty_day'] = array(
