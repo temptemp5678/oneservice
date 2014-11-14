@@ -42,7 +42,15 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['top']['sum_price'] = array(
     '#type' => 'textfield',
     '#title' => t('总价'),
-    '#prefix' => '<div class="col-xs-1">',
+    '#prefix' => '<div class="col-xs-2">',
+    '#suffix' => '</div>',
+    '#ajax' => array('callback' => 'ajax_quotetype_input_sum_price', 'effect' => 'fade',),
+  );
+  // hide, just for AJAX usage
+  $form['top']['basic_price'] = array(
+    '#type' => 'textfield',
+    '#title' => t('原始价格'),
+    '#prefix' => '<div class="col-xs-1 element-invisible1">',
     '#suffix' => '</div>',
   );
   $form['top']['warranty_day'] = array(
@@ -51,6 +59,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#default_value' => variable_get('quote_default_value_warranty_day'), 
     '#prefix' => '<div class="col-xs-1">',
     '#suffix' => '</div>',
+    '#element_validate' => array('element_estimate_decimal_validate'),
     '#ajax' => array('callback' => 'ajax_quotetype_input_warranty_day', 'effect' => 'fade',),
   );
   $form['top']['create_date'] = array(

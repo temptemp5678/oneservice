@@ -35,11 +35,31 @@ function ajax_quotetype_select_company_name($form, &$form_state) {
 /**
  * 
  */
+function ajax_quotetype_input_sum_price($form, &$form_state) {
+  // Ajax framework commands
+  $commands = array();
+
+  // get input value for "sum-price"
+  $input_amount = round($form_state['values']['sum_price'], 2);
+  $basic_amount = round($form_state['values']['basic_price'], 2);
+  $dicount_amount = round(($input_amount - $basic_amount),2);
+  $chinese_amount = num2rmb($input_amount);
+  
+  // Ajax commands
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation-js-insert-final-discount', 'text', array($dicount_amount));
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation-insert-markup-sum-price', 'text', array($input_amount));
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation-insert-markup-chinese-price', 'text', array($chinese_amount));
+  
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+/**
+ * 
+ */
 function ajax_quotetype_input_warranty_day($form, &$form_state) {
   // Ajax framework commands
   $commands = array();
 
-  // get selected value for "warranty_day"
+  // get input value for "warranty_day"
   $warranty_day_val = $form_state['values']['warranty_day'];
   
   // Ajax commands
