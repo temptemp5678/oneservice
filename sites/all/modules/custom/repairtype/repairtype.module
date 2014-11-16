@@ -15,7 +15,6 @@
  * hide title field, and assign a default title
  */
 function repairtype_form_alter(&$form, &$form_state, $form_id) {
-dpm($form);
   if ($form_id == 'repair_node_form') {
     // revise node title is optional instead of required mandatory
     $form['title']['#default_value'] = t('Repair');
@@ -32,7 +31,7 @@ dpm($form);
     }
      */
 
-    $form['field_repair_client_contactname']['#prefix'] = '<div class="col-xs-12 col-sm-8">';
-    $form['field_repair_client_contactname']['#suffix'] = '</div>';
+    // $form['field_repair_client_contactname']['#prefix'] = '<div class="col-xs-12 col-sm-8">';
+    // $form['field_repair_client_contactname']['#suffix'] = '</div>';
   }
 }
