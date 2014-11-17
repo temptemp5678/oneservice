@@ -101,9 +101,37 @@
       // We hide the comments and links now so that we can render them later.
       print render(othersetting_quote_page_content($node));
     ?>
+    <?php
+      // print authorize_stamp
+      $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
+      $stamp_image_variables = array(
+                                'path' => $stamp_image_path,
+                                'alt' => 'Stamp',
+                                'title' => 'Stamp',
+                                'width' => '128px',
+                                'height' => '128px',
+                               );
+      $stamp_image = theme('image', $stamp_image_variables);
+      if ($node->field_quote_authorize_stamp['und'][0]['value']) {
+        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right clear-both">' . $stamp_image . '</div></div>';
+      }
+      else {
+        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">' . $stamp_image . '</div></div>';
+      }
+      print render($authorize_stamp_div);
+      
+      $form['authorize_stamp'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('授权'),
+        '#prefix' => '<div class="col-xs-1"><div class="btn btn-warning checkbox-authorize-stamp">',
+        '#suffix' => '</div></div>',
+        '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp1', 'effect' => 'fade',),
+      );
+      
+      print render($form);
+    ?>
 
     <?php
-      // dpm($node);
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
@@ -114,5 +142,4 @@
   <?php print render($content['links']); ?>
 
   <?php print render($content['comments']); ?>
-
 </div>

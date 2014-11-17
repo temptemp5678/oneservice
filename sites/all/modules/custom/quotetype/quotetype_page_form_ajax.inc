@@ -98,12 +98,13 @@ function ajax_quotetype_check_authorize_stamp($form, &$form_state) {
   if ($check_val) {
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'removeClass', array('btn-warning'));
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'addClass', array('btn-primary'));
-    $commands[] = ajax_command_invoke('.page-add-new-quotation .authorize-stamp-image', 'removeClass', array('element-invisible'));
+    // $commands[] = ajax_command_invoke('.page-add-new-quotation .authorize-stamp-image', 'removeClass', array('element-invisible'));
+    $commands[] = ajax_command_invoke('.authorize-stamp-image', 'removeClass', array('element-invisible'));
   }
   else {
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'removeClass', array('btn-primary'));
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'addClass', array('btn-warning'));
-    $commands[] = ajax_command_invoke('.page-add-new-quotation .authorize-stamp-image', 'addClass', array('element-invisible'));
+    $commands[] = ajax_command_invoke('.authorize-stamp-image', 'addClass', array('element-invisible'));
   }
 
   return array('#type' => 'ajax', '#commands' => $commands);

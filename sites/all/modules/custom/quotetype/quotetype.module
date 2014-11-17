@@ -27,6 +27,15 @@ function quotetype_menu() {
     'file' => 'quotetype_page_form.inc',
   );
 
+  $items['add_new_quotation'] = array(
+    'title' => 'Create New Quotation',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('quotetype_add_quote_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'quotetype_page_form.inc',
+  );
+
   return $items;
 }
 
