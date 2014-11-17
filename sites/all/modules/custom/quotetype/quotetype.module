@@ -26,17 +26,34 @@ function quotetype_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'quotetype_page_form.inc',
   );
-
-  $items['add_new_quotation'] = array(
-    'title' => 'Create New Quotation',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('quotetype_add_quote_form'),
-    'access arguments' => array('access content'),
+  
+  $items['quote/get/ajax/%'] = array(
+    'page callback' => 'myModule_ajax_get_ajax', // Render HTML
+    'page arguments' => array(3),
     'type' => MENU_CALLBACK,
-    'file' => 'quotetype_page_form.inc',
+    'access arguments' => array('access content'),
+    'delivery callback' => 'myModule_ajax_callback',  // Magic goes here
   );
 
   return $items;
+}
+
+function myModule_ajax_get_ajax($nid) {
+  // Just load a node and return teaser, you can return whatever you want including forms
+  $node = node_load($nid);
+  return node_view($node, 'full');
+}
+
+function myModule_ajax_callback($page_callback_result) {
+  // Only render content
+  $content = drupal_render($page_callback_result);
+  
+  // Add CSS ans JS files, add some markup
+  $html = '<html><head><title></title>' . drupal_get_css() . drupal_get_js() . '</head><body class="jquery-ajax-load">' . $content . '</body></html>';
+  print $html;
+
+  // Perform end-of-request tasks.
+  drupal_page_footer();
 }
 
 /**

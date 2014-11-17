@@ -120,15 +120,18 @@
       }
       print render($authorize_stamp_div);
       
-      $form['authorize_stamp'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('授权'),
-        '#prefix' => '<div class="col-xs-1"><div class="btn btn-warning checkbox-authorize-stamp">',
-        '#suffix' => '</div></div>',
-        '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp1', 'effect' => 'fade',),
-      );
       
-      print render($form);
+      if (!$node->field_quote_authorize_stamp['und'][0]['value']) {
+        $form['authorize_stamp'] = array(
+          '#type' => 'checkbox',
+          '#title' => t('授权'),
+          '#prefix' => '<div class="col-xs-1"><div class="btn btn-warning checkbox-authorize-stamp">',
+          '#suffix' => '</div></div>',
+          '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp1', 'effect' => 'fade',),
+        );
+        print render($form);
+      }
+      
     ?>
 
     <?php
