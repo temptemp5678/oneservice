@@ -94,7 +94,7 @@ function ajax_quotetype_check_authorize_stamp($form, &$form_state) {
   // get check value, 1 for true, 0 for false
   $check_val = $form_state['values']['authorize_stamp'];
   
-  // if ($check_val) {
+  // Ajax commands
   if ($check_val) {
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'removeClass', array('btn-warning'));
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'addClass', array('btn-primary'));
@@ -105,7 +105,6 @@ function ajax_quotetype_check_authorize_stamp($form, &$form_state) {
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'addClass', array('btn-warning'));
     $commands[] = ajax_command_invoke('.page-add-new-quotation .authorize-stamp-image', 'addClass', array('element-invisible'));
   }
-  // Ajax commands
-  
+
   return array('#type' => 'ajax', '#commands' => $commands);
 }

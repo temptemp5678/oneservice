@@ -33,14 +33,13 @@ function othersetting_quote_page_content($node = NULL) {
       if (!empty($row['value'])){
         $repair_node = node_load($row['value']);
         if (isset($repair_node)){
-        $device_term = taxonomy_term_load($repair_node->field_repair_1st_devicetype['und'][0]['tid']);
+        $device_term = taxonomy_term_load($repair_node->field_repair_device_type['und'][0]['tid']);
         $device_name .= $device_term->name . '<br />';
         }
       }
     }
   }
   // $device_content = $node->field_quote_repair_nid['und'][0]['value'];
-
 
   $output = '';
   $output =  t('产品保修期外维修单') . '<br />'

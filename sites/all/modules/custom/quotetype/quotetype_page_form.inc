@@ -81,7 +81,6 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp', 'effect' => 'fade',),
   );
   
-  
   $form['quotation_title'] = array(
     '#type' => 'item',
     '#prefix' => '<div class="col-xs-5 col-xs-offset-2 clear-both">',
@@ -183,7 +182,7 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
     $date_value = strtotime($form_state['values']['create_date']);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // save repair_nid
+  // save repair_nid
   for ($f = 0; $f < 10; $f++) {
     // add "(int)", transform "NULL value" to 0 for field value saving
     $node->field_quote_repair_nid[$node->language][$f]['value'] = (int) $form_state['values']['nid'][$f]['repair_nid'];
@@ -195,20 +194,36 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
   $node->field_quote_warranty_day[$node->language][0]['value'] = $form_state['values']['warranty_day'];
   $node->field_quote_create_date[$node->language][0]['value'] = $date_value;
   $node->field_quote_authorize_stamp[$node->language][0]['value'] = $form_state['values']['authorize_stamp'];
-
+  
+  /** - - - - - - - - - - - - - - - - - - - -  */
   // update field
   // field_attach_presave('node', $node);
   // field_attach_update('node', $node);
-
   // save node
   node_save($node);
-
+  
+  /** - - - - - - - - - - - - - - - - - - - -  */
+  // update "Quote Status Field of Repair Node" as "Yes" of value
+  for ($f = 0; $f < 2; $f++) {
+    $repair_nid = $form_state['values']['nid'][$f]['repair_nid'];
+    if ($repair_nid > 0) {
+      $repair_node = node_load($repair_nid, NULL, TRUE);
+      if (isset($repair_node)) {
+        $field_language = field_language('node', $repair_node, 'field_repair_quote_status');
+        $repair_node->field_repair_quote_status[$field_language][0]['value'] = 1;
+        field_attach_update('node', $repair_node);
+      }
+    }
+  }
+  
   /** - - - - - - - - - - - - - - - - - - - -  */
   watchdog('quotetype', 'New Quote Node - @name - created successfully', array('@name' => $node->nid), WATCHDOG_NOTICE);
   drupal_set_message(t('The new Quote - @name- has been saved successfully.', array('@name' => $node->nid)));
 
   // redirect page
   $form_state['redirect'] = array('node/'. $node->nid);
+  
+  
 }
 
 /**

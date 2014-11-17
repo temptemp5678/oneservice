@@ -15,11 +15,11 @@
  * hide title field, and assign a default title
  */
 function repairtype_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'repair_node_form') {
+  if ($form_id == 'repair_node_form') {
     // revise node title is optional instead of required mandatory
     $form['title']['#default_value'] = t('Repair');
-    // $form['title']['#type'] = 'hidden';
-    // $form['title']['#required'] = FALSE;
+    $form['title']['#type'] = 'hidden';
+    $form['title']['#required'] = FALSE;
 
     /**
      * it should be go to form_submit

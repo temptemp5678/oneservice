@@ -24,11 +24,11 @@
 ?>
 <?php // print $output; ?>
 <?php
-  if (isset($row->field_field_repair_1st_devicetype[0]['rendered']['#markup'])) {
-    $devicetype = $row->field_field_repair_1st_devicetype[0]['rendered']['#markup'];
+  if (isset($row->field_field_repair_device_type[0]['rendered']['#markup'])) {
+    $devicetype = $row->field_field_repair_device_type[0]['rendered']['#markup'];
   }
-  if (isset($row->field_field_repair_2nd_quoteamount[0]['rendered']['#markup'])) {
-    $amount = $row->field_field_repair_2nd_quoteamount[0]['rendered']['#markup'];
+  if (isset($row->field_field_repair_quote_amount[0]['rendered']['#markup'])) {
+    $amount = $row->field_field_repair_quote_amount[0]['rendered']['#markup'];
   }
   $output = '';
   $new_output = '<input type="checkbox" name="nid checkbox" nid="' . $row->nid . '" devicetype="' . $devicetype . '" amount="' . $amount . '" value="' . $output . '"/>';
