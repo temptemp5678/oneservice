@@ -19,6 +19,15 @@ function othersetting_menu() {
     'file' => 'othersetting_set_quote_value_form_page.inc',
   );
 
+  $items['othersetting/add_subcompany_info'] = array(
+    'title' => 'Add SubCompany Info',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('othersetting_add_subcompany_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'othersetting_add_subcompany_form_page.inc',
+  );
+
   return $items;
 }
 

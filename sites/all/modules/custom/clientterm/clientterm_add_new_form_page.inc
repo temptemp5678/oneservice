@@ -91,7 +91,6 @@ function clientterm_add_new_term_form($form, &$form_state) {
     '#attributes' => array('class' => array('btn-danger')),
     '#suffix' => '</div>',
   );
-dpm($form);
   /** - - - - - - - - - - - - - - - - - - - -  */
   return $form;
 }
