@@ -28,7 +28,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['top']['company_name'] = array(
     '#type' => 'select',
     '#title' => t('公司名称'),
-    '#options' => drupal_map_assoc(array(t('北京万博信普公司'), t('北京万博一梦公司'))),
+    '#options' => taxonomy_allowed_values(field_info_field('field_quote_company_name')),
     '#prefix' => '<div class="col-xs-6 col-md-3 clear-both">',
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'effect' => 'fade',),
@@ -114,7 +114,6 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
     '#suffix' => '</div>',
   );
-
   
   /** submit button - - - - - - - - - - - - - - - - - - - -  */
   $form['submit'] = array(
@@ -185,10 +184,12 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
   // save repair_nid
   for ($f = 0; $f < 10; $f++) {
     // add "(int)", transform "NULL value" to 0 for field value saving
-    $node->field_quote_repair_nid[$node->language][$f]['value'] = (int) $form_state['values']['nid'][$f]['repair_nid'];
+    if ($form_state['values']['nid'][$f]['repair_nid']) {
+      $node->field_quote_repair_nid[$node->language][$f]['value'] = (int) $form_state['values']['nid'][$f]['repair_nid'];
+    }
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  $node->field_quote_company_name[$node->language][0]['value'] = $form_state['values']['company_name'];
+  $node->field_quote_company_name[$node->language][0]['tid'] = $form_state['values']['company_name'];
   $node->field_quote_client_name[$node->language][0]['value'] = $form_state['values']['client_name'];
   $node->field_quote_sum_price[$node->language][0]['value'] = $form_state['values']['sum_price'];
   $node->field_quote_warranty_day[$node->language][0]['value'] = $form_state['values']['warranty_day'];

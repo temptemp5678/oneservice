@@ -38,6 +38,10 @@ function othersetting_menu() {
 function othersetting_quote_page_content($node = NULL) {
   $device_name = '';
   if (isset($node)){
+    // for Company Name
+    $term = taxonomy_term_load($node->field_quote_company_name['und'][0]['tid']);
+    
+    // for each device
     foreach ($node->field_quote_repair_nid['und'] as $key => $row) {
       if (!empty($row['value'])){
         $repair_node = node_load($row['value']);
@@ -85,7 +89,7 @@ function othersetting_quote_page_content($node = NULL) {
                . t('以下是我司有关汇款信息：') . '<br /><br />'
                . t('名称：')
                . '<span class="quotation_insert_markup_company_name">'
-               . ((isset($node)) ? $node->field_quote_company_name['und'][0]['value'] : variable_get('quote_default_value_company_name'))
+               . ((isset($term)) ? $term->name : variable_get('quote_default_value_company_name'))
                . '</span>'
                . '<br />'
                . t('开户行：交通银行北京水碓子支行') . '<br />'
