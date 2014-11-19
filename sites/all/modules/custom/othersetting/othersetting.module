@@ -19,13 +19,13 @@ function othersetting_menu() {
     'file' => 'othersetting_set_quote_value_form_page.inc',
   );
 
-  $items['othersetting/add_subcompany_info'] = array(
-    'title' => 'Add SubCompany Info',
+  $items['othersetting/add_company_info'] = array(
+    'title' => 'Add Company Info',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('othersetting_add_subcompany_form'),
+    'page arguments' => array('othersetting_add_company_form'),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
-    'file' => 'othersetting_add_subcompany_form_page.inc',
+    'file' => 'othersetting_add_company_form_page.inc',
   );
 
   return $items;
@@ -64,7 +64,7 @@ function othersetting_quote_page_content($node = NULL) {
   $output = '';
   $output =  t('产品保修期外维修单') . '<br />'
                . t('贵公司送修的解码器')
-               . t('型号:') . '<br />'
+               . t('型号') . '：' . '<br />'
                . '<p><span class="quotation_insert_markup_device_type">'
                . ((isset($node)) ? $device_name : '')
                . '</span></p>'
@@ -94,22 +94,22 @@ function othersetting_quote_page_content($node = NULL) {
                . '<br />'
                . '<div class="clear-both"></div>'
                . t('以下是我司有关汇款信息：') . '<br /><br />'
-               . t('名称') . ': '
+               . t('名称') . '： '
                . '<span class="quotation_insert_markup_company_name">'
                . $term->name
                . '</span>'
                . '<br />'
-               . t('开户行') . ': '
+               . t('开户行') . '： '
                . '<span class="quotation_insert_markup_bank_name">'
-               . $term->field_subcompany_bank_name['und'][0]['safe_value']
+               . $term->field_company_bank_name['und'][0]['safe_value']
                . '</span>'
                . '<br />'
-               . t('帐号') . ': '
+               . t('帐号') . '： '
                . '<span class="quotation_insert_markup_account_number">'
-               . $term->field_subcompany_account_number['und'][0]['safe_value']
+               . $term->field_company_account_number['und'][0]['safe_value']
                . '</span>'
                . '<br /><br />'
-               . t('收到维修费后') . ','
+               . t('收到维修费后') . '，'
                . '<span class="quotation_insert_markup_company_name">'
                . $term->name
                . '</span>'

@@ -5,11 +5,11 @@
 /**
  * Implements hook_form(), callback from hook_menu()
  */
-function othersetting_add_subcompany_form($form, &$form_state) {
+function othersetting_add_company_form($form, &$form_state) {
   $form['name'] = array(
     '#type' => 'textfield',
     '#title' => t('子公司名称'),
-    '#attributes' => array('placeholder' => 'SubCompany'),
+    '#attributes' => array('placeholder' => 'Company'),
     '#prefix' => '<div class="col-xs-10 col-sm-6">',
     '#suffix' => '</div>',
   );
@@ -56,8 +56,8 @@ function othersetting_add_subcompany_form($form, &$form_state) {
 /**
  * Implements hook_form_submit()
  */
-function othersetting_add_subcompany_form_submit($form, &$form_state) {
-  // The VID of "SubCompany" vocabulary is 5
+function othersetting_add_company_form_submit($form, &$form_state) {
+  // The VID of "Company" vocabulary is 5
   $vid = 5;
   $name = $form_state['values']['name'];
 
@@ -69,12 +69,12 @@ function othersetting_add_subcompany_form_submit($form, &$form_state) {
   $term->vid = $vid;
   
   // optional field
-  $term->field_subcompany_bank_name[LANGUAGE_NONE][0]['value'] = $form_state['values']['bank_name'];
-  $term->field_subcompany_account_number[LANGUAGE_NONE][0]['value'] = $form_state['values']['account_number'];
+  $term->field_company_bank_name[LANGUAGE_NONE][0]['value'] = $form_state['values']['bank_name'];
+  $term->field_company_account_number[LANGUAGE_NONE][0]['value'] = $form_state['values']['account_number'];
   // save new term
   taxonomy_term_save($term);
 
   /** - - - - - - - - - - - - - - - - - - - -  */
-  watchdog('subcompany', 'New SubCompany - @name - created successfully', array('@name' => $name), WATCHDOG_NOTICE);
-  drupal_set_message(t('The new SubCompany - @name- has been saved successfully.', array('@name' => $name)));
+  watchdog('othersetting', 'New Company - @name - created successfully', array('@name' => $name), WATCHDOG_NOTICE);
+  drupal_set_message(t('The new Company - @name- has been saved successfully.', array('@name' => $name)));
 }

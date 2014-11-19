@@ -29,6 +29,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#type' => 'select',
     '#title' => t('公司名称'),
     '#options' => taxonomy_allowed_values(field_info_field('field_quote_company_name')),
+    '#default_value' => variable_get('quote_default_value_company_name', ''),
     '#prefix' => '<div class="col-xs-6 col-md-3 clear-both">',
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_select_company_name', 'effect' => 'fade',),
