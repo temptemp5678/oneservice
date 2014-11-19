@@ -97,7 +97,6 @@ function ajax_quotetype_check_authorize_stamp($form, &$form_state) {
   if ($check_val) {
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'removeClass', array('btn-warning'));
     $commands[] = ajax_command_invoke('.page-add-new-quotation .checkbox-authorize-stamp', 'addClass', array('btn-primary'));
-    // $commands[] = ajax_command_invoke('.page-add-new-quotation .authorize-stamp-image', 'removeClass', array('element-invisible'));
     $commands[] = ajax_command_invoke('.authorize-stamp-image', 'removeClass', array('element-invisible'));
   }
   else {

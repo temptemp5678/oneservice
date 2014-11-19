@@ -10,6 +10,32 @@
 function quotetype_init() {
   // add ajax function for form page.
   module_load_include('inc', 'quotetype', 'quotetype_page_form_ajax');
+  module_load_include('inc', 'quotetype', 'quotetype_ajax_stamp_block_form');
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function quotetype_block_info() {
+  $blocks = array();
+  $blocks['quotetype_ajax_stamp'] = array(
+    'info' => t('quotetype AJAX Stamp Block'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function quotetype_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'quotetype_ajax_stamp':
+      // $block['subject'] = 'AJAX Stamp for Quote';
+      $block['content'] = drupal_get_form('quotetype_ajax_stamp_block_form');
+      break;
+  }
+  return $block;
 }
 
 /**
@@ -17,7 +43,6 @@ function quotetype_init() {
  */
 function quotetype_menu() {
   $items = array();
-
   $items['add_new_quotation'] = array(
     'title' => 'Create New Quotation',
     'page callback' => 'drupal_get_form',
@@ -26,34 +51,7 @@ function quotetype_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'quotetype_page_form.inc',
   );
-  
-  $items['quote/get/ajax/%'] = array(
-    'page callback' => 'myModule_ajax_get_ajax', // Render HTML
-    'page arguments' => array(3),
-    'type' => MENU_CALLBACK,
-    'access arguments' => array('access content'),
-    'delivery callback' => 'myModule_ajax_callback',  // Magic goes here
-  );
-
   return $items;
-}
-
-function myModule_ajax_get_ajax($nid) {
-  // Just load a node and return teaser, you can return whatever you want including forms
-  $node = node_load($nid);
-  return node_view($node, 'full');
-}
-
-function myModule_ajax_callback($page_callback_result) {
-  // Only render content
-  $content = drupal_render($page_callback_result);
-  
-  // Add CSS ans JS files, add some markup
-  $html = '<html><head><title></title>' . drupal_get_css() . drupal_get_js() . '</head><body class="jquery-ajax-load">' . $content . '</body></html>';
-  print $html;
-
-  // Perform end-of-request tasks.
-  drupal_page_footer();
 }
 
 /**

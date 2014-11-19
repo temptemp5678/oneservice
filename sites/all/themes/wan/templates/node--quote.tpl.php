@@ -116,22 +116,9 @@
         $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right clear-both">' . $stamp_image . '</div></div>';
       }
       else {
-        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">' . $stamp_image . '</div></div>';
+        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right element-invisible1 clear-both">' . $stamp_image . '</div></div>';
       }
       print render($authorize_stamp_div);
-      
-      
-      if (!$node->field_quote_authorize_stamp['und'][0]['value']) {
-        $form['authorize_stamp'] = array(
-          '#type' => 'checkbox',
-          '#title' => t('授权'),
-          '#prefix' => '<div class="col-xs-1"><div class="btn btn-warning checkbox-authorize-stamp">',
-          '#suffix' => '</div></div>',
-          '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp1', 'effect' => 'fade',),
-        );
-        print drupal_render($form);
-      }
-      
     ?>
 
     <?php
