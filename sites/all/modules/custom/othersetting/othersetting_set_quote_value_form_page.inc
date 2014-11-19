@@ -31,11 +31,11 @@ function othersetting_set_quote_value_form($form, &$form_state) {
     '#suffix' => '</div>',
   );
   $form['quote_value']['quote_default_value_company_name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Company Name'),
-    '#attributes' => array('class' => array('quote-default-value-company-name-wrapper'), 'placeholder' => 'Company Name'),
-    '#default_value' => variable_get('quote_default_value_company_name'),
-    '#prefix' => '<div class="col-xs-12">',
+    '#type' => 'select',
+    '#title' => t('Default Company'),
+    '#options' => taxonomy_allowed_values(field_info_field('field_quote_company_name')),
+    '#default_value' => variable_get('quote_default_value_company_name', ''),
+    '#prefix' => '<div class="col-xs-10 clear-both">',
     '#suffix' => '</div>',
   );
 

@@ -2,3 +2,16 @@
  * @file
  * only for Taxonomy Term "Client"
  */
+
+/* hide input format and Term relation fieldset */
+.page-taxonomy-term-edit #taxonomy-form-term fieldset#edit-description-format {
+  display: none;
+}
+ /* only hide for user who not is admin */
+.page-taxonomy-term-edit #taxonomy-form-term div > fieldset.panel {
+  display: none;
+}
+
+.view-client-list .views-table tr.odd {
+  background-color: #f9f9f9;
+}

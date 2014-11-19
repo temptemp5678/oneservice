@@ -17,14 +17,16 @@ function ajax_quotetype_select_company_name($form, &$form_state) {
     $term = taxonomy_term_load($company_name_vid);
     if ($term) {
       $company_name = $term->name;
-      $company_info = $term->field_subcompany_bank_name['und'][0]['safe_value'];
+      $bank_name = $term->field_subcompany_bank_name['und'][0]['safe_value'];
+      $account_number = $term->field_subcompany_account_number['und'][0]['safe_value'];
     }
   }
   
   // Ajax commands
   // $commands[] = ajax_command_invoke('#edit-text-five', 'text', array($company_info));
-  $commands[] = ajax_command_html('.page-add-new-quotation .quotation_insert_markup_company_info', $company_info);
   $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation_insert_markup_company_name', 'text', array($company_name));
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation_insert_markup_bank_name', 'text', array($bank_name));
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation_insert_markup_account_number', 'text', array($account_number));
   
   return array('#type' => 'ajax', '#commands' => $commands);
 }

@@ -129,7 +129,7 @@
           '#suffix' => '</div></div>',
           '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp1', 'effect' => 'fade',),
         );
-        print render($form);
+        print drupal_render($form);
       }
       
     ?>

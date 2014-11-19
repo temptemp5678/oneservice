@@ -52,6 +52,13 @@ function othersetting_quote_page_content($node = NULL) {
       }
     }
   }
+  else {
+    // load default value
+    $tid = variable_get('quote_default_value_company_name');
+    if (is_numeric($tid)) {
+      $term = taxonomy_term_load($tid);
+    }
+  }
   // $device_content = $node->field_quote_repair_nid['und'][0]['value'];
 
   $output = '';
@@ -87,17 +94,24 @@ function othersetting_quote_page_content($node = NULL) {
                . '<br />'
                . '<div class="clear-both"></div>'
                . t('以下是我司有关汇款信息：') . '<br /><br />'
-               . t('名称：')
+               . t('名称') . ': '
                . '<span class="quotation_insert_markup_company_name">'
-               . ((isset($term)) ? $term->name : variable_get('quote_default_value_company_name'))
+               . $term->name
                . '</span>'
                . '<br />'
-               . t('开户行：交通银行北京水碓子支行') . '<br />'
-               . t('帐号：110060970018010024476')
+               . t('开户行') . ': '
+               . '<span class="quotation_insert_markup_bank_name">'
+               . $term->field_subcompany_bank_name['und'][0]['safe_value']
+               . '</span>'
+               . '<br />'
+               . t('帐号') . ': '
+               . '<span class="quotation_insert_markup_account_number">'
+               . $term->field_subcompany_account_number['und'][0]['safe_value']
+               . '</span>'
                . '<br /><br />'
-               . t('收到维修费后，')
+               . t('收到维修费后') . ','
                . '<span class="quotation_insert_markup_company_name">'
-               . ((isset($node)) ? $node->field_quote_company_name['und'][0]['value'] : variable_get('quote_default_value_company_name'))
+               . $term->name
                . '</span>'
                . t('负责开具发票，并将设备快递回贵公司。') . '<br />'
                . t('李靖') . '<br />'
