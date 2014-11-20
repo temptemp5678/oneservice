@@ -116,7 +116,7 @@
         $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right clear-both">' . $stamp_image . '</div></div>';
       }
       else {
-        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right element-invisible1 clear-both">' . $stamp_image . '</div></div>';
+        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">' . $stamp_image . '</div></div>';
       }
       print render($authorize_stamp_div);
     ?>
