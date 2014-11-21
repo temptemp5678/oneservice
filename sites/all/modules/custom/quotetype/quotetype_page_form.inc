@@ -137,9 +137,69 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<p></p><div class="col-xs-12 clear-both">',
     '#suffix' => '</div>',
   );
+  
+  /**  - - - - - - - - - - - - - - - - - - - -  */
+  $output = quotetype_tableselect_content_callback();
+  $header = $output['header'];
+  $options = $output['options'];
+  
+  $form['tablenode'] = array(
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $options,
+    '#empty' => t('No content available.'),
+    '#multiple' => TRUE,
+    // '#multiple' => FALSE,
+    '#ajax' => array(
+      'callback' => 'ajax_quotetype_input_tableselect',
+      'wrapper' => 'a-div',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+  
+  // $form['tablenode'] = form_process_tableselect($form['tablenode']);
 
   /** return form - - - - - - - - - - - - - - - - - - - -  */
   return $form;
+}
+
+function ajax_quotetype_input_tableselect($form, &$form_state) {
+  // Ajax framework commands
+  $commands = array();
+
+  // Ajax commands
+  $commands[] = ajax_command_invoke('#edit-cancel', 'removeClass', array('btn-danger'));
+  $commands[] = ajax_command_invoke('.quotation_insert_markup_create_date', 'text', array('666666666'));
+  
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * 
+ */
+function quotetype_tableselect_content_callback() {
+  $header = array(
+    'client_name' => t('Client Name'),
+    'device_type' => t('Device Type'),
+  );
+  $users = array(
+    array('uid' => 1, 'client_name' => 'Indy', 'device_type' => 'Jones'),
+    array('uid' => 2, 'client_name' => 'Darth', 'device_type' => 'Vader'),
+    array('uid' => 3, 'client_name' => 'Super', 'device_type' => 'Man'),
+  );
+  $options = array();
+  foreach ($users as $user) {
+    $options[$user['uid']] = array(
+      // 'key' was the same key used in the header
+      'client_name' => $user['client_name'],
+      'device_type' => $user['device_type'], 
+    );
+  }
+  $output = array();
+  $output['header'] = $header;
+  $output['options'] = $options;
+  return $output;
 }
 
 /**
@@ -153,6 +213,7 @@ function quotetype_callback_summit_cancel() {
  * Implements hook_form_submit()
  */
 function quotetype_add_quote_form_submit($form, &$form_state) {
+dpm($form_state);
   // global $user;
   if (!isset($account)) {
     $account = $GLOBALS['user'];

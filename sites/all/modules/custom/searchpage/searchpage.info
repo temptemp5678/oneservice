@@ -1,0 +1,10 @@
+name = Search Page
+description = Search Page by customize define
+core = 7.x
+package = Zen Other
+
+stylesheets[all][] = css/searchpage.css
+
+;scripts[] = js/searchpage.js
+
+version  = 7.x-1.1

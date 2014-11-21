@@ -1,0 +1,44 @@
+<?php
+/**
+ * @file
+ *
+ */
+
+/**
+ * hook_form_alter()
+ */
+function repairtype_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'repair_node_form') {
+    // hide title field, and assign a default title
+    $form['title']['#default_value'] = t('Repair');
+    $form['title']['#type'] = 'hidden';
+    $form['title']['#required'] = FALSE;
+  }
+}
+
+/**
+* Implements of hook_node_insert.
+*/
+// function repairtype_node_insert($node) {
+// }
+
+/**
+ * Implementation of hook_node_update()
+ */
+// function repairtype_node_update($node) {
+  // if($node->type == 'repair') {
+    // if (isset($node)) {
+      // $node = node_load($node->nid);
+      // $field_language = field_language('node', $node, 'field_myfield');
+      // $node->title = 'Repair';
+      // if (isset($node->field_repair_client_name['und'][0]['target_id'])) {
+        // $client_name_field = field_get_items('node', $node, 'field_repair_client_name');
+        // $client_name_value = field_view_value('node', $node, 'field_repair_client_name', $client_name_field[0]);
+        // $node->title .= ' ' . $client_name_value['#markup'];
+      // }
+      // if (isset($node->field_repair_device_type['und'][0]['tid'])) {
+      // }
+      // field_attach_update('node', $node);
+    // }
+  // }
+// }
