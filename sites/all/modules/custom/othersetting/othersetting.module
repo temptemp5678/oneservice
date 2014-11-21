@@ -9,7 +9,6 @@
  */
 function othersetting_menu() {
   $items = array();
-
   $items['othersetting/set_quote_value'] = array(
     'title' => 'Quote Default Value',
     'page callback' => 'drupal_get_form',
@@ -18,7 +17,6 @@ function othersetting_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_set_quote_value_form_page.inc',
   );
-
   $items['othersetting/add_company_info'] = array(
     'title' => 'Add Company Info',
     'page callback' => 'drupal_get_form',
@@ -27,7 +25,6 @@ function othersetting_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_add_company_form_page.inc',
   );
-
   return $items;
 }
 
