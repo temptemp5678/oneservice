@@ -24,14 +24,14 @@
 ?>
 <?php // print $output; ?>
 <?php
-  
-  if (isset($row->field_field_repair_device_type[0]['rendered']['#markup'])) {
-    $devicetype = $row->field_field_repair_device_type[0]['rendered']['#markup'];
+  /**
+   * output is "key" instead of "value" on Views setting 
+   * Key value is 1 that Authorize Stamp, 0 is not yet 
+   * 1 to print Authorize Stamp, 0 is empty 
+   */
+  $new_output = '';
+  if ($output) {
+    $new_output = quotetype_authorize_stamp_image('24px', '24px');
   }
-  if (isset($row->field_field_repair_quote_amount[0]['rendered']['#markup'])) {
-    $amount = $row->field_field_repair_quote_amount[0]['rendered']['#markup'];
-  }
-  $output = '';
-  $new_output = '<input type="checkbox" name="nid checkbox" nid="' . $row->nid . '" devicetype="' . $devicetype . '" amount="' . $amount . '" value="' . $output . '"/>';
   print $new_output;
 ?>

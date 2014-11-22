@@ -66,3 +66,22 @@ function quotetype_form_alter(&$form, &$form_state, $form_id) {
     // $form['title']['#required'] = FALSE;
   }
 }
+
+/**
+ * @return
+ * Authorize Stamp image
+ * @parameter 1 is width of image size, default is 128px
+ * @parameter 2 is height of image size, default is 128px
+ */
+function quotetype_authorize_stamp_image($width = '64px', $height = '28px') {
+  $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
+  $stamp_image_variables = array(
+                            'path' => $stamp_image_path,
+                            'alt' => 'Stamp',
+                            'title' => 'Stamp',
+                            'width' => $width,
+                            'height' => $height,
+                           );
+  $stamp_image = theme('image', $stamp_image_variables);
+  return $stamp_image;
+}

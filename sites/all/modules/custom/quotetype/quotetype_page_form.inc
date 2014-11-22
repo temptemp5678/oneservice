@@ -94,15 +94,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#suffix' => '</div>',
   );
   
-  $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
-  $stamp_image_variables = array(
-                            'path' => $stamp_image_path,
-                            'alt' => 'Stamp',
-                            'title' => 'Stamp',
-                            'width' => '128px',
-                            'height' => '128px',
-                           );
-  $stamp_image = theme('image', $stamp_image_variables);
+  $stamp_image = quotetype_authorize_stamp_image();
   $form['bottom']['text_three'] = array(
     '#type' => 'item',
     '#markup' => $stamp_image,
@@ -120,7 +112,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
-    '#prefix' => '<div class="estimate-page-submit-wrapper text-center clear-both">',
+    '#prefix' => '<div class="add-repair-page-submit-wrapper text-center clear-both">',
   );
   $form['Cancel'] = array(
     '#type' => 'submit',
@@ -131,12 +123,13 @@ function quotetype_add_quote_form($form, &$form_state) {
   
   /** Embed a view from Views  - - - - - - - - - - - - - - - - - - - -  */
   $content = views_embed_view('repair_list_no_quote_yet');
+  
   $form['attach']['views'] = array(
     '#type' => 'item',
     '#markup' => $content,
     '#prefix' => '<p></p><div class="col-xs-12 clear-both">',
     '#suffix' => '</div>',
-  );
+  );  
   
   /**  - - - - - - - - - - - - - - - - - - - -  */
   $output = quotetype_tableselect_content_callback();
@@ -147,31 +140,42 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#type' => 'tableselect',
     '#header' => $header,
     '#options' => $options,
-    '#empty' => t('No content available.'),
-    '#multiple' => TRUE,
-    // '#multiple' => FALSE,
-    '#ajax' => array(
-      'callback' => 'ajax_quotetype_input_tableselect',
-      'wrapper' => 'a-div',
-      'method' => 'replace',
-      'effect' => 'fade',
-    ),
+    '#empty' => t('No Repair item content available.'),
+    '#js_select' => FALSE,
+    // '#ajax' => array('callback' => 'quotetype_ajax_input_tableselect',),
+    // Disable to call '#ajax' directly, Using '#process' to call a Bridge CallBack instead
+    '#process' => array('form_process_tableselect', 'quotetype_tableselect_bridge_process_callback'),
   );
-  
-  // $form['tablenode'] = form_process_tableselect($form['tablenode']);
 
   /** return form - - - - - - - - - - - - - - - - - - - -  */
   return $form;
 }
 
-function ajax_quotetype_input_tableselect($form, &$form_state) {
+/**
+ * Bridge CallBack from '#process' of 'tableselect'
+ */
+function quotetype_tableselect_bridge_process_callback($form_element) {
+  foreach (element_children($form_element) as $child_key) {
+    if ('checkbox' == $form_element[$child_key]['#type']) {
+      // Add ajax behavior as desired
+      $form_element[$child_key]['#ajax'] = array(
+        'callback' => 'quotetype_ajax_input_tableselect',
+        'wrapper' => 'some-wrapper-id',
+      );
+    }
+  }
+  return $form_element;
+}
+
+/**
+ * AJAX for 'tableselect'
+ */
+function quotetype_ajax_input_tableselect($form, &$form_state) {
   // Ajax framework commands
   $commands = array();
-
   // Ajax commands
   $commands[] = ajax_command_invoke('#edit-cancel', 'removeClass', array('btn-danger'));
   $commands[] = ajax_command_invoke('.quotation_insert_markup_create_date', 'text', array('666666666'));
-  
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
@@ -179,23 +183,61 @@ function ajax_quotetype_input_tableselect($form, &$form_state) {
  * 
  */
 function quotetype_tableselect_content_callback() {
+  // table header
   $header = array(
     'client_name' => t('Client Name'),
     'device_type' => t('Device Type'),
+    'serial_number' => t('Serial Number'),
+    'quote_amount' => t('Quote Amount'),
+    'receive_date' => t('Receive Date'),
   );
-  $users = array(
-    array('uid' => 1, 'client_name' => 'Indy', 'device_type' => 'Jones'),
-    array('uid' => 2, 'client_name' => 'Darth', 'device_type' => 'Vader'),
-    array('uid' => 3, 'client_name' => 'Super', 'device_type' => 'Man'),
-  );
-  $options = array();
-  foreach ($users as $user) {
-    $options[$user['uid']] = array(
-      // 'key' was the same key used in the header
-      'client_name' => $user['client_name'],
-      'device_type' => $user['device_type'], 
-    );
+  /**  - - - - - - - - - - - - - - - - - - - -  */
+  // db_query all "repair" node with "Quote Status" is 0
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'repair')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('field_repair_quote_status', 'value', 0)
+    ->execute();
+  $result = $query->execute();
+  
+  dpm(node_load(5));
+        
+  // check if have result
+  if (isset($result['node'])) {
+    $options = array();
+    // $key is nid, and $row->nid is also nid
+    $client_name_label = '';
+    $device_type_label = '';
+    $receive_date_label = '';
+    foreach ($result['node'] as $key => $row) {
+      if (isset($key)) {
+        $node = node_load($key);
+        if (isset($node->field_repair_client_name['und'][0]['target_id'])) {
+          $client_name_value = field_get_items('node', $node, 'field_repair_client_name');  
+          $client_name_label = field_view_value('node', $node, 'field_repair_client_name', $client_name_value[0]);
+        }
+        if (isset($node->field_repair_device_type['und'][0]['tid'])) {
+          $device_type_value = field_get_items('node', $node, 'field_repair_device_type');  
+          $device_type_label = field_view_value('node', $node, 'field_repair_device_type', $device_type_value[0]);
+        }
+        if (isset($node->field_repair_receive_date['und'][0]['value'])) {
+          $receive_date_label = format_date($node->field_repair_receive_date['und'][0]['value'], 'year_mon_day');
+        }
+        
+        $options[$key] = array(
+          // 'key' must same with key used in the header
+          'client_name'  => $client_name_label['#markup'],
+          'device_type'  => $device_type_label['#title'],
+          'serial_number'  => isset($node->field_repair_serial_number['und'][0]['safe_value']) ? $node->field_repair_serial_number['und'][0]['safe_value'] : '',
+          'quote_amount' => isset($node->field_repair_quote_amount['und'][0]['value']) ? $node->field_repair_quote_amount['und'][0]['value'] : '',
+          'receive_date' => $receive_date_label,
+        );
+      }
+    }
+  
   }
+  
   $output = array();
   $output['header'] = $header;
   $output['options'] = $options;
