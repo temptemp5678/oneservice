@@ -11,6 +11,7 @@ function quotetype_init() {
   // add ajax function for form page.
   module_load_include('inc', 'quotetype', 'quotetype_page_form_ajax');
   module_load_include('inc', 'quotetype', 'quotetype_ajax_stamp_block_form');
+  module_load_include('inc', 'quotetype', 'quotetype_ajax_input_tableselect');
 }
 
 /**

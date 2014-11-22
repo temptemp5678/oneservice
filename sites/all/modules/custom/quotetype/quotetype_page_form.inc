@@ -136,7 +136,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   $header = $output['header'];
   $options = $output['options'];
   
-  $form['tablenode'] = array(
+  $form['tableselect_nid'] = array(
     '#type' => 'tableselect',
     '#header' => $header,
     '#options' => $options,
@@ -149,99 +149,6 @@ function quotetype_add_quote_form($form, &$form_state) {
 
   /** return form - - - - - - - - - - - - - - - - - - - -  */
   return $form;
-}
-
-/**
- * Bridge CallBack from '#process' of 'tableselect'
- */
-function quotetype_tableselect_bridge_process_callback($form_element) {
-  foreach (element_children($form_element) as $child_key) {
-    if ('checkbox' == $form_element[$child_key]['#type']) {
-      // Add ajax behavior as desired
-      $form_element[$child_key]['#ajax'] = array(
-        'callback' => 'quotetype_ajax_input_tableselect',
-        'wrapper' => 'some-wrapper-id',
-      );
-    }
-  }
-  return $form_element;
-}
-
-/**
- * AJAX for 'tableselect'
- */
-function quotetype_ajax_input_tableselect($form, &$form_state) {
-  // Ajax framework commands
-  $commands = array();
-  // Ajax commands
-  $commands[] = ajax_command_invoke('#edit-cancel', 'removeClass', array('btn-danger'));
-  $commands[] = ajax_command_invoke('.quotation_insert_markup_create_date', 'text', array('666666666'));
-  return array('#type' => 'ajax', '#commands' => $commands);
-}
-
-/**
- * 
- */
-function quotetype_tableselect_content_callback() {
-  // table header
-  $header = array(
-    'client_name' => t('Client Name'),
-    'device_type' => t('Device Type'),
-    'serial_number' => t('Serial Number'),
-    'quote_amount' => t('Quote Amount'),
-    'receive_date' => t('Receive Date'),
-  );
-  /**  - - - - - - - - - - - - - - - - - - - -  */
-  // db_query all "repair" node with "Quote Status" is 0
-  $query = new EntityFieldQuery;
-  $query->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'repair')
-    ->propertyCondition('status', NODE_PUBLISHED)
-    ->fieldCondition('field_repair_quote_status', 'value', 0)
-    ->execute();
-  $result = $query->execute();
-  
-  dpm(node_load(5));
-        
-  // check if have result
-  if (isset($result['node'])) {
-    $options = array();
-    // $key is nid, and $row->nid is also nid
-    $client_name_label = '';
-    $device_type_label = '';
-    $receive_date_label = '';
-    foreach ($result['node'] as $key => $row) {
-      if (isset($key)) {
-        $node = node_load($key);
-        if (isset($node->field_repair_client_name['und'][0]['target_id'])) {
-          $client_name_value = field_get_items('node', $node, 'field_repair_client_name');  
-          $client_name_label = field_view_value('node', $node, 'field_repair_client_name', $client_name_value[0]);
-        }
-        if (isset($node->field_repair_device_type['und'][0]['tid'])) {
-          $device_type_value = field_get_items('node', $node, 'field_repair_device_type');  
-          $device_type_label = field_view_value('node', $node, 'field_repair_device_type', $device_type_value[0]);
-        }
-        if (isset($node->field_repair_receive_date['und'][0]['value'])) {
-          $receive_date_label = format_date($node->field_repair_receive_date['und'][0]['value'], 'year_mon_day');
-        }
-        
-        $options[$key] = array(
-          // 'key' must same with key used in the header
-          'client_name'  => $client_name_label['#markup'],
-          'device_type'  => $device_type_label['#title'],
-          'serial_number'  => isset($node->field_repair_serial_number['und'][0]['safe_value']) ? $node->field_repair_serial_number['und'][0]['safe_value'] : '',
-          'quote_amount' => isset($node->field_repair_quote_amount['und'][0]['value']) ? $node->field_repair_quote_amount['und'][0]['value'] : '',
-          'receive_date' => $receive_date_label,
-        );
-      }
-    }
-  
-  }
-  
-  $output = array();
-  $output['header'] = $header;
-  $output['options'] = $options;
-  return $output;
 }
 
 /**
