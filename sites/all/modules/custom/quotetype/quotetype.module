@@ -74,7 +74,7 @@ function quotetype_form_alter(&$form, &$form_state, $form_id) {
  * @parameter 1 is width of image size, default is 128px
  * @parameter 2 is height of image size, default is 128px
  */
-function quotetype_authorize_stamp_image($width = '64px', $height = '28px') {
+function quotetype_authorize_stamp_image($width = '128px', $height = '128px') {
   $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
   $stamp_image_variables = array(
                             'path' => $stamp_image_path,

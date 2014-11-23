@@ -18,8 +18,8 @@ function quotetype_add_quote_form($form, &$form_state) {
   for ($f = 0; $f < 10; $f++) {
     $form['nid'][$f]['repair_nid'] = array(
       '#type' => 'textfield',
-      '#attributes' => array('class' => array('addmore-select-repair-nid')),
-      '#prefix' => '<div class="col-xs-1 quotation-js-insert-repair-nid">',
+      '#attributes' => array('class' => array('addmore-select-repair-nid', $f, 'element-invisible')),
+      '#prefix' => '<div class="col-xs-1 quotation-js-insert-repair-nid element-invisible">',
       '#suffix' => '</div>',
       '#element_validate' => array('element_estimate_integer_validate'),
     );
@@ -50,7 +50,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   // hide, just for AJAX usage
   $form['top']['basic_price'] = array(
     '#type' => 'textfield',
-    '#title' => t('原始价格'),
+    '#attributes' => array('class' => array('element-invisible')),
     '#prefix' => '<div class="col-xs-1 element-invisible">',
     '#suffix' => '</div>',
   );
@@ -101,7 +101,6 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">',
     '#suffix' => '</div>',
   );
-
   $form['bottom']['text_five'] = array(
     '#type' => 'item',
     '#prefix' => '<div class="col-xs-10 col-xs-offset-2 clear-both">',
@@ -112,6 +111,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
+    '#attributes' => array('class' => array('disabled')),
     '#prefix' => '<div class="add-repair-page-submit-wrapper text-center clear-both">',
   );
   $form['Cancel'] = array(
@@ -120,16 +120,6 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#attributes' => array('class' => array('btn-danger'), 'onclick' => "javascript:location.href='../estimate-archives'"),
     '#suffix' => '</div>',
   );
-  
-  /** Embed a view from Views  - - - - - - - - - - - - - - - - - - - -  */
-  $content = views_embed_view('repair_list_no_quote_yet');
-  
-  $form['attach']['views'] = array(
-    '#type' => 'item',
-    '#markup' => $content,
-    '#prefix' => '<p></p><div class="col-xs-12 clear-both">',
-    '#suffix' => '</div>',
-  );  
   
   /**  - - - - - - - - - - - - - - - - - - - -  */
   $output = quotetype_tableselect_content_callback();
@@ -162,7 +152,6 @@ function quotetype_callback_summit_cancel() {
  * Implements hook_form_submit()
  */
 function quotetype_add_quote_form_submit($form, &$form_state) {
-dpm($form_state);
   // global $user;
   if (!isset($account)) {
     $account = $GLOBALS['user'];

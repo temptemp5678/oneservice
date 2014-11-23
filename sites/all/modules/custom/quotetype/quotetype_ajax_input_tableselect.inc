@@ -45,10 +45,13 @@ function quotetype_ajax_input_tableselect($form, &$form_state) {
         $device_type_label = field_view_value('node', $node, 'field_repair_device_type', $device_type_value[0]);
       }
       $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $node->field_repair_quote_amount['und'][0]['value'] . '</td></tr>';
+      $sum[] = $node->field_repair_quote_amount['und'][0]['value'];
       $index++;
     }
+    $sumRepairAmount = number_format(array_sum($sum), 2, '.', '');
     $output .= '<tr><td></td><td>' .  t('折扣') . '</td><td class="quotation-js-insert-final-discount"></td></tr>';
     $output .= '<tr><td></td><td>' . t('总价') . '</td><td class="quotation-insert-markup-sum-price" value="' . $sumRepairAmount . '">' . $sumRepairAmount . '</td></tr>';
+    
   }
   else {
     $output .= '<tr><td>No selected Device</td></tr>';
@@ -59,11 +62,21 @@ function quotetype_ajax_input_tableselect($form, &$form_state) {
   /**  - - - - - - - - - - - - - - - - - - - -  */
   // Ajax framework commands
   $commands = array();
-  // Ajax commands
-  $commands[] = ajax_command_invoke('#edit-cancel', 'removeClass', array('btn-danger'));
   $commands[] = ajax_command_invoke('.page-add-new-quotation .quote-row-output-html', 'html', array($output));
   $commands[] = ajax_command_invoke('.page-add-new-quotation .form-item-sum-price input', 'val', array($sumRepairAmount));
   $commands[] = ajax_command_invoke('.page-add-new-quotation .form-item-basic-price input', 'val', array($sumRepairAmount));
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation-js-insert-repair-nid input', 'val', array(''));
+  if ($nid_sum > 0 ) {
+    $commands[] = ajax_command_invoke('.page-add-new-quotation .add-repair-page-submit-wrapper #edit-submit', 'removeClass', array('disabled'));
+    $nth = 0;
+    foreach($nodes as $node) {
+      $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation-js-insert-repair-nid input:eq(' . $nth . ')', 'val', array($node->nid));
+      $nth++;
+    }
+  }
+  else {
+    $commands[] = ajax_command_invoke('.page-add-new-quotation .add-repair-page-submit-wrapper #edit-submit', 'addClass', array('disabled'));
+  }
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
