@@ -45,7 +45,6 @@ function quotetype_ajax_stamp_callback($form, &$form_state) {
   // get check value, 1 for true, 0 for false
   $check_val = $form_state['values']['authorize_stamp'];
   
-    $commands[] = ajax_command_html('h1', $form_state['values']['authorize_stamp']);
   // Ajax commands
   if ($check_val) {
     $commands[] = ajax_command_invoke('.checkbox-authorize-stamp', 'removeClass', array('btn-warning'));

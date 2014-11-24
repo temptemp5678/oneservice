@@ -73,6 +73,7 @@ function othersetting_quote_page_content($node = NULL) {
                . '<br />'
                . t('维修情况如下：')
                . '<div class="col-xs-11 quote-row-output-html color-449bb5">'
+               . ((isset($node)) ? quote_row_output_table($node) : '')
                . '</div>'
                . '<div class="clear-both"></div>'
                . t('因已经超过保修期，需要支付维修费.费用为') . '￥'
@@ -119,6 +120,53 @@ function othersetting_quote_page_content($node = NULL) {
   return $output;
 }
 
+/**
+ * output quotatino table
+ */
+function quote_row_output_table($node = NULL) {
+  $output = '';
+  if (!isset($node)) {
+    return $output;
+  }
+  
+  $output .= '<table class="table table-striped">';
+    $output .= '<thead>';
+      $output .= '<tr>';
+        $output .= '<th>#</th>';
+        $output .= '<th>' . t('型号') . '</th>';
+        $output .= '<th>' . t('价格') . '</th>';
+      $output .= '</tr>';
+    $output .= '</thead>';
+    $output .= '<tbody>';
+  
+  // $node is current Quote Node Object 
+  // $node->field_quote_repair_nid['und'] is array, it could have multiple repair NID
+  if (isset($node->field_quote_repair_nid['und'][0])) {
+    foreach ($node->field_quote_repair_nid['und'] as $row) {
+      $reapir_node_array[] = $row['value'];
+    }
+    $nodes = node_load_multiple($reapir_node_array);
+    $index = 1;
+    foreach($nodes as $reapir_node) {
+      if (isset($reapir_node->field_repair_device_type['und'][0]['tid'])) {
+        $device_type_value = field_get_items('node', $reapir_node, 'field_repair_device_type');  
+        $device_type_label = field_view_value('node', $reapir_node, 'field_repair_device_type', $device_type_value[0]);
+      }
+      $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $reapir_node->field_repair_quote_amount['und'][0]['value'] . '</td></tr>';
+      $sum[] = $reapir_node->field_repair_quote_amount['und'][0]['value'];
+      $index++;
+    }
+    $client_name_id = field_get_items('node', $reapir_node, 'field_repair_client_name'); 
+    $client_name_label = field_view_value('node', $reapir_node, 'field_repair_client_name', $client_name_id[0]);
+    $sumRepairAmount = number_format(array_sum($sum), 2, '.', '');
+    $dicount_amount = number_format(($node->field_quote_sum_price['und'][0]['value'] - $sumRepairAmount), 2, '.', '');
+    $output .= '<tr><td></td><td>' .  t('折扣') . '</td><td class="quotation-js-insert-final-discount">' . $dicount_amount . '</td></tr>';
+    $output .= '<tr><td></td><td>' . t('总价') . '</td><td class="quotation-insert-markup-sum-price">' . $node->field_quote_sum_price['und'][0]['value'] . '</td></tr>';
+  }
+      $output .= '</tbody>';
+  $output .= '</table>';
+  return $output;
+}
 /**
  * 人民币小写转大写
  *

@@ -27,7 +27,7 @@ function quotetype_add_quote_form($form, &$form_state) {
   
   $form['top']['company_name'] = array(
     '#type' => 'select',
-    '#title' => t('公司名称'),
+    '#title' => t('本公司'),
     '#options' => taxonomy_allowed_values(field_info_field('field_quote_company_name')),
     '#default_value' => variable_get('quote_default_value_company_name', ''),
     '#prefix' => '<div class="col-xs-6 col-md-3 clear-both">',
@@ -36,8 +36,8 @@ function quotetype_add_quote_form($form, &$form_state) {
   );
   $form['top']['client_name'] = array(
     '#type' => 'textfield',
-    '#title' => t('公司名称'),
-    '#prefix' => '<div class="col-xs-2 element-invisible">',
+    '#title' => t('客户名称'),
+    '#prefix' => '<div class="col-xs-2">',
     '#suffix' => '</div>',
   );
   $form['top']['sum_price'] = array(
@@ -58,7 +58,7 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('保修长度'),
     '#default_value' => variable_get('quote_default_value_warranty_day'), 
-    '#prefix' => '<div class="col-xs-1">',
+    '#prefix' => '<div class="col-xs-2 col-md-1">',
     '#suffix' => '</div>',
     '#element_validate' => array('element_estimate_decimal_validate'),
     '#ajax' => array('callback' => 'ajax_quotetype_input_warranty_day', 'effect' => 'fade',),

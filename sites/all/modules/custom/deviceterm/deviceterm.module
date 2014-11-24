@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ *
+ */
+
+/*
+ * Implementation of hook_init()
+ */
+
+/**
+ * Implements hook_menu()
+ */
+function deviceterm_menu() {
+  $items = array();
+
+  $items['deviceterm/add_new'] = array(
+    'title' => 'Device Term Default Title',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('deviceterm_add_new_term_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'deviceterm_add_new_form_page.inc',
+  );
+  
+  return $items;
+}

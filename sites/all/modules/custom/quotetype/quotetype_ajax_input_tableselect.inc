@@ -32,6 +32,8 @@ function quotetype_ajax_input_tableselect($form, &$form_state) {
     $output .= '</thead>';
     $output .= '<tbody>';
 
+  $chinese_amount = '';
+  $sumRepairAmount = '';
   // $form_state['values']['tableselect_nid'] is array, 
   // when checkbox is check on, "key" is nid, and "value" is nid also
   // when checkbox is check off, both "key" and "value" is 0
@@ -48,10 +50,14 @@ function quotetype_ajax_input_tableselect($form, &$form_state) {
       $sum[] = $node->field_repair_quote_amount['und'][0]['value'];
       $index++;
     }
+    $client_name_id = field_get_items('node', $node, 'field_repair_client_name'); 
+    $client_name_label = field_view_value('node', $node, 'field_repair_client_name', $client_name_id[0]);
     $sumRepairAmount = number_format(array_sum($sum), 2, '.', '');
     $output .= '<tr><td></td><td>' .  t('折扣') . '</td><td class="quotation-js-insert-final-discount"></td></tr>';
     $output .= '<tr><td></td><td>' . t('总价') . '</td><td class="quotation-insert-markup-sum-price" value="' . $sumRepairAmount . '">' . $sumRepairAmount . '</td></tr>';
     
+    // get Price value for "RMB"
+    $chinese_amount = num2rmb($sumRepairAmount);
   }
   else {
     $output .= '<tr><td>No selected Device</td></tr>';
@@ -63,8 +69,11 @@ function quotetype_ajax_input_tableselect($form, &$form_state) {
   // Ajax framework commands
   $commands = array();
   $commands[] = ajax_command_invoke('.page-add-new-quotation .quote-row-output-html', 'html', array($output));
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .form-item-client-name input', 'val', array($client_name_label['#markup']));
   $commands[] = ajax_command_invoke('.page-add-new-quotation .form-item-sum-price input', 'val', array($sumRepairAmount));
   $commands[] = ajax_command_invoke('.page-add-new-quotation .form-item-basic-price input', 'val', array($sumRepairAmount));
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation-insert-markup-sum-price', 'text', array($sumRepairAmount));
+  $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation-insert-markup-chinese-price', 'text', array($chinese_amount));
   $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation-js-insert-repair-nid input', 'val', array(''));
   if ($nid_sum > 0 ) {
     $commands[] = ajax_command_invoke('.page-add-new-quotation .add-repair-page-submit-wrapper #edit-submit', 'removeClass', array('disabled'));
