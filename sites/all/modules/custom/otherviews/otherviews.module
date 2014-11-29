@@ -3,3 +3,44 @@
  * @file
  * http://dominiquedecooman.com/drupal-7-tip-create-custom-views-access-plugin
  */
+
+/*
+ * Implementation of hook_init()
+ */
+function otherviews_init()
+}
+
+/**
+ * Implements hook_views_plugins()
+ */
+function otherviews_views_plugins() {
+  $plugins = array(
+    'access' => array(
+      'test' => array(
+        'title' => t('Custom Access check'),
+        'help' => t('this is a custom access plugin'),
+        'handler' => 'otherviews_access_plugin',
+        'path' => drupal_get_path('module', 'otherviews'),
+      ),
+    ),
+  );
+  return $plugins;
+}
+
+function otherviews_access($account = NULL) {
+  global $user;
+  $access = FALSE;
+  $account = user_load($user->uid);
+  $optionfield = field_get_items('user', $account, 'field_option');
+
+  //In the future more values are possible so this is extendible
+  //For now only +eur exists
+  $allowed_values = array('eur');
+  $options = explode('+', $optionfield[0]['value']);
+  foreach ($allowed_values as $allowed_value) {
+    if (in_array($allowed_value, $options)) {
+      $access = TRUE;
+    }
+  }
+  return $access;
+}

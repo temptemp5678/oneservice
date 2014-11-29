@@ -6,3 +6,7 @@ package = Zen Other
 stylesheets[all][] = css/otherviews.css
 
 version  = 7.x-1.1
+
+;- See more at: http://dominiquedecooman.com/drupal-7-tip-create-custom-views-access-plugin
+dependencies[] = views 
+files[] = otherviews_access_plugin.inc 
