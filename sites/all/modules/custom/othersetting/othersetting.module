@@ -9,6 +9,13 @@
  */
 function othersetting_menu() {
   $items = array();
+  $items['home-page'] = array(
+    'title' => 'Home Page',
+    'page callback' => 'othersetting_home_page_callback',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'othersetting_home_page_callback_page.inc',
+  );
   $items['othersetting/set_quote_value'] = array(
     'title' => 'Quote Default Value',
     'page callback' => 'drupal_get_form',
