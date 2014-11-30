@@ -7,7 +7,7 @@
 /*
  * Implementation of hook_init()
  */
-function otherviews_init()
+function otherviews_init() {
 }
 
 /**
@@ -17,7 +17,7 @@ function otherviews_views_plugins() {
   $plugins = array(
     'access' => array(
       'test' => array(
-        'title' => t('Custom Access check'),
+        'title' => t('Custom Access check1'),
         'help' => t('this is a custom access plugin'),
         'handler' => 'otherviews_access_plugin',
         'path' => drupal_get_path('module', 'otherviews'),
@@ -29,17 +29,44 @@ function otherviews_views_plugins() {
 
 function otherviews_access($account = NULL) {
   global $user;
-  $access = FALSE;
   $account = user_load($user->uid);
-  $optionfield = field_get_items('user', $account, 'field_option');
+  $access = FALSE;
 
   //In the future more values are possible so this is extendible
   //For now only +eur exists
+  /**
+   * 
+  $optionfield = field_get_items('user', $account, 'field_option');
   $allowed_values = array('eur');
   $options = explode('+', $optionfield[0]['value']);
   foreach ($allowed_values as $allowed_value) {
     if (in_array($allowed_value, $options)) {
       $access = TRUE;
+    }
+  }
+   */
+
+  // if user is not login, return FALSE
+  if (user_is_anonymous()) {
+    return $access;
+  }
+ 
+  // check permission for 'siteadmin' or 'moderator' user
+  $allowed_value_array = array('moderator', 'administrator');
+  if (array_intersect($allowed_value_array, array_values($account->roles))) {
+    $access = TRUE;
+  }
+  
+  $view = views_get_page_view();
+  // check permission for 'keyclient' user
+  $allowed_value = 'keyclient';
+  if (in_array($allowed_value, array_values($account->roles))) {
+    if( arg(0)=='repair-key' && is_numeric(arg(1)) ) {
+      $tid = arg(1);
+      $term = taxonomy_term_load($tid);
+      if (($account->name) == ($term->name)) {
+        $access = TRUE;
+      }
     }
   }
   return $access;
