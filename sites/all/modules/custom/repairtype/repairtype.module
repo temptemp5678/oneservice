@@ -15,19 +15,3 @@ function repairtype_form_alter(&$form, &$form_state, $form_id) {
     $form['title']['#required'] = FALSE;
   }
 }
-
-/**
- * Implementation of hook_permission()
- */
-function windfarms_permission() {
-  return array(
-     'View wind farms' => array(
-      'title' => t('View Winds Farms'),
-      'description' => t('Check tasks on Wind Farms functionality'),
-    ),
-    'administer wind farms' => array(
-      'title' => t('Administer Winds Farms'),
-      'description' => t('Perform administrative tasks on Wind Farms functionality'),
-    ),
-  );
-}

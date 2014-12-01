@@ -3,6 +3,22 @@
  * @file
  *
  */
+ 
+/**
+ * Implementation of hook_permission()
+ */
+function othersetting_permission() {
+  return array(
+     'view site publish content' => array(
+      'title' => t('View Site Publish Content'),
+      'description' => t('Login User can view Site Content'),
+    ),
+     'view site internal content' => array(
+      'title' => t('View Site Internal Content'),
+      'description' => t('Only internal company user can view content'),
+    ),
+  );
+}
 
 /**
  * Implements hook_menu()
@@ -16,19 +32,26 @@ function othersetting_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_home_page_callback_page.inc',
   );
-  $items['othersetting/set_quote_value'] = array(
+  $items['my-repair'] = array(
+    'title' => 'My Repair',
+    'page callback' => 'othersetting_my_repair_page_callback',
+    'access arguments' => array('view site publish content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'othersetting_home_page_callback_page.inc',
+  );
+  $items['othersetting/set-quote-value'] = array(
     'title' => 'Quote Default Value',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('othersetting_set_quote_value_form'),
-    'access arguments' => array('access content'),
+    'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_set_quote_value_form_page.inc',
   );
-  $items['othersetting/add_company_info'] = array(
+  $items['othersetting/add-company-info'] = array(
     'title' => 'Add Company Info',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('othersetting_add_company_form'),
-    'access arguments' => array('access content'),
+    'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_add_company_form_page.inc',
   );

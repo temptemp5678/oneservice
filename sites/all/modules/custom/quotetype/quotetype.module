@@ -48,7 +48,7 @@ function quotetype_menu() {
     'title' => 'Create New Quotation',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('quotetype_add_quote_form'),
-    'access arguments' => array('access content'),
+    'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'quotetype_page_form.inc',
   );

@@ -12,7 +12,7 @@ function useradmin_menu() {
     'title' => 'Create New User',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('useradmin_create_user_form'),
-    'access arguments' => array('access content'),
+    'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'useradmin_create_user_form_page.inc',
   );

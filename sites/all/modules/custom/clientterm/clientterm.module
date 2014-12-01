@@ -18,7 +18,7 @@ function clientterm_menu() {
     'title' => 'Client Term Default Title',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('clientterm_add_new_term_form'),
-    'access arguments' => array('access content'),
+    'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'clientterm_add_new_form_page.inc',
   );

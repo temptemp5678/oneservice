@@ -57,7 +57,7 @@ function otherviews_access($account = NULL) {
     $access = TRUE;
   }
   
-  $view = views_get_page_view();
+  // $view = views_get_page_view();
   // check permission for 'keyclient' user
   $allowed_value = 'keyclient';
   if (in_array($allowed_value, array_values($account->roles))) {

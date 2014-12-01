@@ -18,7 +18,7 @@ function deviceterm_menu() {
     'title' => 'Device Term Default Title',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('deviceterm_add_new_term_form'),
-    'access arguments' => array('access content'),
+    'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'deviceterm_add_new_form_page.inc',
   );
