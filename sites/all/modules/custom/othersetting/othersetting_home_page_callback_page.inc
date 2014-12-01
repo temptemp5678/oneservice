@@ -16,11 +16,9 @@ function othersetting_my_repair_page_callback() {
   if (!isset($account)) {
     $account = $GLOBALS['user'];
   }
+  
   // check roles to direct different page
-  if(user_is_anonymous()) {
-    drupal_goto('search-repair');
-  }
-  else if (user_is_logged_in()) {
+  if (user_is_logged_in()) {
     $allowed_value = 'keyclient';
     if (in_array($allowed_value, array_values($account->roles))) {
       if(isset($account->name)) {
@@ -33,7 +31,7 @@ function othersetting_my_repair_page_callback() {
       drupal_goto('search-repair');
     } 
     else {
-      drupal_goto('search-repair');
+      return t('您不是大客户');
     }
   }
 }
