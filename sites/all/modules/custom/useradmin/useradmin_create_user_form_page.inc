@@ -25,7 +25,7 @@ function useradmin_create_user_form($form, &$form_state) {
   );
   $form['roles'] = array(
     '#type' => 'checkboxes',
-    '#options' => user_roles(TRUE, 'access user profiles'),
+    '#options' => user_roles(TRUE, 'roles option for add user'),
     '#title' => t('User Roles'),
     '#prefix' => '<div class="col-xs-10 clear-both">',
     '#suffix' => '</div>',
