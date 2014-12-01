@@ -27,24 +27,13 @@ function otherviews_views_plugins() {
   return $plugins;
 }
 
+/**
+ * 
+ */
 function otherviews_access($account = NULL) {
   global $user;
   $account = user_load($user->uid);
   $access = FALSE;
-
-  //In the future more values are possible so this is extendible
-  //For now only +eur exists
-  /**
-   * 
-  $optionfield = field_get_items('user', $account, 'field_option');
-  $allowed_values = array('eur');
-  $options = explode('+', $optionfield[0]['value']);
-  foreach ($allowed_values as $allowed_value) {
-    if (in_array($allowed_value, $options)) {
-      $access = TRUE;
-    }
-  }
-   */
 
   // if user is not login, return FALSE
   if (user_is_anonymous()) {
