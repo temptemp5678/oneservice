@@ -7,5 +7,3 @@ sites/*/private
 
 # Ignore paths that contain WAMP log directory
 logs
-
-

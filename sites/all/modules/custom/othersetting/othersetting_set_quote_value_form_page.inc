@@ -15,7 +15,7 @@ function othersetting_set_quote_value_form($form, &$form_state) {
   /** - - - fieldset - - - */
   $form['quote_value'] = array(
     '#type' => 'fieldset',
-    '#title' => '+ ' . t('Quotation Value'),
+    '#title' => '+ ' . t('Quotation Default Value Setting'),
     '#collapsible' => TRUE,
     '#collapsible' => FALSE,
     '#collapsed' => TRUE,
@@ -27,7 +27,8 @@ function othersetting_set_quote_value_form($form, &$form_state) {
     '#title' => t('Warranty Day'),
     '#attributes' => array('class' => array('quote-default-value-warranty-day-wrapper'), 'placeholder' => 'Warranty Day', 'pattern' => "\d*"),
     '#default_value' => variable_get('quote_default_value_warranty_day'),
-    '#prefix' => '<div class="col-xs-12">',
+    '#field_suffix' => t('Days'),
+    '#prefix' => '<div class="col-xs-6 col-md-2">',
     '#suffix' => '</div>',
   );
   $form['quote_value']['quote_default_value_company_name'] = array(
@@ -35,7 +36,7 @@ function othersetting_set_quote_value_form($form, &$form_state) {
     '#title' => t('Default Company'),
     '#options' => taxonomy_allowed_values(field_info_field('field_quote_company_name')),
     '#default_value' => variable_get('quote_default_value_company_name', ''),
-    '#prefix' => '<div class="col-xs-10 clear-both">',
+    '#prefix' => '<div class="col-xs-10 col-md-4 clear-both">',
     '#suffix' => '</div>',
   );
 
