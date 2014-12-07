@@ -1,0 +1,67 @@
+/**
+ * @file
+ * rewrite for Views - Repair Print Table (Output Content)
+ */
+
+<div id="repair_print_talbe_page" class="row">
+  <div class="col-xs-12 col-sm-6 col-md-8">
+    <table class="table table-bordered table-hover">
+      <tbody>
+        <tr>
+          <td>????</td>
+          <td colspan="3">[field_repair_client_name]</td>
+        </tr>
+        <tr>
+          <td>???</td>
+          <td>[field_repair_client_contactname]</td>
+          <td>????</td>
+          <td>[field_repair_client_contactphone]</td>
+        </tr>
+        <tr>
+          <td>????</td>
+          <td colspan="3">[field_client_contactaddress]</td>
+        </tr>
+        <tr>
+          <td>????</td>
+          <td>[field_repair_device_type]</td>
+          <td>???</td>
+          <td>[field_repair_serial_number]</td>
+        </tr>
+        <tr>
+          <td>????</td>
+          <td>[field_repair_receive_date]</td>
+          <td>??????</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>????</td>
+          <td colspan="3">[field_repair_receive_note]</td>
+        </tr>
+        <tr>
+          <td>????</td>
+          <td colspan="3">[field_repair_issue_reason]</td>
+        </tr>
+        <tr>
+          <td>??????</td>
+          <td colspan="3">[field_repair_repair_approach]</td>
+        </tr>
+        <tr>
+          <td>????</td>
+          <td colspan="3">[field_repair_return_note]</td>
+        </tr>
+        <tr>
+          <td>????</td>
+          <td>N/A</td>
+          <td>????</td>
+          <td>[field_repair_repair_amount]</td>
+        </tr>
+       <tr>
+          <td>?????</td>
+          <td>N/A</td>
+          <td>????</td>
+          <td>[field_repair_return_date]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
