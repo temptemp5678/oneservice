@@ -17,6 +17,10 @@ function othersetting_permission() {
       'title' => t('View Site Internal Content'),
       'description' => t('Only internal company user can view content'),
     ),
+     'view my repair link' => array(
+      'title' => t('View My Repair Link'),
+      'description' => t('Only Key Client can view this link'),
+    ),
      'roles option for add user' => array(
       'title' => t('Roles Option For Add User'),
       'description' => t('Allowed User Roles to be selected on Add new user form page'),
@@ -39,7 +43,7 @@ function othersetting_menu() {
   $items['my-repair'] = array(
     'title' => 'My Repair',
     'page callback' => 'othersetting_my_repair_page_callback',
-    'access arguments' => array('view site publish content'),
+    'access arguments' => array('view my repair link'),
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_home_page_callback_page.inc',
   );
