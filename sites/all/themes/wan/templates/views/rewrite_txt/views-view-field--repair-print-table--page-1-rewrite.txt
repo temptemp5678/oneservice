@@ -5,60 +5,60 @@
 
 <div id="repair_print_talbe_page" class="row">
   <div class="col-xs-12 col-sm-6 col-md-8">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover table-responsive">
       <tbody>
         <tr>
-          <td>????</td>
+          <td>客户名称</td>
           <td colspan="3">[field_repair_client_name]</td>
         </tr>
         <tr>
-          <td>???</td>
+          <td>联系人</td>
           <td>[field_repair_client_contactname]</td>
-          <td>????</td>
+          <td>联系电话</td>
           <td>[field_repair_client_contactphone]</td>
         </tr>
         <tr>
-          <td>????</td>
+          <td>客户地址</td>
           <td colspan="3">[field_client_contactaddress]</td>
         </tr>
         <tr>
-          <td>????</td>
+          <td>设备型号</td>
           <td>[field_repair_device_type]</td>
-          <td>???</td>
+          <td>序列号</td>
           <td>[field_repair_serial_number]</td>
         </tr>
         <tr>
-          <td>????</td>
+          <td>收取日期</td>
           <td>[field_repair_receive_date]</td>
-          <td>??????</td>
+          <td>外观有无损坏</td>
           <td>N/A</td>
         </tr>
         <tr>
-          <td>????</td>
+          <td>收取备注</td>
           <td colspan="3">[field_repair_receive_note]</td>
         </tr>
         <tr>
-          <td>????</td>
+          <td>故障原因</td>
           <td colspan="3">[field_repair_issue_reason]</td>
         </tr>
         <tr>
-          <td>??????</td>
+          <td>维修处理办法</td>
           <td colspan="3">[field_repair_repair_approach]</td>
         </tr>
         <tr>
-          <td>????</td>
+          <td>返回备注</td>
           <td colspan="3">[field_repair_return_note]</td>
         </tr>
         <tr>
-          <td>????</td>
+          <td>维修情况</td>
           <td>N/A</td>
-          <td>????</td>
+          <td>收费金额</td>
           <td>[field_repair_repair_amount]</td>
         </tr>
        <tr>
-          <td>?????</td>
+          <td>维修工程师</td>
           <td>N/A</td>
-          <td>????</td>
+          <td>返回日期</td>
           <td>[field_repair_return_date]</td>
         </tr>
       </tbody>
