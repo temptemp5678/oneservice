@@ -28,7 +28,7 @@ function otherviews_views_plugins() {
 }
 
 /**
- * 
+ * callback from class otherviews_access_plugin extends views_plugin_access
  */
 function otherviews_access($account = NULL) {
   global $user;

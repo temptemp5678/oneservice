@@ -1,7 +1,7 @@
 <?php
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /**
- *
+ * AJAX to insert Company Info
  */
 function ajax_quotetype_select_company_name($form, &$form_state) {
   $company_info = '';
@@ -14,8 +14,8 @@ function ajax_quotetype_select_company_name($form, &$form_state) {
     $term = taxonomy_term_load($company_name_vid);
     if ($term) {
       $company_name = $term->name;
-      $bank_name = $term->field_subcompany_bank_name['und'][0]['safe_value'];
-      $account_number = $term->field_subcompany_account_number['und'][0]['safe_value'];
+      $bank_name = $term->field_company_bank_name['und'][0]['safe_value'];
+      $account_number = $term->field_company_account_number['und'][0]['safe_value'];
     }
   }
   
@@ -30,7 +30,7 @@ function ajax_quotetype_select_company_name($form, &$form_state) {
 }
 
 /**
- * 
+ * AJAX to insert Quotation Price Table
  */
 function ajax_quotetype_input_sum_price($form, &$form_state) {
   // get input value for "sum-price"
