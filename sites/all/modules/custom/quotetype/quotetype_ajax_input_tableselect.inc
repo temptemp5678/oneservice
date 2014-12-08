@@ -113,9 +113,9 @@ function quotetype_tableselect_content_callback() {
     ->execute();
   $result = $query->execute();
   
+  $options = array();
   // check if have result
   if (isset($result['node'])) {
-    $options = array();
     // $key is nid, and $row->nid is also nid
     $client_name_label = '';
     $device_type_label = '';
