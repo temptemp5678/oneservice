@@ -4,6 +4,8 @@
  */
 function quotetype_ajax_stamp_block_form() {
   $node = menu_get_object();
+  // dpm($node);
+  
   $stamp_value = 0;
   $stamp_class = 'btn-warning';
   if ($node->field_quote_authorize_stamp['und'][0]['value']) {
@@ -15,7 +17,7 @@ function quotetype_ajax_stamp_block_form() {
     '#type' => 'checkbox',
     '#title' => t('授权'),
     '#default_value' => $stamp_value,
-    '#prefix' => '<div class="col-xs-1"><div class="btn ' . $stamp_class . ' checkbox-authorize-stamp">',
+    '#prefix' => '<div class="col-xs-2"><div class="btn ' . $stamp_class . ' checkbox-authorize-stamp">',
     '#suffix' => '</div></div>',
     '#ajax' => array('callback' => 'quotetype_ajax_stamp_callback', 'effect' => 'fade',),
   );

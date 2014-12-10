@@ -6,8 +6,11 @@
   padding: 0px;
 }
 
-
 .page-node-add-repair #edit-field-repair-quote-status,
 .page-node-edit.node-type-repair #edit-field-repair-quote-status {
   display: none;
+}
+
+#block-quotetype-quotetype-ajax-stamp #edit-delete-link.form-group {
+  margin-bottom: 0px;
 }

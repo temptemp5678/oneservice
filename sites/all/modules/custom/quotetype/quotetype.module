@@ -52,7 +52,35 @@ function quotetype_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'quotetype_page_form.inc',
   );
+  
+  $items['node/%/remove'] = array(
+    'title' => t('Delete'),
+    'page callback' => 'quotetype_delete_tab_page',
+    'page arguments' => array(1),
+    // 'access callback' => TRUE,
+    'access callback' => 'quote_delete_access_check',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
   return $items;
+}
+
+function quote_delete_access_check($nid) {
+  $node = node_load($nid);
+  if ($node->type == 'quote') {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * callback from quotetype_ajax_stamp_block_form()
+ */
+function quotetype_delete_tab_page($nid) {
+  if ($nid) {
+    drupal_goto('node/' . $nid . '/delete');
+  }
+  return t('Access denied from Quote Tab');
 }
 
 /**
@@ -85,4 +113,19 @@ function quotetype_authorize_stamp_image($width = '128px', $height = '128px') {
                            );
   $stamp_image = theme('image', $stamp_image_variables);
   return $stamp_image;
+}
+
+/*
+ * Implementation of hook_node_delete()
+ */
+function quotetype_planner_node_update($node) {
+  if ($node->type == 'meeting') {
+    $language = $node->language;
+    
+    drupal_set_message(t('Request updated successfully.'));
+    watchdog('meeting_planner', '@nodetype meeting @nid updated by, User ID is @account - @username', array('@nodetype' => $node->type, '@nid' => $node->nid, '@account' => $node->uid, '@username' => $node->name));
+
+    $site_frontpage = variable_get('site_frontpage', 'user');
+    drupal_goto($site_frontpage);
+  }
 }
