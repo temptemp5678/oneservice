@@ -4,7 +4,6 @@
  */
 function quotetype_ajax_stamp_block_form() {
   $node = menu_get_object();
-  // dpm($node);
   
   $stamp_value = 0;
   $stamp_class = 'btn-warning';
@@ -13,14 +12,21 @@ function quotetype_ajax_stamp_block_form() {
     $stamp_class = 'btn-primary';
   }
   
-  $form['authorize_stamp'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('授权'),
-    '#default_value' => $stamp_value,
-    '#prefix' => '<div class="col-xs-2"><div class="btn ' . $stamp_class . ' checkbox-authorize-stamp">',
-    '#suffix' => '</div></div>',
-    '#ajax' => array('callback' => 'quotetype_ajax_stamp_callback', 'effect' => 'fade',),
+  $form['markup_emppty'] = array(
+    '#type' => 'markup',
+    '#markup' => '',
   );
+  // only show on node page, not show on delete page
+  if ((arg(0) == 'node') && is_numeric(arg(1)) && (arg(2) != 'delete')) {
+    $form['authorize_stamp'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('授权'),
+      '#default_value' => $stamp_value,
+      '#prefix' => '<div class="col-xs-2"><div class="btn ' . $stamp_class . ' checkbox-authorize-stamp">',
+      '#suffix' => '</div></div>',
+      '#ajax' => array('callback' => 'quotetype_ajax_stamp_callback', 'effect' => 'fade',),
+    );
+  }
   return $form;
 }
 

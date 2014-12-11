@@ -196,22 +196,20 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
   $node->field_quote_create_date[$node->language][0]['value'] = $date_value;
   $node->field_quote_authorize_stamp[$node->language][0]['value'] = $form_state['values']['authorize_stamp'];
   
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  // update field
-  // field_attach_presave('node', $node);
-  // field_attach_update('node', $node);
   // save node
   node_save($node);
   
   /** - - - - - - - - - - - - - - - - - - - -  */
+  // update field for Repair node
   // update "Quote Status Field of Repair Node" as "Yes" of value
-  for ($f = 0; $f < 2; $f++) {
+  for ($f = 0; $f < 10; $f++) {
     $repair_nid = $form_state['values']['nid'][$f]['repair_nid'];
     if ($repair_nid > 0) {
       $repair_node = node_load($repair_nid, NULL, TRUE);
       if (isset($repair_node)) {
         $field_language = field_language('node', $repair_node, 'field_repair_quote_status');
         $repair_node->field_repair_quote_status[$field_language][0]['value'] = 1;
+        // field_attach_presave('node', $repair_node);
         field_attach_update('node', $repair_node);
       }
     }

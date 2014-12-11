@@ -53,19 +53,22 @@ function quotetype_menu() {
     'file' => 'quotetype_page_form.inc',
   );
   
+  // add "Delete" tab on node page
   $items['node/%/remove'] = array(
     'title' => t('Delete'),
     'page callback' => 'quotetype_delete_tab_page',
     'page arguments' => array(1),
-    // 'access callback' => TRUE,
-    'access callback' => 'quote_delete_access_check',
+    'access callback' => 'quote_delete_tab_access_check',
     'access arguments' => array(1),
     'type' => MENU_LOCAL_TASK,
   );
   return $items;
 }
 
-function quote_delete_access_check($nid) {
+/**
+ * permission check for hook_menu()
+ */
+function quote_delete_tab_access_check($nid) {
   $node = node_load($nid);
   if ($node->type == 'quote') {
     return TRUE;
@@ -81,6 +84,32 @@ function quotetype_delete_tab_page($nid) {
     drupal_goto('node/' . $nid . '/delete');
   }
   return t('Access denied from Quote Tab');
+}
+
+/**
+ * hook_node_delete()
+ */
+function quotetype_node_delete($node) {
+  if ($node->type == 'quote') {
+    // update field for Repair node
+    // update "Quote Status Field of Repair Node" as "Yes" of value
+    for ($f = 0; $f < 10; $f++) {
+      $repair_nid = $form_state['values']['nid'][$f]['repair_nid'];
+      if ($repair_nid > 0) {
+        $repair_node = node_load($repair_nid, NULL, TRUE);
+        if (isset($repair_node)) {
+          $field_language = field_language('node', $repair_node, 'field_repair_quote_status');
+          $repair_node->field_repair_quote_status[$field_language][0]['value'] = 1;
+          // field_attach_presave('node', $repair_node);
+          field_attach_update('node', $repair_node);
+        }
+      }
+    }
+    
+    /** - - - - - - - - - - - - - - - - - - - -  */
+    watchdog('quotetype', 'Delete Quote Node successfully');
+    drupal_set_message(t('Delete Quote Node successfully'));
+  }
 }
 
 /**
