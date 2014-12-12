@@ -5,6 +5,57 @@
  */
 
 /**
+ * Implements hook_node_submit().
+ *
+ * Generate the node title as soon as the form has been submitted. That way
+ * the node preview is shown right too.
+ */
+// function meetingtype_node_submit($node, $form, &$form_state) {
+  // meetingtype_nodetitle_set_title($node);
+// }
+ 
+/**
+ * Implements hook_node_presave().
+ * Act on a node being inserted or updated.
+ */
+function repairtype_node_presave($node) {
+  repairtype_nodetitle_set_title($node);
+}
+/**
+ * Implements hook_node_presave().
+ */
+function repairtype_nodetitle_set_title(&$node) {
+dpm($node);
+  // Repair node
+  if ($node->type == 'repair') {
+    $node->title = t('Repair');
+    if ( isset($node->field_repair_client_name['und'][0]['target_id']) ) {
+      $term = taxonomy_term_load($node->field_repair_client_name['und'][0]['target_id']);
+      if ($term->vid = 2) {
+        $node->title .= '-' . $term->name;
+      }
+    }
+    if ( isset($node->field_repair_serial_number['und'][0]['value']) ) {
+      $node->title .= '-' . trim($node->field_repair_serial_number['und'][0]['value']);
+    }
+    // Ensure the generated title isn't too long.
+    $node->title = substr($node->title, 0, 255);
+  }
+  // Quote node
+  if ($node->type == 'quote') {
+    $node->title = t('Quote');
+    if ( isset($node->field_quote_create_date['und'][0]['value']) ) {
+      $node->title .= '-' . format_date($node->field_quote_create_date['und'][0]['value'], 'custom', "Y-m-d");
+    }
+    if ( isset($node->field_quote_client_name['und'][0]['value']) ) {
+      $node->title .= '-' . trim($node->field_quote_client_name['und'][0]['value']);
+    }
+    // Ensure the generated title isn't too long.
+    $node->title = substr($node->title, 0, 255);
+  }
+}
+
+/**
  * Implementation of hook_form_alter()
  */
 function repairtype_form_alter(&$form, &$form_state, $form_id) {
@@ -14,12 +65,4 @@ function repairtype_form_alter(&$form, &$form_state, $form_id) {
     $form['title']['#type'] = 'hidden';
     $form['title']['#required'] = FALSE;
   }
-}
-
-/**
- * hook_menu_alter()
- */
-function repairtype_menu_alter(&$items) {
-dpm($items);
-  
 }
