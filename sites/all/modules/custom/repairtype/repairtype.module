@@ -25,7 +25,6 @@ function repairtype_node_presave($node) {
  * Implements hook_node_presave().
  */
 function repairtype_nodetitle_set_title(&$node) {
-dpm($node);
   // Repair node
   if ($node->type == 'repair') {
     $node->title = t('Repair');

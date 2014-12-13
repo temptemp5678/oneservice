@@ -5,13 +5,6 @@
 /**
  * function callback from hook_menu()
  */
-function othersetting_home_page_callback() {
-  drupal_goto('search-repair');
-}
-
-/**
- * function callback from hook_menu()
- */
 function othersetting_my_repair_page_callback() {
   if (!isset($account)) {
     $account = $GLOBALS['user'];

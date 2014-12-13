@@ -69,9 +69,13 @@ function quotetype_menu() {
  * permission check for hook_menu()
  */
 function quote_delete_tab_access_check($nid) {
-  $node = node_load($nid);
-  if ($node->type == 'quote') {
-    return TRUE;
+  if (user_is_logged_in()) {
+    if(user_access('view site internal content')) {
+      $node = node_load($nid);
+      if ($node->type == 'quote') {
+        return TRUE;
+      }
+    }
   }
   return FALSE;
 }
@@ -91,24 +95,23 @@ function quotetype_delete_tab_page($nid) {
  */
 function quotetype_node_delete($node) {
   if ($node->type == 'quote') {
-    // update field for Repair node
-    // update "Quote Status Field of Repair Node" as "Yes" of value
-    for ($f = 0; $f < 10; $f++) {
-      $repair_nid = $form_state['values']['nid'][$f]['repair_nid'];
-      if ($repair_nid > 0) {
-        $repair_node = node_load($repair_nid, NULL, TRUE);
-        if (isset($repair_node)) {
-          $field_language = field_language('node', $repair_node, 'field_repair_quote_status');
-          $repair_node->field_repair_quote_status[$field_language][0]['value'] = 1;
-          // field_attach_presave('node', $repair_node);
-          field_attach_update('node', $repair_node);
+    if (isset($node->field_quote_repair_nid['und'][0]['value'])) {
+      foreach ($node->field_quote_repair_nid['und'] as $row) {
+        // update field for Repair node
+        $repair_nid = $row['value'];
+        if ($repair_nid > 0) {
+          $repair_node = node_load($repair_nid, NULL, TRUE);
+          if (isset($repair_node) && ($repair_node->type == 'repair')) {
+            $field_language = field_language('node', $repair_node, 'field_repair_quote_status');
+            // update "Quote Status Field of Repair Node" as "No" of value,
+            $repair_node->field_repair_quote_status[$field_language][0]['value'] = 0;
+            field_attach_presave('node', $repair_node);
+            field_attach_update('node', $repair_node);
+            watchdog('quotetype', 'Update Repair node - @nid - Quote Status as "No"', array('@nid' => $repair_node->nid,));
+          }
         }
       }
     }
-    
-    /** - - - - - - - - - - - - - - - - - - - -  */
-    watchdog('quotetype', 'Delete Quote Node successfully');
-    drupal_set_message(t('Delete Quote Node successfully'));
   }
 }
 
@@ -151,8 +154,8 @@ function quotetype_planner_node_update($node) {
   if ($node->type == 'meeting') {
     $language = $node->language;
     
-    drupal_set_message(t('Request updated successfully.'));
     watchdog('meeting_planner', '@nodetype meeting @nid updated by, User ID is @account - @username', array('@nodetype' => $node->type, '@nid' => $node->nid, '@account' => $node->uid, '@username' => $node->name));
+    drupal_set_message(t('Request updated successfully.'));
 
     $site_frontpage = variable_get('site_frontpage', 'user');
     drupal_goto($site_frontpage);

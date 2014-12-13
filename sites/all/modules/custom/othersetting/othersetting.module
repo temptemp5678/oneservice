@@ -33,13 +33,6 @@ function othersetting_permission() {
  */
 function othersetting_menu() {
   $items = array();
-  $items['home-page'] = array(
-    'title' => 'Home Page',
-    'page callback' => 'othersetting_home_page_callback',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-    'file' => 'othersetting_home_page_callback_page.inc',
-  );
   $items['my-repair'] = array(
     'title' => 'My Repair',
     'page callback' => 'othersetting_my_repair_page_callback',
@@ -62,6 +55,13 @@ function othersetting_menu() {
     'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_add_company_form_page.inc',
+  );
+  $items['user/login-link'] = array(
+    'title' => 'Log in',
+    'page callback' => 'othersetting_user_login_link',
+    'access callback' => 'user_is_anonymous',
+    'file' => 'othersetting_user_login_link_page.inc',
+    'type' => MENU_CALLBACK,
   );
   return $items;
 }
