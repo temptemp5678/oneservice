@@ -67,6 +67,17 @@ function othersetting_menu() {
 }
 
 /**
+ * Implements hook_user_login()
+ * redirect a user after login to a specific page
+ */
+function othersetting_user_login(&$edit, $account) {
+  // check if user can access this link
+  if(drupal_valid_path('node/20')) {
+    $edit['redirect'] = 'node/20';
+  }
+}
+
+/**
  * @return
  * default Quotation page text content
  */

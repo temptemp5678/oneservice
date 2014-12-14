@@ -3,6 +3,28 @@
  * @file for Set default title of term
  */
 /**
+ * 
+ */
+function useradmin_new_user() {
+  global $user;
+  module_load_include('inc', 'node', 'node.pages');
+  $node = (object) array(
+    'uid' => $user->uid, 
+    'name' => (isset($user->name) ? $user->name : ''),
+    'type' => 'repair', 
+    'language' => LANGUAGE_NONE
+  );
+  return drupal_get_form('user_register_form', $node);
+}
+function useradmin_new_user1() {
+  $output = '';
+  $output .= drupal_get_form('user_register_form');
+  dpm(drupal_get_form('user_register_form'));
+  print drupal_render($form);
+  return $output;
+}
+
+/**
  * Implements hook_form(), callback from hook_menu()
  */
 function useradmin_create_user_form($form, &$form_state) {

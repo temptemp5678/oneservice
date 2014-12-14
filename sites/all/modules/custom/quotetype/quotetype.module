@@ -52,8 +52,7 @@ function quotetype_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'quotetype_page_form.inc',
   );
-  
-  // add "Delete" tab on node page
+  // add "Delete" tab on Quote node page
   $items['node/%/remove'] = array(
     'title' => t('Delete'),
     'page callback' => 'quotetype_delete_tab_page',
@@ -120,6 +119,7 @@ function quotetype_node_delete($node) {
  * hide title field, and assign a default title
  */
 function quotetype_form_alter(&$form, &$form_state, $form_id) {
+dpm($form_id);
   if ($form_id == 'quote_node_form') {
     // adjust node title
     $form['title']['#default_value'] = t('Quotation');

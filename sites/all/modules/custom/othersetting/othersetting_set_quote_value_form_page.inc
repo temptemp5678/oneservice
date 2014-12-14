@@ -24,10 +24,9 @@ function othersetting_set_quote_value_form($form, &$form_state) {
   );
   $form['quote_value']['quote_default_value_warranty_day'] = array(
     '#type' => 'textfield',
-    '#title' => t('Warranty Day'),
+    '#title' => t('Warranty Day') . ' (' .  t('Days') . ')',
     '#attributes' => array('class' => array('quote-default-value-warranty-day-wrapper'), 'placeholder' => 'Warranty Day', 'pattern' => "\d*"),
     '#default_value' => variable_get('quote_default_value_warranty_day'),
-    '#field_suffix' => t('Days'),
     '#prefix' => '<div class="col-xs-6 col-md-2">',
     '#suffix' => '</div>',
   );

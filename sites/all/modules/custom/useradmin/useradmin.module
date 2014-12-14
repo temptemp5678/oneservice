@@ -16,5 +16,12 @@ function useradmin_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'useradmin_create_user_form_page.inc',
   );
+  $items['useradmin/new_user'] = array(
+    'title' => 'Create New User',
+    'page callback' => 'useradmin_new_user',
+    'access arguments' => array('view site internal content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'useradmin_create_user_form_page.inc',
+  );
   return $items;
 }

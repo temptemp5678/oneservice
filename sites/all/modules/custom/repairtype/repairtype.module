@@ -3,6 +3,38 @@
  * @file
  *
  */
+/**
+ * Implements hook_menu()
+ */
+function repairtype_menu() {
+  $items = array();
+  // add "Print" tab on Repair node page, page callback to fetch Views
+  $items['node/%/print'] = array(
+    'title' => t('Print'),
+    'page callback' => 'repairtype_print_tab_page',
+    'page arguments' => array(1),
+    'access callback' => 'repairtype_print_tab_page_check',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'repairtype_print_tab_page.inc',
+  );
+  return $items;
+}
+
+/**
+ * permission check for hook_menu()
+ */
+function repairtype_print_tab_page_check($nid) {
+  if (user_is_logged_in()) {
+    if(user_access('view site internal content')) {
+      $node = node_load($nid);
+      if ($node->type == 'repair') {
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
 
 /**
  * Implements hook_node_submit().
