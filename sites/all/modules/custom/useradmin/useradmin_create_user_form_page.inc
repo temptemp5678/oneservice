@@ -6,6 +6,20 @@
  * 
  */
 function useradmin_new_user() {
+  // Prepare form.
+  global $user;
+  $node = (object) array(
+    'uid' => $user->uid,
+    'name' => (isset($user->name) ? $user->name : ''),
+    'type' => 'repair',
+    'language' => LANGUAGE_NONE,
+  );
+  $form_state['build_info']['args'] = array($node);
+  form_load_include($form_state, 'inc', 'node', 'node.pages');
+
+  return drupal_build_form('user_register_form', $form_state);
+}
+function useradmin_new_user1() {
   global $user;
   module_load_include('inc', 'node', 'node.pages');
   $node = (object) array(
@@ -16,13 +30,7 @@ function useradmin_new_user() {
   );
   return drupal_get_form('user_register_form', $node);
 }
-function useradmin_new_user1() {
-  $output = '';
-  $output .= drupal_get_form('user_register_form');
-  dpm(drupal_get_form('user_register_form'));
-  print drupal_render($form);
-  return $output;
-}
+
 
 /**
  * Implements hook_form(), callback from hook_menu()

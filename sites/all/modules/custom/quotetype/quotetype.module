@@ -119,7 +119,6 @@ function quotetype_node_delete($node) {
  * hide title field, and assign a default title
  */
 function quotetype_form_alter(&$form, &$form_state, $form_id) {
-dpm($form_id);
   if ($form_id == 'quote_node_form') {
     // adjust node title
     $form['title']['#default_value'] = t('Quotation');
