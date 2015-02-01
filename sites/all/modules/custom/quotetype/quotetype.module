@@ -121,9 +121,8 @@ function quotetype_node_delete($node) {
 function quotetype_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'quote_node_form') {
     // adjust node title
-    $form['title']['#default_value'] = t('Quotation');
-    // $form['title']['#type'] = 'hidden';
-    // $form['title']['#required'] = FALSE;
+    // @see hook_node_presave() on repairtype.module
+    $form['title']['#default_value'] = t('报价');
   }
 }
 
@@ -147,16 +146,9 @@ function quotetype_authorize_stamp_image($width = '128px', $height = '128px') {
 }
 
 /*
+ * Implementation of hook_node_update()
+ */
+
+/*
  * Implementation of hook_node_delete()
  */
-function quotetype_planner_node_update($node) {
-  if ($node->type == 'meeting') {
-    $language = $node->language;
-    
-    watchdog('meeting_planner', '@nodetype meeting @nid updated by, User ID is @account - @username', array('@nodetype' => $node->type, '@nid' => $node->nid, '@account' => $node->uid, '@username' => $node->name));
-    drupal_set_message(t('Request updated successfully.'));
-
-    $site_frontpage = variable_get('site_frontpage', 'user');
-    drupal_goto($site_frontpage);
-  }
-}

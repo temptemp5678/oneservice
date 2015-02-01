@@ -2,3 +2,17 @@
  * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
  * remove this comment and start adding your styles to this file.
  */
+
+/**
+ * logo, site name
+ */
+header.navbar-default .navbar-header a.name.navbar-brand {
+  margin-top: 8px;
+}
+
+/**
+ * main-menu
+ */
+header.navbar-default ul.menu.navbar-nav {
+  margin-top: 8px;
+}
