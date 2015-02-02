@@ -67,11 +67,11 @@ function repairtype_nodetitle_set_title(&$node) {
   // Quote node
   if ($node->type == 'quote') {
     $node->title = t('报价');
-    if ( isset($node->field_quote_create_date['und'][0]['value']) ) {
-      $node->title .= '-' . format_date($node->field_quote_create_date['und'][0]['value'], 'custom', "Y-m-d");
-    }
     if ( isset($node->field_quote_client_name['und'][0]['value']) ) {
       $node->title .= '-' . trim($node->field_quote_client_name['und'][0]['value']);
+    }
+    if ( isset($node->field_quote_create_date['und'][0]['value']) ) {
+      $node->title .= '-' . format_date($node->field_quote_create_date['und'][0]['value'], 'custom', "Y-m-d");
     }
     // Ensure the generated title isn't too long.
     $node->title = substr($node->title, 0, 255);

@@ -22,6 +22,13 @@ function clientterm_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'clientterm_add_new_form_page.inc',
   );
+
+  $items['clientterm/pp_term'] = array(
+    'title' => 'Client Term cc Title',
+    'page callback' => 'clientterm_form_load_page',
+    'access arguments' => TRUE,
+    'file' => 'clientterm_form_load_page.inc',
+  );
   
   return $items;
 }
@@ -31,4 +38,5 @@ function clientterm_menu() {
  * hide title field, and assign a default title
  */
 function clientterm_form_alter(&$form, &$form_state, $form_id) {
+  dpm($form_id);
 }
