@@ -23,10 +23,28 @@ function clientterm_menu() {
     'file' => 'clientterm_add_new_form_page.inc',
   );
 
+  $items['clientterm/pp_user'] = array(
+    'title' => 'Client Term cc Title',
+    'page callback' => 'clientterm_form_load_user',
+    // 'access arguments' => TRUE,
+    'access arguments' => array('view site internal content'),
+    'file' => 'clientterm_form_load_page.inc',
+  );
+
   $items['clientterm/pp_term'] = array(
     'title' => 'Client Term cc Title',
-    'page callback' => 'clientterm_form_load_page',
-    'access arguments' => TRUE,
+    'page callback' => 'clientterm_form_load_term',
+    // 'access arguments' => TRUE,
+    'access arguments' => array('view site internal content'),
+    'file' => 'clientterm_form_load_page.inc',
+  );
+  
+
+  $items['clientterm/pp_vocabulary'] = array(
+    'title' => 'Client Term cc Title',
+    'page callback' => 'clientterm_form_load_term',
+    // 'access arguments' => TRUE,
+    'access arguments' => array('view site internal content'),
     'file' => 'clientterm_form_load_page.inc',
   );
   
@@ -39,4 +57,6 @@ function clientterm_menu() {
  */
 function clientterm_form_alter(&$form, &$form_state, $form_id) {
   dpm($form_id);
+  if ($form_id == 'taxonomy_form_term') {
+  }
 }
