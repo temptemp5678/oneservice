@@ -26,16 +26,18 @@ function clientterm_form_load_user() {
  */
 function clientterm_form_load_term() {
   $form_id = 'taxonomy_form_term';
-  $form_id = 'taxonomy_form_vocabulary';
-  // $form_id = 'taxonomy_vocabulary_confirm_delete';
   
   module_load_include('inc', 'taxonomy', 'taxonomy.admin');
   $vocabulary = taxonomy_vocabulary_load(2);
   
   $edit = array();
-  // $form = drupal_get_form($form_id, $edit, $vocabulary);
-  $form = drupal_get_form($form_id, $edit, $vocabulary->vid);
-  $form = drupal_get_form($form_id, $edit, (array)$vocabulary);
+  $form = drupal_get_form($form_id, $edit, $vocabulary);
+        dpm($form);
+  global $user;
+  if (!in_array('administrator', $user->roles)) {
+    $form['description']['#access'] = FALSE;
+  }
+  
   $output = drupal_render($form);
 
   return $output;
