@@ -16,8 +16,7 @@ function clientterm_menu() {
 
   $items['clientterm/add_new'] = array(
     'title' => 'Client Term Default Title',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('clientterm_add_new_term_form'),
+    'page callback' => 'clientterm_add_new_term_form',
     'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'clientterm_add_new_form_page.inc',
@@ -56,7 +55,6 @@ function clientterm_menu() {
  * hide title field, and assign a default title
  */
 function clientterm_form_alter(&$form, &$form_state, $form_id) {
-dpm($form_id);
   if ($form_id == 'taxonomy_form_term') {
     if ($form_state['term']->vocabulary_machine_name == 'client') {
     }

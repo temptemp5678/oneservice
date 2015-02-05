@@ -5,124 +5,45 @@
  
 /**
  * Implements hook_form(), callback from hook_menu()
+ * add new taxonomy term for 'Client' which vocabulary is 2
  */
-function clientterm_add_new_term_form($form, &$form_state) {
-  /** left - - - - - - - - - - - - - - - - - - - -  */
-  $form['markup_leftone'] = array(
-    '#type' => 'markup',
-    '#prefix' => '<div class="col-xs-12 col-sm-6">',
-  );
-  $form['name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('客户名称'),
-    '#attributes' => array('placeholder' => 'Client Title'),
-    '#prefix' => '<div class="col-xs-10">',
-    '#suffix' => '</div>',
-  );
-  $form['description'] = array(
-    '#type' => 'textarea',
-    '#title' => t('客户描述'),
-    '#rows' => 2,
-    '#attributes' => array('placeholder' => 'Client Description'),
-    '#prefix' => '<div class="col-xs-10 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['client_province'] = array(
-    '#type' => 'select',
-    '#title' => t('所在省份'),
-    '#options' => taxonomy_allowed_values(field_info_field('field_client_province')),
-    '#prefix' => '<div class="col-xs-10 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['client_contactaddress'] = array(
-    '#type' => 'textfield',
-    '#title' => t('通讯地址'),
-    '#attributes' => array('placeholder' => 'Client Address'),
-    '#prefix' => '<div class="col-xs-10">',
-    '#suffix' => '</div>',
-  );
-  $form['markup_lefttwo'] = array(
-    '#type' => 'markup',
-    '#suffix' => '</div>',
-  );
+function clientterm_add_new_term_form() {
+  $form_id = 'taxonomy_form_term';
+
+  module_load_include('inc', 'taxonomy', 'taxonomy.admin');
+  $vocabulary = taxonomy_vocabulary_load(2);
+
+  $edit = array();
+  $form = drupal_get_form($form_id, $edit, $vocabulary);
   
-  /** right - - - - - - - - - - - - - - - - - - - -  */
-  $form['markup_rightone'] = array(
-    '#type' => 'markup',
-    '#prefix' => '<div class="col-xs-12 col-sm-6">',
+  /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+  global $user;
+  if (!in_array('administrator', $user->roles)) {
+    $form['description']['#access'] = FALSE;
+    $form['relations']['#attributes']['class'][] = 'element-hidden';
+  }
+  // add "col-sm-6" class for below field
+  $fields_name = array(
+    'name',
+    'field_client_contactname',
+    'field_client_contactphone',
+    'field_client_contactemail',
+    'field_client_province',
+    'field_client_contactaddress',
+    'field_client_clienttype',
   );
-  $form['contact']['client_contactname'] = array(
-    '#type' => 'textfield',
-    '#title' => t('联系人'),
-    '#attributes' => array('placeholder' => 'Name'),
-    '#prefix' => '<div class="col-xs-12 col-sm-8">',
-    '#suffix' => '</div>',
-  );
-  $form['contact']['client_contactphone'] = array(
-    '#type' => 'textfield',
-    '#title' => t('联系电话'),
-    '#attributes' => array('placeholder' => 'Phone'),
-    '#prefix' => '<div class="col-xs-12 col-sm-8">',
-    '#suffix' => '</div>',
-  );
-  $form['contact']['client_contactemail'] = array(
-    '#type' => 'textfield',
-    '#title' => t('电子邮件'),
-    '#attributes' => array('placeholder' => 'email'),
-    '#prefix' => '<div class="col-xs-12 col-sm-8">',
-    '#suffix' => '</div>',
-  );
-  $form['markup_righttwo'] = array(
-    '#type' => 'markup',
-    '#suffix' => '</div>',
-  );
-  /** right end - - - - - - - - - - - - - - - - - - - -  */
 
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  // submit
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save'),
-    '#prefix' => '<div class="add-new-term-page-submit-wrapper text-center clear-both">',
-  );
-  $form['Cancel'] = array(
-    '#type' => 'button',
-    '#value' => t('Cancel'),
-    '#attributes' => array('class' => array('btn-danger')),
-    '#suffix' => '</div>',
-  );
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  return $form;
-}
+  foreach ($fields_name as $row_name) {
+    $form[$row_name]['#prefix'] = '<div class="col-sm-6">';
+    $form[$row_name]['#suffix'] = '</div>';
+  }
 
-/**
- * Implements hook_form_submit()
- */
-function clientterm_add_new_term_form_submit($form, &$form_state) {
-  // The VID of "Client" vocabulary is 2
-  $vid = 2;
-  $name = $form_state['values']['name'];
-
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  // create a taxonomy term
-  $term = new stdClass();
-  $term->name = $name;
-  $term->description = $form_state['values']['description'];
-  $term->vid = $vid;
+  $form['actions']['submit']['#prefix'] = '<div class="row text-center clear-both">';
+  $form['actions']['submit']['#suffix'] = '</div>';
+  $form['actions']['submit']['#attributes']['class'][] = 'margin-top-24';
+  /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
   
-  // optional field
-  $term->field_client_province[LANGUAGE_NONE][0]['tid'] = $form_state['values']['client_province'];
-  $term->field_client_contactaddress[LANGUAGE_NONE][0]['value'] = $form_state['values']['client_contactaddress'];
-  $term->field_client_contactname[LANGUAGE_NONE][0]['value'] = $form_state['values']['client_contactname'];
-  $term->field_client_contactphone[LANGUAGE_NONE][0]['value'] = $form_state['values']['client_contactphone'];
-  $term->field_client_contactemail[LANGUAGE_NONE][0]['value'] = $form_state['values']['client_contactemail'];
-  // save new term
-  taxonomy_term_save($term);
+  $output = drupal_render($form);
 
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  watchdog('clientterm', 'New Cilent - @name - created successfully', array('@name' => $name), WATCHDOG_NOTICE);
-  drupal_set_message(t('The new Cilent - @name- has been saved successfully.', array('@name' => $name)));
-
-  // redirect page
-  // $form_state['redirect'] = array('home');
+  return $output;
 }
