@@ -3,7 +3,7 @@
  * @file
  *
  */
- 
+
 /**
  * Implementation of hook_permission()
  */
@@ -50,8 +50,7 @@ function othersetting_menu() {
   );
   $items['othersetting/add-company-info'] = array(
     'title' => 'Add Company Info',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('othersetting_add_company_form'),
+    'page callback' => 'othersetting_add_company_form',
     'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_add_company_form_page.inc',
@@ -87,7 +86,7 @@ function othersetting_quote_page_content($node = NULL) {
   if (isset($node)){
     // for Company Name
     $term = taxonomy_term_load($node->field_quote_company_name['und'][0]['tid']);
-    
+
     // for each device
     foreach ($node->field_quote_repair_nid['und'] as $key => $row) {
       if (!empty($row['value'])){
@@ -180,7 +179,7 @@ function quote_row_output_table($node = NULL) {
   if (!isset($node)) {
     return $output;
   }
-  
+
   $output .= '<table class="table table-striped">';
     $output .= '<thead>';
       $output .= '<tr>';
@@ -190,8 +189,8 @@ function quote_row_output_table($node = NULL) {
       $output .= '</tr>';
     $output .= '</thead>';
     $output .= '<tbody>';
-  
-  // $node is current Quote Node Object 
+
+  // $node is current Quote Node Object
   // $node->field_quote_repair_nid['und'] is array, it could have multiple repair NID
   if (isset($node->field_quote_repair_nid['und'][0])) {
     foreach ($node->field_quote_repair_nid['und'] as $row) {
@@ -201,14 +200,14 @@ function quote_row_output_table($node = NULL) {
     $index = 1;
     foreach($nodes as $reapir_node) {
       if (isset($reapir_node->field_repair_device_type['und'][0]['tid'])) {
-        $device_type_value = field_get_items('node', $reapir_node, 'field_repair_device_type');  
+        $device_type_value = field_get_items('node', $reapir_node, 'field_repair_device_type');
         $device_type_label = field_view_value('node', $reapir_node, 'field_repair_device_type', $device_type_value[0]);
       }
       $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $reapir_node->field_repair_quote_amount['und'][0]['value'] . '</td></tr>';
       $sum[] = $reapir_node->field_repair_quote_amount['und'][0]['value'];
       $index++;
     }
-    $client_name_id = field_get_items('node', $reapir_node, 'field_repair_client_name'); 
+    $client_name_id = field_get_items('node', $reapir_node, 'field_repair_client_name');
     $client_name_label = field_view_value('node', $reapir_node, 'field_repair_client_name', $client_name_id[0]);
     $sumRepairAmount = number_format(array_sum($sum), 2, '.', '');
     $dicount_amount = number_format(($node->field_quote_sum_price['und'][0]['value'] - $sumRepairAmount), 2, '.', '');

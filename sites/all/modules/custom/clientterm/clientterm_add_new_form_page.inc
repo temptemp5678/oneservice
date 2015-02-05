@@ -2,7 +2,7 @@
 /**
  * @file for Add new term
  */
- 
+
 /**
  * Implements hook_form(), callback from hook_menu()
  * add new taxonomy term for 'Client' which vocabulary is 2
@@ -15,7 +15,7 @@ function clientterm_add_new_term_form() {
 
   $edit = array();
   $form = drupal_get_form($form_id, $edit, $vocabulary);
-  
+
   /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
   global $user;
   if (!in_array('administrator', $user->roles)) {
@@ -42,7 +42,7 @@ function clientterm_add_new_term_form() {
   $form['actions']['submit']['#suffix'] = '</div>';
   $form['actions']['submit']['#attributes']['class'][] = 'margin-top-24';
   /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-  
+
   $output = drupal_render($form);
 
   return $output;

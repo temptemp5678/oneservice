@@ -4,77 +4,32 @@
  */
 /**
  * Implements hook_form(), callback from hook_menu()
+ * add new taxonomy term for 'Company' which vocabulary is 5
  */
-function othersetting_add_company_form($form, &$form_state) {
-  $form['name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('子公司名称'),
-    '#attributes' => array('placeholder' => 'Company'),
-    '#prefix' => '<div class="col-xs-10 col-sm-6">',
-    '#suffix' => '</div>',
-  );
-  $form['description'] = array(
-    '#type' => 'textarea',
-    '#title' => t('描述'),
-    '#rows' => 2,
-    '#attributes' => array('placeholder' => 'Description'),
-    '#prefix' => '<div class="col-xs-10 col-sm-6 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['bank_name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('开户行'),
-    '#attributes' => array('placeholder' => 'Bank Name'),
-    '#prefix' => '<div class="col-xs-10 col-sm-6 clear-both">',
-    '#suffix' => '</div>',
-  );
-  $form['account_number'] = array(
-    '#type' => 'textfield',
-    '#title' => t('银行帐号'),
-    '#attributes' => array('placeholder' => 'Account Number'),
-    '#prefix' => '<div class="col-xs-10 col-sm-6 clear-both">',
-    '#suffix' => '</div>',
-  );
+function othersetting_add_company_form() {
+  $form_id = 'taxonomy_form_term';
 
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  // submit
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save'),
-    '#prefix' => '<div class="col-xs-10 col-sm-6 text-center clear-both">',
-  );
-  $form['Cancel'] = array(
-    '#type' => 'button',
-    '#value' => t('Cancel'),
-    '#attributes' => array('class' => array('btn-danger')),
-    '#suffix' => '</div>',
-  );
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  return $form;
-}
+  module_load_include('inc', 'taxonomy', 'taxonomy.admin');
+  $vocabulary = taxonomy_vocabulary_load(5);
 
-/**
- * Implements hook_form_submit()
- */
-function othersetting_add_company_form_submit($form, &$form_state) {
-  // The VID of "Company" vocabulary is 5
-  $vid = 5;
-  $name = $form_state['values']['name'];
+  $edit = array();
+  $form = drupal_get_form($form_id, $edit, $vocabulary);
 
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  // create a taxonomy term
-  $term = new stdClass();
-  $term->name = $name;
-  $term->description = $form_state['values']['description'];
-  $term->vid = $vid;
-  
-  // optional field
-  $term->field_company_bank_name[LANGUAGE_NONE][0]['value'] = $form_state['values']['bank_name'];
-  $term->field_company_account_number[LANGUAGE_NONE][0]['value'] = $form_state['values']['account_number'];
-  // save new term
-  taxonomy_term_save($term);
+  /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+  global $user;
+  if (!in_array('administrator', $user->roles)) {
+    $form['relations']['#attributes']['class'][] = 'element-hidden';
+    $form['description']['format']['#access'] = FALSE;
+  }
+  $form['name']['#attributes']['placeholder'] = 'Company Name';
+  $form['description']['value']['#attributes']['placeholder'] = 'Client Description';
 
-  /** - - - - - - - - - - - - - - - - - - - -  */
-  watchdog('othersetting', 'New Company - @name - created successfully', array('@name' => $name), WATCHDOG_NOTICE);
-  drupal_set_message(t('The new Company - @name- has been saved successfully.', array('@name' => $name)));
+  $form['field_company_bank_name']['und'][0]['value']['#attributes']['placeholder'] = 'Bank Name';
+  $form['field_company_account_number']['und'][0]['value']['#attributes']['placeholder'] = 'Account Number';
+
+  /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+  $output = drupal_render($form);
+
+  return $output;
 }

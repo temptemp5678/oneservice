@@ -37,7 +37,7 @@ function clientterm_menu() {
     'access arguments' => array('view site internal content'),
     'file' => 'clientterm_form_load_page.inc',
   );
-  
+
 
   $items['clientterm/pp_vocabulary'] = array(
     'title' => 'Client Term cc Title',
@@ -46,7 +46,7 @@ function clientterm_menu() {
     'access arguments' => array('view site internal content'),
     'file' => 'clientterm_form_load_page.inc',
   );
-  
+
   return $items;
 }
 

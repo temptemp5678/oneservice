@@ -2,7 +2,7 @@
 /**
  * @file for Add new term
  */
- 
+
 /**
  * Implements hook_form(), callback from hook_menu()
  * add new taxonomy term for 'Device Type' which vocabulary is 3
@@ -21,13 +21,13 @@ function deviceterm_add_new_term_form() {
   if (!in_array('administrator', $user->roles)) {
     $form['relations']['#attributes']['class'][] = 'element-hidden';
   }
-  
+
   $form['name']['#attributes']['placeholder'] = 'Client Title';
   $form['description']['value']['#attributes']['placeholder'] = 'Client Description';
   $form['description']['format']['#access'] = FALSE;
 
   /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-  
+
   $output = drupal_render($form);
 
   return $output;
