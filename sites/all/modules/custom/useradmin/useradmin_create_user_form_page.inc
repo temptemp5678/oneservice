@@ -2,35 +2,29 @@
 /**
  * @file for Set default title of term
  */
+
 /**
  * 
  */
-function useradmin_new_user() {
-  // Prepare form.
+function useradmin_new_user_tt() {
   global $user;
-  $node = (object) array(
-    'uid' => $user->uid,
-    'name' => (isset($user->name) ? $user->name : ''),
-    'type' => 'repair',
-    'language' => LANGUAGE_NONE,
-  );
-  $form_state['build_info']['args'] = array($node);
-  form_load_include($form_state, 'inc', 'node', 'node.pages');
+  
+  
+  $form_id = 'user_profile_form';
+  $form_id = 'user_register_form';
+  
+  
+  $form_state = array();
+  $form_state['build_info']['args'] = array($user);
 
-  return drupal_build_form('user_register_form', $form_state);
-}
-function useradmin_new_user1() {
-  global $user;
-  module_load_include('inc', 'node', 'node.pages');
-  $node = (object) array(
-    'uid' => $user->uid, 
-    'name' => (isset($user->name) ? $user->name : ''),
-    'type' => 'repair', 
-    'language' => LANGUAGE_NONE
-  );
-  return drupal_get_form('user_register_form', $node);
-}
+  // Load user.pages.inc and ensure it is automatically reloaded if
+  // this form is rebuilt via AJAX or other means.
+  form_load_include($form_state, 'inc', 'user', 'user.pages');
 
+  $form = drupal_build_form($form_id, $form_state);
+  
+  return $form;
+}
 
 /**
  * Implements hook_form(), callback from hook_menu()

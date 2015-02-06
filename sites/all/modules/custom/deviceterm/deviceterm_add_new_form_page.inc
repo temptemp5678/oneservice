@@ -27,7 +27,6 @@ function deviceterm_add_new_term_form() {
   $form['description']['format']['#access'] = FALSE;
 
   /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-
   $output = drupal_render($form);
 
   return $output;
