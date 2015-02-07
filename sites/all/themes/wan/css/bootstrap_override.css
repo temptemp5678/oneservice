@@ -13,3 +13,8 @@ body {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: Verdana,"Microsoft Yahei","微软雅黑",Arial,Helvetica,clean,sans-serif,STXihei,"华文细黑" !important;
 }
+
+.main-container.container > .row {
+  margin-right: 0;
+  margin-left: 0;
+}

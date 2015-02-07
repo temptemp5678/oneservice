@@ -1,0 +1,34 @@
+<?php
+/**
+ * @file
+ *
+ */
+
+/*
+ * Implementation of hook_init()
+ */
+
+/**
+ * Implements hook_menu()
+ */
+function otherterm_menu() {
+  $items = array();
+
+  $items['add-term/client'] = array(
+    'title' => 'Create New Client',
+    'page callback' => 'otherterm_add_term_client',
+    'access arguments' => array('view site internal content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'otherterm_add_term_client.page.inc',
+  );
+  
+  $items['add-term/device-type'] = array(
+    'title' => 'Create New Device',
+    'page callback' => 'otherterm_add_term_device',
+    'access arguments' => array('view site internal content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'otherterm_add_term_device.page.inc',
+  );
+
+  return $items;
+}

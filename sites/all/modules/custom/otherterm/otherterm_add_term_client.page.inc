@@ -7,7 +7,7 @@
  * Implements hook_form(), callback from hook_menu()
  * add new taxonomy term for 'Client' which vocabulary is 2
  */
-function clientterm_add_new_term_form() {
+function otherterm_add_term_client() {
   $form_id = 'taxonomy_form_term';
 
   module_load_include('inc', 'taxonomy', 'taxonomy.admin');

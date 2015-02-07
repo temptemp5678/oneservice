@@ -7,7 +7,7 @@
  * Implements hook_form(), callback from hook_menu()
  * add new taxonomy term for 'Device Type' which vocabulary is 3
  */
-function deviceterm_add_new_term_form() {
+function otherterm_add_term_device() {
   $form_id = 'taxonomy_form_term';
 
   module_load_include('inc', 'taxonomy', 'taxonomy.admin');

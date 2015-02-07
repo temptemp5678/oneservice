@@ -1,0 +1,32 @@
+<?php
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function otherblock_block_info() {
+  $blocks = array();
+  $blocks['otherblock_footer_company_info'] = array(
+    'info' => t('Other Content Footer Company Info'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function otherblock_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'otherblock_footer_company_info':
+      module_load_include('inc', 'otherblock', 'otherblock_footer_company_info.block');
+      $block['content'] = array(
+        '#markup' => otherblock_footer_company_info(),
+      );
+      break;
+  }
+  return $block;
+}
