@@ -48,13 +48,6 @@ function othersetting_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_set_quote_value_form_page.inc',
   );
-  $items['othersetting/add-company-info'] = array(
-    'title' => 'Add Company Info',
-    'page callback' => 'othersetting_add_company_form',
-    'access arguments' => array('view site internal content'),
-    'type' => MENU_CALLBACK,
-    'file' => 'othersetting_add_company_form_page.inc',
-  );
   $items['user/login-link'] = array(
     'title' => 'Log in',
     'page callback' => 'othersetting_user_login_link',
@@ -71,7 +64,7 @@ function othersetting_menu() {
  */
 function othersetting_user_login(&$edit, $account) {
   // check if user can access this link
-  if(drupal_valid_path('node/20')) {
+  if ( drupal_valid_path('node/20') ) {
     $edit['redirect'] = 'node/20';
   }
 }

@@ -22,6 +22,11 @@ function otherterm_add_term_client() {
     $form['description']['#access'] = FALSE;
     $form['relations']['#attributes']['class'][] = 'element-hidden';
   }
+  else {
+    $form['description']['#prefix'] = '<div class="col-sm-12 clear-both">';
+    $form['description']['#suffix'] = '</div>';
+  }
+
   // add "col-sm-6" class for below field
   $fields_name = array(
     'name',

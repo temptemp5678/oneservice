@@ -6,7 +6,7 @@
  * Implements hook_form(), callback from hook_menu()
  * add new taxonomy term for 'Company' which vocabulary is 5
  */
-function othersetting_add_company_form() {
+function otherterm_add_term_company() {
   $form_id = 'taxonomy_form_term';
 
   module_load_include('inc', 'taxonomy', 'taxonomy.admin');
@@ -21,6 +21,7 @@ function othersetting_add_company_form() {
     $form['relations']['#attributes']['class'][] = 'element-hidden';
     $form['description']['format']['#access'] = FALSE;
   }
+
   $form['name']['#attributes']['placeholder'] = 'Company Name';
   $form['description']['value']['#attributes']['placeholder'] = 'Client Description';
 

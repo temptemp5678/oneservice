@@ -21,13 +21,19 @@ function otherterm_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'otherterm_add_term_client.page.inc',
   );
-  
   $items['add-term/device-type'] = array(
     'title' => 'Create New Device',
     'page callback' => 'otherterm_add_term_device',
     'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'otherterm_add_term_device.page.inc',
+  );
+  $items['add-term/company'] = array(
+    'title' => 'Add Company Info',
+    'page callback' => 'otherterm_add_term_company',
+    'access arguments' => array('view site internal content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'otherterm_add_term_company.page.inc',
   );
 
   return $items;
