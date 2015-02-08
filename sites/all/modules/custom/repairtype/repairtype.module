@@ -8,6 +8,15 @@
  */
 function repairtype_menu() {
   $items = array();
+  // add custom page to create new "repair" node
+  $items['repairtype/create-new'] = array(
+    'title' => t('Create New'),
+    'page callback' => 'repairtype_create_new_repair',
+    'access arguments' => array('view site internal content'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'repairtype_create_new_repair.page.inc',
+  );
+  
   // add "Print" tab on Repair node page, page callback to fetch Views
   $items['node/%/print'] = array(
     'title' => t('Print'),
