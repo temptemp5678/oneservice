@@ -36,7 +36,7 @@ function repairtype_create_new_repair22() {
   // return drupal_render($form);
 }
 
-function repairtype_create_new_repair44() {
+function repairtype_create_new_repair33() {
   // content type name
   $type = 'repair';
 
@@ -48,22 +48,14 @@ function repairtype_create_new_repair44() {
     'language' => LANGUAGE_NONE,
   );
   
-  // node_object_prepare($node);
+  // Invoke hook_nodapi and hook_node
+  node_object_prepare($node);
   
   module_load_include('inc', 'node', 'node.pages');
-  $node = node_load(25);
   $form = drupal_get_form($type . '_node_form', $node);
   
   // dpm($form);
   
   return drupal_render($form);
 }
-function repairtype_create_new_repair33() {
-  // content type name
-  $type = 'repair';
-  module_load_include('inc', 'node', 'node.pages');
-  $node = node_load(23);
-  $form = drupal_get_form($type . '_node_form', $node);
-  
-  return $form;
-}
+
