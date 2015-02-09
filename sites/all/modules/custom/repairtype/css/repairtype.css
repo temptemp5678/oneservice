@@ -2,12 +2,12 @@
  * 
  */
 #repair-node-form .vertical-tabs {
-  display: none;
+  /* display: none; */
 }
 
 #repair-node-form .form-item input.form-control,
 #repair-node-form .form-item select.form-control{
-  width: auto;
+  /* width: auto; */
 }
 
 #repair-node-form .field-widget-date-select fieldset{
@@ -15,12 +15,7 @@
   padding: 0;
   border: 0 none;
 }
-/* 
-#repair-node-form .field-widget-date-select fieldset .fieldset-wrapper,
-#repair-node-form .field-widget-date-select fieldset .fieldset-wrapper .date-padding{
-  padding: 0;
-} 
-*/
+
 #repair-node-form .field-widget-date-select fieldset .panel-body,
 #repair-node-form .field-widget-date-select fieldset .panel-body .date-padding{
   padding: 0;

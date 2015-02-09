@@ -20,6 +20,50 @@ function repairtype_create_new_repair() {
   $form_state['build_info']['args'] = array($node);
   form_load_include($form_state, 'inc', 'node', 'node.pages');
 
-  $output = drupal_build_form($form_id, $form_state);
-  return $output;
+  $form = drupal_build_form($form_id, $form_state);
+  return $form;
+}
+
+function repairtype_create_new_repair22() {
+  // content type name
+  $type = 'repair';
+  module_load_include('inc', 'node', 'node.pages');
+  $form = node_add($type);
+  
+  $form['field_repair_client_contactphone']['und'][0]['value']['#attributes']['placeholder'] = 'Phone Number';
+
+  return $form;
+  // return drupal_render($form);
+}
+
+function repairtype_create_new_repair44() {
+  // content type name
+  $type = 'repair';
+
+  global $user;
+  $node = (object) array(
+    'uid' => $user->uid,
+    'name' => (isset($user->name) ? $user->name : ''),
+    'type' => $type,               
+    'language' => LANGUAGE_NONE,
+  );
+  
+  // node_object_prepare($node);
+  
+  module_load_include('inc', 'node', 'node.pages');
+  $node = node_load(25);
+  $form = drupal_get_form($type . '_node_form', $node);
+  
+  // dpm($form);
+  
+  return drupal_render($form);
+}
+function repairtype_create_new_repair33() {
+  // content type name
+  $type = 'repair';
+  module_load_include('inc', 'node', 'node.pages');
+  $node = node_load(23);
+  $form = drupal_get_form($type . '_node_form', $node);
+  
+  return $form;
 }
