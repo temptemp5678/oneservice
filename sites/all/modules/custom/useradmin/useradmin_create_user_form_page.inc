@@ -2,16 +2,14 @@
 /**
  * @file for Set default title of term
  */
-
 /**
  *
  */
 function useradmin_new_user_tt() {
   global $user;
 
-  $form_id = 'user_profile_form';
+  // $form_id = 'user_profile_form';
   $form_id = 'user_register_form';
-
 
   $form_state = array();
   $form_state['build_info']['args'] = array($user);
@@ -26,7 +24,7 @@ function useradmin_new_user_tt() {
 }
 
 /**
- * 
+ * callback from hook_menu()
  */
 function useradmin_new_user_access() {
   global $user;

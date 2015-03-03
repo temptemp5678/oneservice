@@ -10,7 +10,6 @@ function useradmin_menu() {
   $items = array();
   $items['useradmin/new-user'] = array(
     'title' => 'Create New User',
-    // 'page callback' => 'useradmin_new_user_tt',
     'page callback' => 'useradmin_new_user_access',
     'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
