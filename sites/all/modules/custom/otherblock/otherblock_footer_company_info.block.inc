@@ -18,6 +18,10 @@ function otherblock_footer_company_info() {
     
     $output .= '<div class="text-center">';
       $output .= '<div> One Band &#8226; One Dream</div>';
+    $output .= '</div>';   
+    
+    $output .= '<div class="text-center">';
+      $output .= '<div>' . l(t('万博信普官方网站'), 'http://www.onebandsystem.com'). '</div>';
     $output .= '</div>';
       
   $output .= '</div>';
