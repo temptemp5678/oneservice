@@ -137,8 +137,8 @@ function quotetype_tableselect_content_callback() {
         
         $options[$key] = array(
           // 'key' must same with key used in the header
-          'client_name'  => $client_name_label['#markup'],
-          'device_type'  => $device_type_label['#title'],
+          'client_name'  => isset($client_name_label['#markup']) ? $client_name_label['#markup'] : '',
+          'device_type'  => isset($device_type_label['#title']) ? $device_type_label['#title'] : '',
           'serial_number'  => isset($node->field_repair_serial_number['und'][0]['safe_value']) ? $node->field_repair_serial_number['und'][0]['safe_value'] : '',
           'quote_amount' => isset($node->field_repair_quote_amount['und'][0]['value']) ? $node->field_repair_quote_amount['und'][0]['value'] : '',
           'receive_date' => $receive_date_label,
