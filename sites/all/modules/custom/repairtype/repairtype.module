@@ -32,13 +32,14 @@ function repairtype_menu() {
     'access callback' => 'repairtype_print_tab_page_check',
     'access arguments' => array(1),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'repairtype_print_tab_page.inc',
+    'file' => 'repairtype_print_tab.page.inc',
   );
   return $items;
 }
 
 /**
  * permission check for hook_menu()
+ * check node type is "repair" or not
  */
 function repairtype_print_tab_page_check($nid) {
   if (user_is_logged_in()) {

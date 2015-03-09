@@ -4,31 +4,27 @@
  *
  */
 
-/*
- * Implementation of hook_init()
- */
-
 /**
  * Implements hook_menu()
  */
 function otherterm_menu() {
   $items = array();
 
-  $items['add-term/client'] = array(
+  $items['admin-setting/term/add-term/client'] = array(
     'title' => 'Create New Client',
     'page callback' => 'otherterm_add_term_client',
     'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'otherterm_add_term_client.page.inc',
   );
-  $items['add-term/device-type'] = array(
+  $items['admin-setting/term/add-term/device-type'] = array(
     'title' => 'Create New Device',
     'page callback' => 'otherterm_add_term_device',
     'access arguments' => array('view site internal content'),
     'type' => MENU_CALLBACK,
     'file' => 'otherterm_add_term_device.page.inc',
   );
-  $items['add-term/company'] = array(
+  $items['admin-setting/term/add-term/company'] = array(
     'title' => 'Add Company Info',
     'page callback' => 'otherterm_add_term_company',
     'access arguments' => array('view site internal content'),
@@ -37,4 +33,21 @@ function otherterm_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implementation hook_form_alter()
+ */
+function otherterm_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'taxonomy_form_term') {
+    global $user;
+    if (!in_array('administrator', $user->roles)) {
+      $form['description']['#access'] = FALSE;
+      $form['relations']['#attributes']['class'][] = 'element-hidden';
+    }
+    else {
+      $form['description']['#prefix'] = '<div class="col-sm-12 clear-both">';
+      $form['description']['#suffix'] = '</div>';
+    }
+  }
 }

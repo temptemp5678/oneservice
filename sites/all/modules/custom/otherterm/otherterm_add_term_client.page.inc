@@ -17,15 +17,7 @@ function otherterm_add_term_client() {
   $form = drupal_get_form($form_id, $edit, $vocabulary);
 
   /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-  global $user;
-  if (!in_array('administrator', $user->roles)) {
-    $form['description']['#access'] = FALSE;
-    $form['relations']['#attributes']['class'][] = 'element-hidden';
-  }
-  else {
-    $form['description']['#prefix'] = '<div class="col-sm-12 clear-both">';
-    $form['description']['#suffix'] = '</div>';
-  }
+  // @see hook_form_alter()
 
   // add "col-sm-6" class for below field
   $fields_name = array(

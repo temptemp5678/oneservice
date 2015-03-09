@@ -196,8 +196,14 @@ function quote_row_output_table($node = NULL) {
         $device_type_value = field_get_items('node', $reapir_node, 'field_repair_device_type');
         $device_type_label = field_view_value('node', $reapir_node, 'field_repair_device_type', $device_type_value[0]);
       }
-      $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $reapir_node->field_repair_quote_amount['und'][0]['value'] . '</td></tr>';
-      $sum[] = $reapir_node->field_repair_quote_amount['und'][0]['value'];
+      
+      $item_value = number_format(0, 2);
+      if (isset($reapir_node->field_repair_quote_amount['und'][0]['value'])) {
+        $item_value = $reapir_node->field_repair_quote_amount['und'][0]['value'];
+      }
+      
+      $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $item_value . '</td></tr>';
+      $sum[] = $item_value;
       $index++;
     }
     $client_name_id = field_get_items('node', $reapir_node, 'field_repair_client_name');
