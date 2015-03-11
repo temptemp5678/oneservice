@@ -52,6 +52,16 @@ function quotetype_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'quotetype_page_form.inc',
   );
+  // add "Authorize" tab on Quote node page
+  $items['node/%/authorize'] = array(
+    'title' => t('Authorize'),
+    'page callback' => 'quotetype_authorize_tab_form',
+    'page arguments' => array(1),
+    'access callback' => 'quotetype_authorize_tab_form_page_check',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'quotetype_authorize_tab_form.page.inc',
+  );
   // add "Delete" tab on Quote node page
   $items['node/%/remove'] = array(
     'title' => t('Delete'),
@@ -64,6 +74,21 @@ function quotetype_menu() {
   return $items;
 }
 
+/**
+ * permission check for hook_menu()
+ * check node type is "quote" or not
+ */
+function quotetype_authorize_tab_form_page_check($nid) {
+  if (user_is_logged_in()) {
+    if(user_access('view site internal content')) {
+      $node = node_load($nid);
+      if ($node->type == 'quote') {
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
 /**
  * permission check for hook_menu()
  */
