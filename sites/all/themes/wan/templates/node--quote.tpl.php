@@ -122,6 +122,19 @@
     ?>
 
     <?php
+      $print_button = '<div class="btn btn-success quote-node-print-button hidden-print" type="button">' . t('Print') . '</div>';
+      print render($print_button);
+      drupal_add_js('jQuery(document).ready(function () {
+          jQuery(".quote-node-print-button").click(function(){
+            window.print();
+            return false;
+          });
+        });',
+        'inline'
+      );
+    ?>
+
+    <?php
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);

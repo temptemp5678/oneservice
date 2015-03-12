@@ -1,0 +1,55 @@
+h1./**
+ * print css
+ */
+
+/**
+ * logo, site name
+ */
+body,
+input,
+textarea,
+select {
+  color: #000;
+  background: none;
+  font-family: Verdana, sans-serif;
+  font-size: 11pt;
+}
+
+ul.main-menu,
+ul.secondary-menu,
+ul.tabs--primary,
+#header-region,
+.sidebar {
+  display: none;
+}
+
+body.sidebar-first #center,
+body.sidebar-second #center,
+body.two-sidebars #center,
+body.sidebar-first #squeeze,
+body.sidebar-second #squeeze,
+body.two-sidebars #squeeze {
+  margin: 0;
+}
+
+#wrapper,
+#wrapper #container .breadcrumb,
+#wrapper #container #center,
+#wrapper #container #center .right-corner,
+#wrapper #container #center .right-corner .left-corner,
+#wrapper #container #footer,
+#wrapper #container #center #squeeze {
+  position: static;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  float: none;
+  clear: both;
+  background: none;
+}
+
+.main-container ol.breadcrumb,
+.main-container h1.page-header{
+  display: none;
+}

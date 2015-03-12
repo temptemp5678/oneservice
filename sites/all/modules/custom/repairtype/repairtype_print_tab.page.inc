@@ -11,7 +11,7 @@ function repairtype_print_tab_page($nid = NULL) {
   if (empty($nid) || !is_numeric($nid)) {
     return t('You have to select one of page');
   }
-  
+
   $node = node_load($nid);
   if (!$node) {
     return t('Please select right repair number');
@@ -22,5 +22,16 @@ function repairtype_print_tab_page($nid = NULL) {
 
   $output = '';
   $output .= views_embed_view('repair_print_table', 'default', $nid);
+
+  // add print button
+  $output .= '<div class="btn btn-success repair-node-print-button hidden-print" type="button">' . t('Print') . '</div>';
+  drupal_add_js('jQuery(document).ready(function () {
+      jQuery(".repair-node-print-button").click(function(){
+        window.print();
+        return false;
+      });
+    });',
+    'inline'
+  );
   return $output;
 }
