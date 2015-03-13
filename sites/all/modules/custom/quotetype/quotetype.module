@@ -55,8 +55,8 @@ function quotetype_menu() {
   // add "Authorize" tab on Quote node page
   $items['node/%/authorize'] = array(
     'title' => t('Authorize'),
-    'page callback' => 'quotetype_authorize_tab_form',
-    'page arguments' => array(1),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('quotetype_authorize_tab_form', 1),
     'access callback' => 'quotetype_authorize_tab_form_page_check',
     'access arguments' => array(1),
     'type' => MENU_LOCAL_TASK,

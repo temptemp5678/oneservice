@@ -52,8 +52,74 @@
 }
 
 /**
+ * height
+ */
+.height-36 {
+  height: 36px;
+}
+.height-48 {
+  height: 48px;
+}
+.height-52 {
+  height: 52px;
+}
+.height-60 {
+  height: 60px;
+}
+.height-160 {
+  height: 160px;
+}
+.height-180 {
+  height: 180px;
+}
+.height-200 {
+  height: 200px;
+}
+.height-240 {
+  height: 240px;
+}
+.height-280 {
+  height: 280px;
+}
+.height-282 {
+  height: 282px;
+}
+.height-300 {
+  height: 300px;
+}
+
+.height-pt-100 {
+  height: 100%;
+}
+
+/**
+ * line-height
+ */
+.line-height-1-5 {
+  line-height: 1.5;
+}
+.line-height-2 {
+  line-height: 2;
+}
+.line-height-48 {
+  line-height: 48px;
+}
+
+/**
  * min-height
  */
+.min-heigth-80{
+  min-height: 80px;
+}
+.min-heigth-100{
+  min-height: 100px;
+}
+.min-heigth-128{
+  min-height: 128px;
+}
+.min-heigth-152{
+  min-height: 152px;
+}
 .min-heigth-px-280{
   min-height: 280px;
 }
