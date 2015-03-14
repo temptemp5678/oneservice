@@ -21,6 +21,15 @@ function repairtype_print_tab_page($nid = NULL) {
   }
 
   $output = '';
+  if (theme_get_setting('logo')) {
+    $image = array(
+      'path' => theme_get_setting('logo'),
+      'alt' => 'my logo',
+      'attributes' => array('class' => 'text-center'),
+    );
+    $logo = theme('image', $image); 
+    $output .= '<div class="visible-print margin-bottom-24">' . $logo . '</div>';
+  }
   $output .= views_embed_view('repair_print_table', 'default', $nid);
 
   // add print button

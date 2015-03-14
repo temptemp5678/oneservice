@@ -98,6 +98,18 @@
 
   <div class="content"<?php print $content_attributes; ?>>
     <?php
+      if (theme_get_setting('logo')) {
+        $image = array(
+          'path' => theme_get_setting('logo'),
+          'alt' => 'my logo',
+          'attributes' => array('class' => 'text-center'),
+        );
+        $logo = theme('image', $image); 
+        $print_button = '<div class="visible-print margin-bottom-24">' . $logo . '</div>';
+        print render($print_button);
+      }
+    ?>
+    <?php
       // We hide the comments and links now so that we can render them later.
       print render(othersetting_quote_page_content($node));
     ?>

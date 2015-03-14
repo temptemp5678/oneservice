@@ -13,13 +13,13 @@ function quotetype_authorize_tab_form($form, &$form_state, $nid = NULL) {
     return;
   }
 
-  $stamp_value = 0;
-  $stamp_class = 'btn-warning';
-
   $node = node_load($nid);
   if (!$node) {
     return;
   }
+  
+  $stamp_value = 0;
+  $stamp_class = 'btn-warning';
   if (!empty($node->field_quote_authorize_stamp['und'][0]['value'])) {
     $stamp_class = 'btn-primary';
   }
