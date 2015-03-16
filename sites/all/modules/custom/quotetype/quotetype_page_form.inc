@@ -37,13 +37,13 @@ function quotetype_add_quote_form($form, &$form_state) {
   $form['top']['client_name'] = array(
     '#type' => 'textfield',
     '#title' => t('客户名称'),
-    '#prefix' => '<div class="col-xs-2">',
+    '#prefix' => '<div class="col-xs-6 col-md-3">',
     '#suffix' => '</div>',
   );
   $form['top']['sum_price'] = array(
     '#type' => 'textfield',
     '#title' => t('总价'),
-    '#prefix' => '<div class="col-xs-2">',
+    '#prefix' => '<div class="col-xs-4 col-md-2">',
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_input_sum_price', 'effect' => 'fade',),
   );
@@ -54,11 +54,12 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="col-xs-1 element-invisible">',
     '#suffix' => '</div>',
   );
+  
   $form['top']['warranty_day'] = array(
     '#type' => 'textfield',
-    '#title' => t('保修长度'),
+    '#title' => t('保修'),
     '#default_value' => variable_get('quote_default_value_warranty_day'), 
-    '#prefix' => '<div class="col-xs-2 col-md-1">',
+    '#prefix' => '<div class="col-xs-4 col-md-2">',
     '#suffix' => '</div>',
     '#element_validate' => array('element_estimate_decimal_validate'),
     '#ajax' => array('callback' => 'ajax_quotetype_input_warranty_day', 'effect' => 'fade',),
@@ -70,17 +71,20 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#date_format' => 'Y-m-d',
     '#date_label_position' => 'within',
     '#attributes' => array('placeholder' => 'Date'),
-    '#prefix' => '<div class="col-xs-4">',
+    '#prefix' => '<div class="col-xs-4 col-md-2">',
     '#suffix' => '</div>',
     '#ajax' => array('callback' => 'ajax_quotetype_select_create_date', 'event' => 'change'),
   );
-  $form['top']['authorize_stamp'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('授权'),
-    '#prefix' => '<div class="col-xs-1"><div class="btn btn-warning checkbox-authorize-stamp">',
-    '#suffix' => '</div></div>',
-    '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp', 'effect' => 'fade',),
-  );
+  
+  if (user_access('permission for moderator role', $account)) {
+    $form['top']['authorize_stamp'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('授权'),
+      '#prefix' => '<div class="col-xs-2 clear-both"><div class="btn btn-warning checkbox-authorize-stamp">',
+      '#suffix' => '</div></div>',
+      '#ajax' => array('callback' => 'ajax_quotetype_check_authorize_stamp', 'effect' => 'fade',),
+    );
+  }
   
   $form['quotation_title'] = array(
     '#type' => 'item',
