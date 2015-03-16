@@ -9,23 +9,60 @@
  */
 function othersetting_permission() {
   return array(
-     'view site publish content' => array(
+    'view site publish content' => array(
       'title' => t('View Site Publish Content'),
       'description' => t('Login User can view Site Content'),
     ),
-     'view site internal content' => array(
+    'view site internal content' => array(
       'title' => t('View Site Internal Content'),
       'description' => t('Only internal company user can view content'),
     ),
-     'view my repair link' => array(
+    'view my repair link' => array(
       'title' => t('View My Repair Link'),
       'description' => t('Only Key Client can view this link'),
     ),
-     'roles option for add user' => array(
+    'roles option for add user' => array(
       'title' => t('Roles Option For Add User'),
       'description' => t('Allowed User Roles to be selected on Add new user form page'),
     ),
+    // assign the permission by roles
+    'permission for moderator role' => array(
+      'title' => t('Permission For moderator Role'),
+      'description' => t('The permission is for MODERATOR Role'),
+    ),
+    'permission for siteadmin role' => array(
+      'title' => t('Permission For siteadmin Role'),
+      'description' => t('The permission is for siteadmin Role'),
+    ),
+    'permission for keyclient role' => array(
+      'title' => t('Permission For keyclient Role'),
+      'description' => t('The permission is for KEYCLIENT Role'),
+    ),
+    'permission for editor role' => array(
+      'title' => t('Permission For editor Role'),
+      'description' => t('The permission is for EDITOR Role'),
+    ),
   );
+}
+
+/**
+ * Implements hook_node_access()
+ * to limit node access permission by roles
+ */
+function othersetting_node_access($node, $op, $account) {
+  $type = is_string($node) ? $node : $node->type;
+  if ($type == 'quote'){
+    if (in_array($type, node_permissions_get_configured_types())) {
+      if ($op == 'view' && user_access('view site publish content', $account)) {
+        return NODE_ACCESS_ALLOW;
+      }
+      else {
+        return NODE_ACCESS_DENY;
+      }
+    }
+  }
+  // Returning nothing from this function would have the same effect.
+  return NODE_ACCESS_IGNORE;
 }
 
 /**
@@ -44,7 +81,7 @@ function othersetting_menu() {
     'title' => 'Quote Default Value',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('othersetting_set_quote_value_form'),
-    'access arguments' => array('view site internal content'),
+    'access arguments' => array('permission for siteadmin role'),
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_set_quote_value_form_page.inc',
   );
@@ -57,6 +94,8 @@ function othersetting_menu() {
   );
   return $items;
 }
+
+
 
 /**
  * Implements hook_user_login()

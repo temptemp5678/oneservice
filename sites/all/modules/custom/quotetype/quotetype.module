@@ -57,8 +57,7 @@ function quotetype_menu() {
     'title' => t('Authorize'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('quotetype_authorize_tab_form', 1),
-    'access callback' => 'quotetype_authorize_tab_form_page_check',
-    'access arguments' => array(1),
+    'access callback' => 'permission for moderator role',
     'type' => MENU_LOCAL_TASK,
     'file' => 'quotetype_authorize_tab_form.page.inc',
   );
@@ -67,41 +66,10 @@ function quotetype_menu() {
     'title' => t('Delete'),
     'page callback' => 'quotetype_delete_tab_page',
     'page arguments' => array(1),
-    'access callback' => 'quote_delete_tab_access_check',
-    'access arguments' => array(1),
+    'access callback' => 'permission for siteadmin role',
     'type' => MENU_LOCAL_TASK,
   );
   return $items;
-}
-
-/**
- * permission check for hook_menu()
- * check node type is "quote" or not
- */
-function quotetype_authorize_tab_form_page_check($nid) {
-  if (user_is_logged_in()) {
-    if(user_access('view site internal content')) {
-      $node = node_load($nid);
-      if ($node->type == 'quote') {
-        return TRUE;
-      }
-    }
-  }
-  return FALSE;
-}
-/**
- * permission check for hook_menu()
- */
-function quote_delete_tab_access_check($nid) {
-  if (user_is_logged_in()) {
-    if(user_access('view site internal content')) {
-      $node = node_load($nid);
-      if ($node->type == 'quote') {
-        return TRUE;
-      }
-    }
-  }
-  return FALSE;
 }
 
 /**
