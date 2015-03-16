@@ -13,7 +13,7 @@ function otherterm_menu() {
   $items['admin-setting/term/add-term/client'] = array(
     'title' => 'Create New Client',
     'page callback' => 'otherterm_add_term_client',
-    'access arguments' => array('permission for siteadmin role'),
+    'access arguments' => array('permission for editor role'),
     'type' => MENU_CALLBACK,
     'file' => 'otherterm_add_term_client.page.inc',
   );

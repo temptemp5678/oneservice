@@ -12,7 +12,7 @@ function repairtype_menu() {
   $items['repairtype/create-new'] = array(
     'title' => t('Create New'),
     'page callback' => 'repairtype_create_new_repair',
-    'access arguments' => array('view site internal content'),
+    'access arguments' => array('permission for editor role'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'repairtype_create_new_repair.page.inc',
   );
