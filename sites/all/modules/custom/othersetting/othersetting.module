@@ -112,10 +112,11 @@ function othersetting_user_login(&$edit, $account) {
  * @return
  * default Quotation page text content
  */
-function othersetting_quote_page_content($node = NULL) {
+function othersetting_quote_page_content($nid = NULL) {
+  $node = node_load($nid);
   $device_name = '';
   // isset($node) is for node page
-  if (isset($node)){
+  if ($node){
     // for Company Name
     $term = taxonomy_term_load($node->field_quote_company_name['und'][0]['tid']);
 
