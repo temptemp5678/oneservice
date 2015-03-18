@@ -113,10 +113,12 @@ function othersetting_user_login(&$edit, $account) {
  * default Quotation page text content
  */
 function othersetting_quote_page_content($nid = NULL) {
-  $node = node_load($nid);
+  if ($nid) {
+    $node = node_load($nid);    
+  }
   $device_name = '';
   // isset($node) is for node page
-  if ($node){
+  if (isset($node)) {
     // for Company Name
     $term = taxonomy_term_load($node->field_quote_company_name['und'][0]['tid']);
 
@@ -147,11 +149,11 @@ function othersetting_quote_page_content($nid = NULL) {
                . t('贵公司送修的解码器')
                . t('型号') . '：' . '<br />'
                . '<p><span class="quotation_insert_markup_device_type">'
-               . ((isset($node)) ? $device_name : '')
+               . ((!empty($node)) ? $device_name : '')
                . '</span></p>'
                . t('已经超过保修期, 需要更换配件, 维修后仅对该设备配件将提供为期')
                . '<span class="quotation_insert_markup_warranty_day">'
-               . ((isset($node)) ? $node->field_quote_warranty_day['und'][0]['value'] : variable_get('quote_default_value_warranty_day'))
+               . ((!empty($node)) ? $node->field_quote_warranty_day['und'][0]['value'] : variable_get('quote_default_value_warranty_day'))
                . '</span>'
                . t('天的保修服务。')
                . '<br />'
