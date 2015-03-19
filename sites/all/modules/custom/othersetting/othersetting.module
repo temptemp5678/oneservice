@@ -152,8 +152,7 @@ function othersetting_quote_page_content($nid = NULL) {
 
   $output = '';
   $output =  t('产品保修期外维修单') . '<br />'
-               . t('贵公司送修的解码器')
-               . t('型号') . '：' . '<br />'
+               . t('贵公司送修的设备型号') . '：' . '<br />'
                . '<p><span class="quotation_insert_markup_device_type">'
                . ((!empty($node)) ? $device_name : '')
                . '</span></p>'
