@@ -111,8 +111,8 @@
     ?>
     <?php
       // We hide the comments and links now so that we can render them later.
-      $node_nid = $node->nid;
-      print render(othersetting_quote_page_content($node_nid));
+      $node_quote_content = othersetting_quote_page_content($node->nid);
+      print render($node_quote_content);
     ?>
     <?php
       // print authorize_stamp
