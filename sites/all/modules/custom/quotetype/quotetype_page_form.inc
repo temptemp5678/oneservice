@@ -119,9 +119,9 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#prefix' => '<div class="add-repair-page-submit-wrapper text-center clear-both">',
   );
   $form['Cancel'] = array(
-    '#type' => 'submit',
+    '#type' => 'button',
     '#value' => t('Reset'),
-    '#attributes' => array('class' => array('btn-danger'), 'onclick' => "javascript:location.href='../estimate-archives'"),
+    '#attributes' => array('class' => array('btn-danger'), 'onclick' => "javascript:location.href='../add_new_quotation'"),
     '#suffix' => '</div>',
   );
   
