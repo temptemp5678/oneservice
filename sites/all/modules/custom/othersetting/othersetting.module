@@ -59,7 +59,7 @@ function othersetting_node_access($node, $op, $account) {
         }
       }
       if ($op == 'delete') {
-        if (user_access('view site publish content', $account)) {
+        if (user_access('permission for siteadmin role', $account)) {
           return NODE_ACCESS_ALLOW;
         }
       }
