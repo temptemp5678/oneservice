@@ -53,11 +53,15 @@ function othersetting_node_access($node, $op, $account) {
   $type = is_string($node) ? $node : $node->type;
   if ($type == 'quote'){
     if (in_array($type, node_permissions_get_configured_types())) {
-      if ($op == 'view' && user_access('view site publish content', $account)) {
-        return NODE_ACCESS_ALLOW;
+      if ($op == 'view') {
+        if (user_access('view site publish content', $account)) {
+          return NODE_ACCESS_ALLOW;
+        }
       }
-      else {
-        return NODE_ACCESS_DENY;
+      if ($op == 'delete') {
+        if (user_access('view site publish content', $account)) {
+          return NODE_ACCESS_ALLOW;
+        }
       }
     }
   }
@@ -123,12 +127,14 @@ function othersetting_quote_page_content($nid = NULL) {
     $term = taxonomy_term_load($node->field_quote_company_name['und'][0]['tid']);
 
     // for each device
-    foreach ($node->field_quote_repair_nid['und'] as $key => $row) {
-      if (!empty($row['value'])){
-        $repair_node = node_load($row['value']);
-        if (isset($repair_node)){
-        $device_term = taxonomy_term_load($repair_node->field_repair_device_type['und'][0]['tid']);
-        $device_name .= $device_term->name . '<br />';
+    if (isset($node->field_quote_repair_nid['und'])) {
+      foreach ($node->field_quote_repair_nid['und'] as $key => $row) {
+        if (!empty($row['value'])){
+          $repair_node = node_load($row['value']);
+          if (isset($repair_node)){
+          $device_term = taxonomy_term_load($repair_node->field_repair_device_type['und'][0]['tid']);
+          $device_name .= $device_term->name . '<br />';
+          }
         }
       }
     }
