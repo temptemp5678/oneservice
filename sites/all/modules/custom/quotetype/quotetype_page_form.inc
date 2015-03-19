@@ -225,8 +225,6 @@ function quotetype_add_quote_form_submit($form, &$form_state) {
 
   // redirect page
   $form_state['redirect'] = array('node/'. $node->nid);
-  
-  
 }
 
 /**

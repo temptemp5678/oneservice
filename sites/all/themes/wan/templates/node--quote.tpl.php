@@ -125,17 +125,27 @@
                                 'height' => '128px',
                                );
       $stamp_image = theme('image', $stamp_image_variables);
+      
       if ($node->field_quote_authorize_stamp['und'][0]['value']) {
-        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right clear-both">' . $stamp_image . '</div></div>';
+        $hide_stamp_class = '';
+        $print_button_div = '<div class="btn btn-success quote-node-print-button hidden-print margin-top-48 clear-both" type="button">' . t('Print') . '</div>';
       }
       else {
-        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">' . $stamp_image . '</div></div>';
+        $hide_stamp_class = ' element-invisible';
+        $print_button_div = '';
       }
+      $authorize_stamp_div = '';
+      $authorize_stamp_div .= '<div class="row margin-top-n-84 margin-left-12 height-120">';
+        $authorize_stamp_div .= '<div class="col-xs-12 authorize-stamp-image text-left clear-both' . $hide_stamp_class . '">';
+          $authorize_stamp_div .= $stamp_image;
+        $authorize_stamp_div .= '</div>';
+      $authorize_stamp_div .= '</div>';
+      
       print render($authorize_stamp_div);
     ?>
 
     <?php
-      $print_button = '<div class="btn btn-success quote-node-print-button hidden-print" type="button">' . t('Print') . '</div>';
+      $print_button = $print_button_div;
       print render($print_button);
       drupal_add_js('jQuery(document).ready(function () {
           jQuery(".quote-node-print-button").click(function(){
