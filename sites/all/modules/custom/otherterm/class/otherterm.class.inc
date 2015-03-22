@@ -9,13 +9,13 @@
 class CompanyTermInfo {
   public $tid;
   public $term = NULL;
-  
+
   /**
    * @parameter is tid
    */
   function __construct($tid){
     $this->tid = $tid;
-    
+
     if (is_numeric($tid)) {
         $term = taxonomy_term_load($tid);
       if ($term) {
@@ -23,7 +23,7 @@ class CompanyTermInfo {
       }
     }
   }
-  
+
   /**
    * @return Term company Name
    */
@@ -37,7 +37,8 @@ class CompanyTermInfo {
     }
     return $output;
   }
-  
+
+  /** - - - - - Text Field - - - - - - - - - -  - - - - -   */
   /**
    * @return Company Bank Name
    */
@@ -51,7 +52,7 @@ class CompanyTermInfo {
     }
     return $output;
   }
-  
+
   /**
    * @return Company Account Number
    */
@@ -65,7 +66,7 @@ class CompanyTermInfo {
     }
     return $output;
   }
-  
+
   /**
    * @return Company Address
    */
@@ -79,7 +80,7 @@ class CompanyTermInfo {
     }
     return $output;
   }
-  
+
   /**
    * @return Company Contacts
    */
@@ -93,7 +94,7 @@ class CompanyTermInfo {
     }
     return $output;
   }
-  
+
   /**
    * @return Company Phone
    */
@@ -107,7 +108,8 @@ class CompanyTermInfo {
     }
     return $output;
   }
-  
+
+  /** - - - - - image Field - - - - - - - - - -  - - - - -   */
   /**
    * @return Company Logo Uri
    */
@@ -134,7 +136,7 @@ class CompanyTermInfo {
     $image_uri = $this->companyLogoUri();
     if ($image_uri) {
       $variables = array(
-        'path' => $image_uri, 
+        'path' => $image_uri,
         'alt' => 'Company Logo',
         'title' => 'Company Logo',
         'width' => '50%',
@@ -144,7 +146,7 @@ class CompanyTermInfo {
     }
     return $variables;
   }
-  
+
   /**
    * @return Company Stamp Uri
    */
@@ -171,7 +173,7 @@ class CompanyTermInfo {
     $image_uri = $this->companyStampUri();
     if ($image_uri) {
       $variables = array(
-        'path' => $image_uri, 
+        'path' => $image_uri,
         'alt' => 'Company Stamp',
         'title' => 'Company Stamp',
         'width' => '50%',
@@ -181,7 +183,4 @@ class CompanyTermInfo {
     }
     return $variables;
   }
-
-
-
 }
