@@ -159,6 +159,9 @@ function quotetype_form_alter(&$form, &$form_state, $form_id) {
  */
 function quotetype_authorize_stamp_image($width = '128px', $height = '128px') {
   $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
+  $CompanyTermInfo = new CompanyTermInfo();
+  $stamp_image_path = $CompanyTermInfo->companyLogoUri();
+  
   $stamp_image_variables = array(
                             'path' => $stamp_image_path,
                             'alt' => 'Stamp',
