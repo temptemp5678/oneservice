@@ -89,6 +89,13 @@ function othersetting_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_set_quote_value_form_page.inc',
   );
+  $items['admin-setting/index'] = array(
+    'title' => 'Site Setting',
+    'page callback' => 'othersetting_admin_setting_index',
+    'access arguments' => array('permission for editor role'),
+    'type' => MENU_CALLBACK,
+    'file' => 'othersetting_admin_setting_index.page.inc',
+  );
   $items['user/login-link'] = array(
     'title' => 'Log in',
     'page callback' => 'othersetting_user_login_link',
