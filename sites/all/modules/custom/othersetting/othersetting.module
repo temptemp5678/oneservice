@@ -106,8 +106,6 @@ function othersetting_menu() {
   return $items;
 }
 
-
-
 /**
  * Implements hook_user_login()
  * redirect a user after login to a specific page
