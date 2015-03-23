@@ -158,4 +158,5 @@ class QuoteInfo {
     }
     return $output;
   }
+  
 }

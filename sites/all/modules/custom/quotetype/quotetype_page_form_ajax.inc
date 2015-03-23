@@ -8,14 +8,16 @@ function ajax_quotetype_select_company_name($form, &$form_state) {
   $company_name = '';
   
   // get selected value for "company_name"
-  $company_name_vid = $form_state['values']['company_name'];
+  $company_name_tid = $form_state['values']['company_name'];
   
-  if (isset($company_name_vid) && ($company_name_vid > 0)) {
-    $term = taxonomy_term_load($company_name_vid);
-    if ($term) {
-      $company_name = $term->name;
-      $bank_name = $term->field_company_bank_name['und'][0]['safe_value'];
-      $account_number = $term->field_company_account_number['und'][0]['safe_value'];
+  if (isset($company_name_tid) && ($company_name_tid > 0)) {
+    $CompanyTermInfo = new CompanyTermInfo($company_name_tid);
+    if ($CompanyTermInfo) {
+      $company_name = $CompanyTermInfo->companyName();
+      $bank_name = $CompanyTermInfo->companyBankName();
+      $account_number = $CompanyTermInfo->companyAccountNumber();
+      
+      $company_stamp_image = $CompanyTermInfo->authorizeStampImage();
     }
   }
   
@@ -25,6 +27,8 @@ function ajax_quotetype_select_company_name($form, &$form_state) {
   $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation_insert_markup_company_name', 'text', array($company_name));
   $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation_insert_markup_bank_name', 'text', array($bank_name));
   $commands[] = ajax_command_invoke('.page-add-new-quotation .quotation_insert_markup_account_number', 'text', array($account_number));
+  
+  $commands[] = ajax_command_html('.authorize-stamp-image #edit-text-three', $company_stamp_image);
   
   return array('#type' => 'ajax', '#commands' => $commands);
 }

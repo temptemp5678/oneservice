@@ -33,7 +33,7 @@ class CompanyTermInfo {
     }
     $output = NULL;
     if ($this->term) {
-      $output = $this->term;
+      $output = $this->term->name;
     }
     return $output;
   }
@@ -128,7 +128,7 @@ class CompanyTermInfo {
    *
    * use theme_image() to generate image
    */
-  public function companyLogoImage() {
+  public function companyLogoImageVariables() {
     if (!$this->term) {
       return NULL;
     }
@@ -139,8 +139,8 @@ class CompanyTermInfo {
         'path' => $image_uri,
         'alt' => 'Company Logo',
         'title' => 'Company Logo',
-        'width' => '50%',
-        'height' => '50%',
+        // 'width' => '48px',
+        // 'height' => '48px',
         'attributes' => array('class' => 'some-img', 'id' => 'my-img'),
       );
     }
@@ -183,4 +183,35 @@ class CompanyTermInfo {
     }
     return $variables;
   }
+  
+  /** - - - - - other info - - - - - - - - - -  - - - - -   */
+  /**
+   * @return
+   * Authorize Stamp image Variables
+   * @parameter 1 is width of image size, default is 128px
+   * @parameter 2 is height of image size, default is 128px
+   */
+  public function authorizeStampImageVariables($width = '128px', $height = '128px') {
+    $stamp_image_path = $this->companyStampUri();
+    
+    // $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
+    $stamp_image_variables = array(
+                              'path' => $stamp_image_path,
+                              'alt' => 'Stamp',
+                              'title' => 'Stamp',
+                              'width' => $width,
+                              'height' => $height,
+                             );
+    return $stamp_image_variables;
+  }
+  /**
+   * @return
+   *  theme_image()
+   */
+  public function authorizeStampImage($width = '128px', $height = '128px') {
+    $stamp_image_variables = $this->authorizeStampImageVariables($width, $height);
+    $stamp_image = theme('image', $stamp_image_variables);
+    return $stamp_image;
+  }
+
 }

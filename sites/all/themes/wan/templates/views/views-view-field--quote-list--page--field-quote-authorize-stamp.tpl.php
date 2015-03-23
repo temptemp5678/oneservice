@@ -29,9 +29,17 @@
    * Key value is 1 that Authorize Stamp, 0 is not yet 
    * 1 to print Authorize Stamp, 0 is empty 
    */
+  $nid = $row->nid;
+  $QuoteInfo = new QuoteInfo($nid);
+  $company_term_tid = $QuoteInfo->companyNameTid();
+  
+  $CompanyTermInfo = new CompanyTermInfo($company_term_tid);
+  $stamp_image = $CompanyTermInfo->authorizeStampImage('24px', '24px');
+  
   $new_output = '';
+  // $output is Boolean for "field_quote_authorize_stamp" field
   if ($output) {
-    $new_output = quotetype_authorize_stamp_image('24px', '24px');
+    $new_output = $stamp_image;
   }
   print $new_output;
 ?>

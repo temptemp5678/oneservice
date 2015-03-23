@@ -98,16 +98,16 @@
 
   <div class="content"<?php print $content_attributes; ?>>
     <?php
-      if (theme_get_setting('logo')) {
-        $image = array(
-          'path' => theme_get_setting('logo'),
-          'alt' => 'my logo',
-          'attributes' => array('class' => 'text-center'),
-        );
-        $logo = theme('image', $image); 
-        $print_button = '<div class="visible-print margin-bottom-24">' . $logo . '</div>';
-        print render($print_button);
-      }
+      // print company logo instead of Website Logo
+      $QuoteInfo = new QuoteInfo($node->nid);
+      $company_term_tid = $QuoteInfo->companyNameTid();
+      
+      $CompanyTermInfo = new CompanyTermInfo($company_term_tid);
+      $company_logo_variables = $CompanyTermInfo->companyLogoImageVariables();
+      $company_logo_image = theme('image', $company_logo_variables); 
+    
+      $print_button = '<div class="visible-print1 margin-bottom-24">' . $company_logo_image . '</div>';
+      print render($print_button);
     ?>
     <?php
       // We hide the comments and links now so that we can render them later.
@@ -116,15 +116,7 @@
     ?>
     <?php
       // print authorize_stamp
-      $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
-      $stamp_image_variables = array(
-                                'path' => $stamp_image_path,
-                                'alt' => 'Stamp',
-                                'title' => 'Stamp',
-                                'width' => '128px',
-                                'height' => '128px',
-                               );
-      $stamp_image = theme('image', $stamp_image_variables);
+      $stamp_image = $CompanyTermInfo->authorizeStampImage();
       
       if ($node->field_quote_authorize_stamp['und'][0]['value']) {
         $hide_stamp_class = '';

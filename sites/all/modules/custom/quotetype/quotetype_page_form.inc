@@ -25,10 +25,11 @@ function quotetype_add_quote_form($form, &$form_state) {
     );
   }
   
+  $company_name_option = taxonomy_allowed_values(field_info_field('field_quote_company_name'));
   $form['top']['company_name'] = array(
     '#type' => 'select',
     '#title' => t('本公司'),
-    '#options' => taxonomy_allowed_values(field_info_field('field_quote_company_name')),
+    '#options' => $company_name_option,
     '#default_value' => variable_get('quote_default_value_company_name', ''),
     '#prefix' => '<div class="col-xs-6 col-md-3 clear-both">',
     '#suffix' => '</div>',
@@ -98,10 +99,13 @@ function quotetype_add_quote_form($form, &$form_state) {
     '#suffix' => '</div>',
   );
   
-  $stamp_image = quotetype_authorize_stamp_image();
+  // Authorize Stamp Image
+  $company_selected = isset($form_state['values']['company_name']) ? $form_state['values']['company_name'] : key($company_name_option);
+  $CompanyTermInfo = new CompanyTermInfo($company_selected);
+  $company_stamp_image = $CompanyTermInfo->authorizeStampImage();
   $form['bottom']['text_three'] = array(
     '#type' => 'item',
-    '#markup' => $stamp_image,
+    '#markup' => $company_stamp_image,
     '#prefix' => '<div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">',
     '#suffix' => '</div>',
   );
