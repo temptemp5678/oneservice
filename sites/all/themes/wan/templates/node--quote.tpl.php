@@ -106,8 +106,8 @@
       $company_logo_variables = $CompanyTermInfo->companyLogoImageVariables();
       $company_logo_image = theme('image', $company_logo_variables); 
     
-      $print_button = '<div class="visible-print margin-bottom-24">' . $company_logo_image . '</div>';
-      print render($print_button);
+      $logo_image = '<div class="visible-print margin-bottom-24">' . $company_logo_image . '</div>';
+      print render($logo_image);
     ?>
     <?php
       // We hide the comments and links now so that we can render them later.
