@@ -68,3 +68,16 @@ function othernotify_form_alter(&$form, &$form_state, $form_id) {
     }
   }
 }
+
+/**
+ * Implementation of hook_mail()
+ */
+function othernotify_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'repair-node-create':
+      $message['subject'] = $params['subject'];
+      $message['body'] = $params['body'];
+      drupal_set_message(t('80cc'));
+    break;
+  }
+}

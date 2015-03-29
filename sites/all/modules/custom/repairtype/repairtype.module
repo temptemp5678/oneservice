@@ -106,3 +106,13 @@ function repairtype_form_alter(&$form, &$form_state, $form_id) {
     $form['title']['#required'] = FALSE;
   }
 }
+
+/**
+ * Implements hook_node_insert()
+ */
+function repairtype_node_insert($node) {
+  if($node->type == 'repair') {
+    $OtherNotifyMail = new OtherNotifyMail($node->nid);
+    $OtherNotifyMail->repairNodeCreate();
+  }
+}
