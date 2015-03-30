@@ -40,7 +40,7 @@ class OtherNotifyMail {
     $to = $NotifyTermInfo->mailTo();   // to e-mail address
     $from = "test@example.com"; // from e-mail address
 
-    $other_body = $this->node->title . ' has created'.
+    $other_body = $this->node->title . ' has created';
 
     $subject = $NotifyTermInfo->mailTitle();
     $body = $NotifyTermInfo->mailContent() . $other_body;
