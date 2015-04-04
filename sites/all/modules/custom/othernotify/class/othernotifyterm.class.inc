@@ -6,7 +6,7 @@
 /**
  * class
  */
-class NotifyTermInfo {
+class OtherNotifyTerm {
   public $tid;
   public $term = NULL;
 
@@ -53,7 +53,7 @@ class NotifyTermInfo {
         // $output[] = $row['safe_value'];
       // }
     }
-    
+
     if (is_array($output)) {
       // convert array to like "user@example.com, user2@example.com"
       $output = implode(',', $output);
@@ -115,6 +115,42 @@ class NotifyTermInfo {
       $output = $this->term->field_notify_enable_status['und'][0]['value'];
     }
     return $output;
+  }
+
+  /**
+   * @return Send notify mail by Term tid
+   *
+   */
+  public function sendNotifyMailByTerm() {
+    if (!$tid) {
+      return NULL;
+    }
+
+    // check "enable" status
+    if ( !$this->enableStatus() ) {
+      return NULL;
+    }
+
+    $to = $this->mailTo();   // to e-mail address
+    $from = "test@example.com"; // from e-mail address
+
+    // $other_body = $this->node->title . ' has created';
+
+    $subject = $this->mailTitle();
+    $body = $this->mailContent();
+
+    //params is the array passed to hook_mail function
+    $params = array(
+      'subject' => $subject,
+      'body' => $body,
+    );
+
+    $module = 'othernotify';
+    $key = 'repair-node-create';
+    $language = language_default();
+
+    // drupal_mail send email
+    drupal_mail($module, $key, $to, $language, $params, $from);
   }
 
 

@@ -7,55 +7,30 @@
  * class
  */
 class OtherNotifyMail {
-  public $nid;
-  public $node = NULL;
+  public $tid;
+  public $term = NULL;
 
   /**
-   * @parameter is nid
+   * @parameter is tid
    */
-  function __construct($nid){
-    $this->nid = $nid;
+  function __construct(){
 
-    if (is_numeric($nid)) {
-      $node = node_load($nid);
-      if ($node) {
-        $this->node = $node;
-      }
-    }
   }
 
   /**
-   * @return Term notify Name
-   *
-   * Device Register when the repair node create
-   * term tid = 128
+   * call from hook_cron()
+   * @return
    */
-  public function repairNodeCreate() {
-    if (!$this->node) {
+  public function checkTermNotify() {
+    if (!$this->term) {
       return NULL;
     }
-
-    $NotifyTermInfo = new NotifyTermInfo(128);
-
-    $to = $NotifyTermInfo->mailTo();   // to e-mail address
-    $from = "test@example.com"; // from e-mail address
-
-    $other_body = $this->node->title . ' has created';
-
-    $subject = $NotifyTermInfo->mailTitle();
-    $body = $NotifyTermInfo->mailContent() . $other_body;
-
-    //params is the array passed to hook_mail function
-    $params = array(
-      'subject' => $subject,
-      'body' => $body,
-    );
-
-    $module = 'othernotify';
-    $key = 'repair-node-create';
-    $language = language_default();
-    // drupal_mail send email
-    drupal_mail($module, $key, $to, $language, $params, $from);
+    $output = NULL;
+    if ($this->term) {
+      $output = $this->term;
+    }
+    return $output;
   }
+
 
 }

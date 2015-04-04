@@ -23,7 +23,7 @@ function repairtype_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'repairtype_create_new_repair.page.inc',
   );
-  
+
   // add "Print" tab on Repair node page, page callback to fetch Views
   $items['node/%/print'] = array(
     'title' => t('Print'),
@@ -112,7 +112,8 @@ function repairtype_form_alter(&$form, &$form_state, $form_id) {
  */
 function repairtype_node_insert($node) {
   if($node->type == 'repair') {
-    $OtherNotifyMail = new OtherNotifyMail($node->nid);
-    $OtherNotifyMail->repairNodeCreate();
+    // to call drupal_mail to send email
+    $OtherNotifyNode = new OtherNotifyNode($node->nid);
+    $OtherNotifyNode->repairNodeCreate();
   }
 }
