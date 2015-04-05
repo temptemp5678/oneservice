@@ -122,11 +122,7 @@ class OtherNotifyTerm {
    * @return Send notify mail by Term tid
    *
    */
-  public function sendNotifyMailByTerm() {
-    if (!$tid) {
-      return NULL;
-    }
-
+  public function sendNotifyMailByTerm($nid) {
     // check "enable" status
     if ( !$this->enableStatus() ) {
       return NULL;
@@ -135,10 +131,13 @@ class OtherNotifyTerm {
     $to = $this->mailTo();   // to e-mail address
     $from = "test@example.com"; // from e-mail address
 
-    // $other_body = $this->node->title . ' has created';
+    $other_body = NULL;
+    if ($nid) {
+      $other_body = l(t('Link to this node'), ('node/' . $nid), array('attributes' => array('class' => array('about-link'))));
+    }
 
     $subject = $this->mailTitle();
-    $body = $this->mailContent();
+    $body = $this->mailContent() . $other_body;
 
     //params is the array passed to hook_mail function
     $params = array(
@@ -152,6 +151,8 @@ class OtherNotifyTerm {
 
     // drupal_mail send email
     drupal_mail($module, $key, $to, $language, $params, $from);
+    drupal_set_message(t('Send Mail by Notify Mail By Term'));
+    watchdog('othernotify', t('Send Mail by Notify Mail By Term -- @term'), array('@term' => $this->term->tid));
   }
 
 

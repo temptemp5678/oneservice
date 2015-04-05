@@ -36,7 +36,7 @@ class OtherNotifyNode {
     }
 
     $OtherNotifyTerm = new OtherNotifyTerm(128);
-    $OtherNotifyTerm->sendNotifyMailByTerm();
+    $OtherNotifyTerm->sendNotifyMailByTerm($this->node->nid);
   }
 
 }

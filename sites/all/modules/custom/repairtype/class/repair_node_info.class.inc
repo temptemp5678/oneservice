@@ -174,7 +174,7 @@ class RepairInfo {
   public function updateNotifyStatus($key = 0) {
     $this->node->field_repair_notify_status['und'][$key]['value'] = TRUE;
 
-    field_attach_presave('node', $node);
-    field_attach_update('node', $node);
+    field_attach_presave('node', $this->node);
+    field_attach_update('node', $this->node);
   }
 }

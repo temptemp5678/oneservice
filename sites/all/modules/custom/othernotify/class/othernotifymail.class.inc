@@ -20,11 +20,10 @@ class OtherNotifyMail {
   /**
    * call from hook_cron()
    *
-   * @to call different term with time validate
+   * @to call different term notification with time validate
    */
   public function checkCronNotify() {
-    $this->registerThreeDayNoFirstCheck()
-
+    $this->registerThreeDayNoFirstCheck();
   }
 
     /**
@@ -35,7 +34,7 @@ class OtherNotifyMail {
    */
   public function registerThreeDayNoFirstCheck() {
     $tid = 129;
-    $notify_status_key = 2;
+    $notify_status_key = 7;
 
     $OtherNotifyTerm = new OtherNotifyTerm($tid);
     // check "enable" status
@@ -43,26 +42,31 @@ class OtherNotifyMail {
       return NULL;
     }
 
+drupal_set_message(t('Send Mail -- 45'));
     $repair_nid_array = $this->allNotReturnRepairNid();
 
     $nodes = node_load_multiple($repair_nid_array);
 
-    if (is_array($nodes) {
+    if (is_array($nodes)) {
       foreach ($nodes as $node) {
+drupal_set_message(t('Send Mail -- 51'));
+    watchdog('othernotify', t('Send Mail by "registerThreeDayNoFirstCheck" -- @nid'), array('@term' => $node->nid));
         $DateTime = new DateTime();
-
         $RepairInfo = new RepairInfo($node->nid);
         $repair_date = $RepairInfo->receiveDateTimeStamp();
         $condition_date = $repair_date + $OtherNotifyTerm->aheadTime();
 
         // condition,
-        if ($condition_date > $DateTime->getTimestamp()) {
-          if ($RepairInfo->checkDateTimeStamp() > 0) {
-            if ( !$RepairInfo->notifyStatus($notify_status_key) ) {
+        if ( !$RepairInfo->notifyStatus($notify_status_key) ) {
+drupal_set_message(t('Send Mail -- 61'));
+          if ($condition_date > $DateTime->getTimestamp()) {
+drupal_set_message(t('Send Mail -- 63'));
+            if ($RepairInfo->checkDateTimeStamp() == NULL) {
+drupal_set_message(t('Send Mail -- 65'));
               $OtherNotifyTerm = new OtherNotifyTerm(129);
-              $OtherNotifyTerm->sendNotifyMailByTerm();
+              $OtherNotifyTerm->sendNotifyMailByTerm($node->nid);
 
-              $RepairInfo->notifyStatus($updateNotifyStatus);
+              $RepairInfo->updateNotifyStatus($notify_status_key);
             }
           }
         }
@@ -82,7 +86,7 @@ class OtherNotifyMail {
       ->entityCondition('bundle', 'repair')
       ->propertyCondition('status', NODE_PUBLISHED);
     // return date still empty
-    $query->fieldCondition('field_repair_return_date', 'value', NULL, '=');
+    // $query->fieldCondition('field_repair_return_date', 'value', NULL, '=');
 
     $result = $query->execute();
 

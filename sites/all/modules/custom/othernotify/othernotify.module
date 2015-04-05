@@ -86,6 +86,6 @@ function othernotify_mail($key, &$message, $params) {
  */
 function othernotify_cron() {
   // to call drupal_mail to send email
-  $OtherNotifyMail = new OtherNotifyMail($node->nid);
+  $OtherNotifyMail = new OtherNotifyMail();
   $OtherNotifyMail->checkCronNotify();
 }
