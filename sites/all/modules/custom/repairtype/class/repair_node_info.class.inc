@@ -150,6 +150,7 @@ class RepairInfo {
       $output = format_date($stamp, 'custom', 'Y-m-d');
     }
     return $output;
+
   }
 
   /** - - - - - Boolean Field - - - - - - - - - -  - - - - -   */
@@ -165,11 +166,15 @@ class RepairInfo {
     return $output;
   }
 
+  /** - - - - - Update Field - - - - - - - - - -  - - - - -   */
   /**
-   * @return Boolean
-   *  Update repair Notify Status as TRUE
+   * @update Boolean
+   *  repair Notify Status
    */
-  public function UpdateNotifyStatus($key = 0) {
-    $this->node->nid;
+  public function updateNotifyStatus($key = 0) {
+    $this->node->field_repair_notify_status['und'][$key]['value'] = TRUE;
+
+    field_attach_presave('node', $node);
+    field_attach_update('node', $node);
   }
 }

@@ -85,10 +85,7 @@ function othernotify_mail($key, &$message, $params) {
  * Implementation of hook_cron()
  */
 function othernotify_cron() {
-
-  $time = time();
-
   // to call drupal_mail to send email
   $OtherNotifyMail = new OtherNotifyMail($node->nid);
-  $OtherNotifyMail->checkTermNotify();
+  $OtherNotifyMail->checkCronNotify();
 }

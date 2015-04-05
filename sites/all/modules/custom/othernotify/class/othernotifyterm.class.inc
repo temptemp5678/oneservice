@@ -24,6 +24,7 @@ class OtherNotifyTerm {
     }
   }
 
+
   /**
    * @return Term notify Name
    */
