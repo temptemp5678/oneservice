@@ -9,13 +9,13 @@
 class QuoteInfo {
   public $nid;
   public $node = NULL;
-  
+
   /**
    * @parameter is nid
    */
   function __construct($nid){
     $this->nid = $nid;
-    
+
     if (is_numeric($nid)) {
         $node = node_load($nid);
       if ($node) {
@@ -23,65 +23,65 @@ class QuoteInfo {
       }
     }
   }
-  
+
   /** - - - - - Text Field - - - - - - - - - -  - - - - -   */
   /**
    * @return Client Name
    */
   public function clientName() {
-    if (!$this->term) {
+    if (!$this->node) {
       return NULL;
     }
     $output = NULL;
-    if (isset($this->term->field_quote_client_name['und'][0]['safe_value'])) {
-      $output = $this->term->field_quote_client_name['und'][0]['safe_value'];
+    if (isset($this->node->field_quote_client_name['und'][0]['safe_value'])) {
+      $output = $this->node->field_quote_client_name['und'][0]['safe_value'];
     }
     return $output;
   }
-  
+
   /** - - - - - Decimal, Integer Field - - - - - - - - - -  - - - - -   */
   /**
    * @return Repair NID
    */
   public function repairNid() {
-    if (!$this->term) {
+    if (!$this->node) {
       return NULL;
     }
     $output = NULL;
-    if (isset($this->term->field_quote_repair_nid['und'][0]['value'])) {
-      $output = $this->term->field_quote_repair_nid['und'][0]['value'];
+    if (isset($this->node->field_quote_repair_nid['und'][0]['value'])) {
+      $output = $this->node->field_quote_repair_nid['und'][0]['value'];
     }
     return $output;
   }
-  
+
   /**
    * @return Sum Price
    */
   public function sumPrice() {
-    if (!$this->term) {
+    if (!$this->node) {
       return NULL;
     }
     $output = NULL;
-    if (isset($this->term->field_quote_sum_price['und'][0]['value'])) {
-      $output = $this->term->field_quote_sum_price['und'][0]['value'];
+    if (isset($this->node->field_quote_sum_price['und'][0]['value'])) {
+      $output = $this->node->field_quote_sum_price['und'][0]['value'];
     }
     return $output;
   }
-  
+
   /**
    * @return Warranty Day
    */
   public function warrantyDay() {
-    if (!$this->term) {
+    if (!$this->node) {
       return NULL;
     }
     $output = NULL;
-    if (isset($this->term->field_quote_warranty_day['und'][0]['value'])) {
-      $output = $this->term->field_quote_warranty_day['und'][0]['value'];
+    if (isset($this->node->field_quote_warranty_day['und'][0]['value'])) {
+      $output = $this->node->field_quote_warranty_day['und'][0]['value'];
     }
     return $output;
   }
-  
+
   /** - - - - - Boolean Field - - - - - - - - - -  - - - - -   */
   /**
    * @return Authorize Stamp
@@ -90,13 +90,13 @@ class QuoteInfo {
     if (!$this->node) {
       return NULL;
     }
-  
+
     if (isset($this->node->field_quote_authorize_stamp['und'][0]['value'])) {
       $output = $this->node->field_quote_authorize_stamp['und'][0]['value'];
     }
     return $output;
   }
-  
+
   /** - - - - - Term reference Field - - - - - - - - - -  - - - - -   */
   /**
    * @return Company Name
@@ -105,13 +105,13 @@ class QuoteInfo {
     if (!$this->node) {
       return NULL;
     }
-  
+
     if (isset($this->node->field_quote_company_name['und'][0]['tid'])) {
       $output = $this->node->field_quote_company_name['und'][0]['tid'];
     }
     return $output;
   }
-  
+
   /**
    * @return Program Unit Name
    */
@@ -119,7 +119,7 @@ class QuoteInfo {
     if (!$this->node) {
       return NULL;
     }
-    
+
     $unit_term = taxonomy_term_load($this->unitTid());
     $output = NULL;
     if ($unit_term) {
@@ -127,7 +127,7 @@ class QuoteInfo {
     }
     return $output;
   }
-    
+
   /** - - - - - Date (Unix timestamp) Field - - - - - - - - - -  - - - - -   */
   /**
    * @return Quote Date
@@ -136,7 +136,7 @@ class QuoteInfo {
     if (!$this->node) {
       return NULL;
     }
-    
+
     $output = NULL;
     if (isset($this->node->field_quote_create_date['und'][0]['value'])) {
       $output = $this->node->field_quote_create_date['und'][0]['value'];
@@ -150,7 +150,7 @@ class QuoteInfo {
     if (!$this->node) {
       return NULL;
     }
-    
+
     $output = NULL;
     $stamp = $this->quoteDateTimeStamp();
     if (!empty($stamp)) {
@@ -158,5 +158,5 @@ class QuoteInfo {
     }
     return $output;
   }
-  
+
 }

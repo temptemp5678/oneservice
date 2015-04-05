@@ -19,17 +19,20 @@ class OtherNotifyMail {
 
   /**
    * call from hook_cron()
-   * @return
+   *
+   * @to call different term with time validate
    */
   public function checkTermNotify() {
-    if (!$this->term) {
-      return NULL;
-    }
-    $output = NULL;
-    if ($this->term) {
-      $output = $this->term;
-    }
-    return $output;
+
+  }
+
+  /**
+   * call from hook_cron()
+   *
+   * @to call different term with time validate
+   */
+  public function checkTermNotify() {
+
   }
 
 
