@@ -24,9 +24,10 @@ class OtherNotifyMail {
    */
   public function checkCronNotify() {
     $this->registerThreeDayNoFirstCheck();
+    $this->registerSevenDayNoFirstCheck();
   }
 
-    /**
+  /**
    * @return
    *
    * After Device Register 3 days and No one to do First Check
@@ -58,13 +59,55 @@ class OtherNotifyMail {
             if ($condition_date < $DateTime->getTimestamp()) {
               if ($RepairInfo->checkDateTimeStamp() == NULL) {
 
-                $message = 'Send Mail -- node -- ' . $node->nid;
-  drupal_set_message($message);
-                $OtherNotifyTerm = new OtherNotifyTerm(129);
+                $OtherNotifyTerm = new OtherNotifyTerm($tid);
                 $OtherNotifyTerm->sendNotifyMailByTerm($node->nid);
 
                 // $RepairInfo->updateNotifyTermStatus($tid);
-                watchdog('othernotify', t('Send Mail for "registerThreeDayNoFirstCheck" -- @nid'), array('@nid' => $node->nid));
+                watchdog('othernotify', t('Send Mail "registerThreeDayNoFirstCheck" for node - @nid, for term - @tid'), array('@nid' => $node->nid), '@tid' => $tid));
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+    /**
+   * @return
+   *
+   * After Device Register 7 days and No one to do First Check
+   * term tid = 130
+   */
+  public function registerSevenDayNoFirstCheck() {
+    $tid = 130;
+
+    $OtherNotifyTerm = new OtherNotifyTerm($tid);
+    // check "enable" status
+    if ( !$OtherNotifyTerm->enableStatus() ) {
+      return NULL;
+    }
+
+    $repair_nid_array = $this->allNotReturnRepairNid();
+
+    $nodes = node_load_multiple($repair_nid_array);
+
+    if (is_array($nodes)) {
+      foreach ($nodes as $node) {
+        $DateTime = new DateTime();
+        $RepairInfo = new RepairInfo($node->nid);
+        $repair_date = $RepairInfo->receiveDateTimeStamp();
+        $condition_date = $repair_date + $OtherNotifyTerm->aheadTime();
+
+        // condition,
+        if ( $RepairInfo->returnDateTimeStamp() == NULL ) {
+          if ( !$RepairInfo->notifyTermStatus($tid) ) {
+            if ($condition_date < $DateTime->getTimestamp()) {
+              if ($RepairInfo->checkDateTimeStamp() == NULL) {
+
+                $OtherNotifyTerm = new OtherNotifyTerm($tid);
+                $OtherNotifyTerm->sendNotifyMailByTerm($node->nid);
+
+                // $RepairInfo->updateNotifyTermStatus($tid);
+                watchdog('othernotify', t('Send Mail "registerSevenDayNoFirstCheck" for node - @nid, for term - @tid'), array('@nid' => $node->nid), '@tid' => $tid));
               }
             }
           }
