@@ -63,7 +63,7 @@ class OtherNotifyMail {
                 $OtherNotifyTerm->sendNotifyMailByTerm($node->nid);
 
                 // $RepairInfo->updateNotifyTermStatus($tid);
-                watchdog('othernotify', t('Send Mail "registerThreeDayNoFirstCheck" for node - @nid, for term - @tid'), array('@nid' => $node->nid), '@tid' => $tid));
+                watchdog('othernotify', t('Send Mail "registerThreeDayNoFirstCheck" for node - @nid, for term - @tid'), array('@nid' => $node->nid, '@tid' => $tid));
               }
             }
           }
@@ -107,7 +107,7 @@ class OtherNotifyMail {
                 $OtherNotifyTerm->sendNotifyMailByTerm($node->nid);
 
                 // $RepairInfo->updateNotifyTermStatus($tid);
-                watchdog('othernotify', t('Send Mail "registerSevenDayNoFirstCheck" for node - @nid, for term - @tid'), array('@nid' => $node->nid), '@tid' => $tid));
+                watchdog('othernotify', t('Send Mail "registerSevenDayNoFirstCheck" for node - @nid, for term - @tid'), array('@nid' => $node->nid, '@tid' => $tid));
               }
             }
           }
