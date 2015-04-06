@@ -133,7 +133,7 @@ class OtherNotifyTerm {
     $other_body = NULL;
     if ($nid) {
       // $other_body = '<br />'. l(t('Link to this node') , ('node/' . $nid), array('attributes' => array('class' => array('about-link'))));
-      $other_body = '<br />'. 'Link to this node -- http://www.onebandrma.com/node/') . $nid;
+      $other_body = "<br />". 'Link to this node -- http://www.onebandrma.com/node/' . $nid;
     }
 
     $subject = $this->mailTitle();
