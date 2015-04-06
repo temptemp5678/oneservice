@@ -51,7 +51,7 @@ class OtherNotifyTerm {
     if (isset($this->term->field_notify_mail_to['und'][0]['safe_value'])) {
       $output[] = $this->term->field_notify_mail_to['und'][0]['safe_value'];
       // foreach ($this->term->field_notify_mail_to['und'] as $key => $row) {
-        // $output[] = $row['safe_value'];
+      //   $output[] = $row['safe_value'];
       // }
     }
 
@@ -151,7 +151,6 @@ class OtherNotifyTerm {
 
     // drupal_mail send email
     drupal_mail($module, $key, $to, $language, $params, $from);
-    drupal_set_message(t('Send Mail by Notify Mail By Term'));
     watchdog('othernotify', t('Send Mail by Notify Mail By Term -- @term'), array('@term' => $this->term->tid));
   }
 

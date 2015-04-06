@@ -150,7 +150,28 @@ class RepairInfo {
       $output = format_date($stamp, 'custom', 'Y-m-d');
     }
     return $output;
+  }
 
+  /**
+   * @return return Date Time Stamp
+   */
+  public function returnDateTimeStamp() {
+    $output = NULL;
+    if (isset($this->node->field_repair_return_date['und'][0]['value'])) {
+      $output = $this->node->field_repair_return_date['und'][0]['value'];
+    }
+    return $output;
+  }
+  /**
+   * @return Receive Date
+   */
+  public function returnDateFormat() {
+    $output = NULL;
+    $stamp = $this->returnDateTimeStamp();
+    if (!empty($stamp)) {
+      $output = format_date($stamp, 'custom', 'Y-m-d');
+    }
+    return $output;
   }
 
   /** - - - - - Boolean Field - - - - - - - - - -  - - - - -   */
@@ -158,10 +179,13 @@ class RepairInfo {
    * @return Boolean
    *  repair Notify Status
    */
-  public function notifyStatus($key = 0) {
+  public function notifyTermStatus($tid) {
+    // like "field_repair_notifyterm_132"
+    $notify_term_field = 'field_repair_notifyterm_' . $tid;
+
     $output = NULL;
-    if (isset($this->node->field_repair_notify_status['und'][$key]['value'])) {
-      $output = $this->node->field_repair_notify_status['und'][$key]['value'];
+    if (isset($this->node->{$notify_term_field}['und'][0]['value'])) {
+      $output = $this->node->{$notify_term_field}['und'][0]['value'];
     }
     return $output;
   }
@@ -171,8 +195,11 @@ class RepairInfo {
    * @update Boolean
    *  repair Notify Status
    */
-  public function updateNotifyStatus($key = 0) {
-    $this->node->field_repair_notify_status['und'][$key]['value'] = TRUE;
+  public function updateNotifyTermStatus($tid) {
+    // like "field_repair_notifyterm_132"
+    $notify_term_field = 'field_repair_notifyterm_' . $tid;
+
+    $this->node->{$notify_term_field}['und'][0]['value'] = TRUE;
 
     field_attach_presave('node', $this->node);
     field_attach_update('node', $this->node);
