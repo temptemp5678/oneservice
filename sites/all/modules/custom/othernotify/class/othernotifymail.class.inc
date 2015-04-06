@@ -42,7 +42,7 @@ class OtherNotifyMail {
       return NULL;
     }
 
-    $repair_nid_array = $this->allNotReturnRepairNid();
+    $repair_nid_array = $this->allNotReturnRepairNidByNotifyTerm($tid);
 
     $nodes = node_load_multiple($repair_nid_array);
 
@@ -86,7 +86,7 @@ class OtherNotifyMail {
       return NULL;
     }
 
-    $repair_nid_array = $this->allNotReturnRepairNid();
+    $repair_nid_array = $this->allNotReturnRepairNidByNotifyTerm($tid);
 
     $nodes = node_load_multiple($repair_nid_array);
 
@@ -106,7 +106,7 @@ class OtherNotifyMail {
                 $OtherNotifyTerm = new OtherNotifyTerm($tid);
                 $OtherNotifyTerm->sendNotifyMailByTerm($node->nid);
 
-                // $RepairInfo->updateNotifyTermStatus($tid);
+                $RepairInfo->updateNotifyTermStatus($tid);
                 watchdog('othernotify', t('Send Mail "registerSevenDayNoFirstCheck" for node - @nid, for term - @tid'), array('@nid' => $node->nid, '@tid' => $tid));
               }
             }
@@ -129,6 +129,36 @@ class OtherNotifyMail {
       ->propertyCondition('status', NODE_PUBLISHED);
     // return date still empty
     // $query->fieldCondition('field_repair_return_date', 'value', 1, '<');
+
+    $result = $query->execute();
+
+    $repair_nid_array = NULL;
+    if (isset($result['node'])) {
+      if (count($result['node']) > 0 ) {
+        $repair_nid_array = array_keys($result['node']);
+      }
+    }
+    return $repair_nid_array;
+  }
+
+  /**
+   * @parameter array,
+   *  Meeting Nid
+   * @return array, all Repair not Return yet Node NID
+   * bundle is repair
+   */
+  public function allNotReturnRepairNidByNotifyTerm($tid) {
+    // like "field_repair_notifyterm_132"
+    $notify_term_field = 'field_repair_notifyterm_' . $tid;
+
+    $this->node->{$notify_term_field}['und'][0]['value'] = TRUE;
+
+    $query = new EntityFieldQuery;
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'repair')
+      ->propertyCondition('status', NODE_PUBLISHED);
+    // return status still empty
+    $query->fieldCondition($notify_term_field, 'value', 0, '=');
 
     $result = $query->execute();
 

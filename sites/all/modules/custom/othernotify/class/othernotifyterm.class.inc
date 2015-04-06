@@ -49,10 +49,9 @@ class OtherNotifyTerm {
     }
     $output = NULL;
     if (isset($this->term->field_notify_mail_to['und'][0]['safe_value'])) {
-      $output[] = $this->term->field_notify_mail_to['und'][0]['safe_value'];
-      // foreach ($this->term->field_notify_mail_to['und'] as $key => $row) {
-      //   $output[] = $row['safe_value'];
-      // }
+      foreach ($this->term->field_notify_mail_to['und'] as $key => $row) {
+        $output[] = $row['safe_value'];
+      }
     }
 
     if (is_array($output)) {
