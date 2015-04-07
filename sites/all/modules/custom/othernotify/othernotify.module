@@ -51,7 +51,7 @@ function othernotify_form_alter(&$form, &$form_state, $form_id) {
         '#type' => 'fieldset',
         '#title' => t('Ahead Time'),
         '#weight' => 20,
-        '#attributes' => array('class' => array('notify-term-form-ahead-time-wrapper')),
+        '#attributes' => array('class' => array('notify-term-form-ahead-time-wrapper element-invisible')),
       );
       $form['time_markup']['day'] = array(
         '#type' => 'textfield',
