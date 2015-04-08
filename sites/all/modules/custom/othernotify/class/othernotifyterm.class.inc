@@ -43,14 +43,27 @@ class OtherNotifyTerm {
    * @return array
    *  all notify Mail To Receiver
    */
-  public function mailTo() {
+  public function mailTo($nid = NULL) {
     if (!$this->term) {
       return NULL;
     }
+
     $output = NULL;
+    // Notify Term "mail to"
     if (isset($this->term->field_notify_mail_to['und'][0]['safe_value'])) {
       foreach ($this->term->field_notify_mail_to['und'] as $key => $row) {
         $output[] = $row['safe_value'];
+      }
+    }
+
+    // load client bundle sales as "mail to"
+    if ($nid > 0 && is_numeric($nid)) {
+      $RepairInfo = new RepairInfo($nid);
+      $client_tid = $RepairInfo->clientNameTid();
+
+      if ($client_tid > 0 && is_numeric($client_tid)) {
+        $ClientTermInfo = new ClientTermInfo();
+        $sales_uid = $ClientTermInfo->clientBundleSales();
       }
     }
 
@@ -119,7 +132,7 @@ class OtherNotifyTerm {
 
   /**
    * @return Send notify mail by Term tid
-   *
+   *  drupal_mail():
    */
   public function sendNotifyMailByTerm($nid) {
     // check "enable" status
@@ -127,7 +140,7 @@ class OtherNotifyTerm {
       return NULL;
     }
 
-    $to = $this->mailTo();   // to e-mail address
+    $to = $this->mailTo($nid);   // to e-mail address
     $from = "test@example.com"; // from e-mail address
 
     $other_body = NULL;

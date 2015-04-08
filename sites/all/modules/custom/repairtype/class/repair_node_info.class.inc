@@ -45,6 +45,21 @@ class RepairInfo {
     return $quote_nid;
   }
 
+  /** - - - - - Entity Reference - - - - - - - - - -  - - - - -   */
+  /**
+   * @return Client Name
+   */
+  public function clientNameTid() {
+    if (!$this->node) {
+      return NULL;
+    }
+    $output = NULL;
+    if (isset($this->node->field_repair_client_name['und'][0]['target_id'])) {
+      $output = $this->node->field_repair_client_name['und'][0]['target_id'];
+    }
+    return $output;
+  }
+
   /** - - - - - Text Field - - - - - - - - - -  - - - - -   */
   /**
    * @return Serial Number
