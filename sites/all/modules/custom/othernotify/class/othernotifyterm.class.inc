@@ -62,10 +62,10 @@ class OtherNotifyTerm {
       $client_tid = $RepairInfo->clientNameTid();
 
       if ($client_tid > 0 && is_numeric($client_tid)) {
-        $ClientTermInfo = new ClientTermInfo();
+        $ClientTermInfo = new ClientTermInfo($client_tid);
         $sales_uid = $ClientTermInfo->clientBundleSales();
         
-        $UserInfo = new UserInfo();
+        $UserInfo = new UserInfo($sales_uid);
         if ($UserInfo->userEmail()) {
           $output[]= $UserInfo->userEmail();
         }
