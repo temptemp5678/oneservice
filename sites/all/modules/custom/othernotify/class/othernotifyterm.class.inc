@@ -64,6 +64,11 @@ class OtherNotifyTerm {
       if ($client_tid > 0 && is_numeric($client_tid)) {
         $ClientTermInfo = new ClientTermInfo();
         $sales_uid = $ClientTermInfo->clientBundleSales();
+        
+        $UserInfo = new UserInfo();
+        if ($UserInfo->userEmail()) {
+          $output[]= $UserInfo->userEmail();
+        }
       }
     }
 
