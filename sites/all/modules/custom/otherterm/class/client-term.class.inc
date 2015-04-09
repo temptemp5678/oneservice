@@ -41,7 +41,7 @@ class ClientTermInfo {
   /** - - - - - Entity Reference - - - - - - - - - -  - - - - -   */
   /**
    * @return array
-   *  client Bank Name
+   *  client bundle sales uid array
    */
   public function clientBundleSales() {
     if (!$this->term) {
@@ -50,6 +50,7 @@ class ClientTermInfo {
     $output = NULL;
     if (isset($this->term->field_client_bundlesales['und'][0]['target_id'])) {
       foreach ($this->term->field_client_bundlesales['und'] as $key => $row) {
+        // array
         $output[] = $row['target_id'];
       }
     }
