@@ -64,7 +64,7 @@ class OtherNotifyMail {
                 $OtherNotifyTerm = new OtherNotifyTerm($tid);
                 $OtherNotifyTerm->sendNotifyMailByTerm($node->nid);
 
-                // $RepairInfo->updateNotifyTermStatus($tid);
+                $RepairInfo->updateNotifyTermStatus($tid);
                 watchdog('othernotify', t('Send Mail "registerThreeDayNoFirstCheck" for node - @nid, for term - @tid'), array('@nid' => $node->nid, '@tid' => $tid));
               }
             }
