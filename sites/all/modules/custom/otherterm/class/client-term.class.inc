@@ -38,7 +38,7 @@ class ClientTermInfo {
     return $output;
   }
 
-  /** - - - - - Entity Reference - - - - - - - - - -  - - - - -   */
+  /** - - - - - entity Reference - - - - - - - - - -  - - - - -   */
   /**
    * @return array
    *  client bundle sales uid array
