@@ -54,8 +54,13 @@ function othersetting_node_access($node, $op, $account) {
   if ($type == 'quote'){
     if (in_array($type, node_permissions_get_configured_types())) {
       if ($op == 'view') {
-        if (user_access('view site publish content', $account)) {
+        drupal_set_message('view page 2');
+        if (user_access('permission for editor role', $account) || user_access('permission for moderator role', $account) || user_access('permission for siteadmin role', $account)) {
+        drupal_set_message('view page 59');
           return NODE_ACCESS_ALLOW;
+        }
+        else {
+          return NODE_ACCESS_DENY;
         }
       }
       if ($op == 'delete') {
@@ -123,7 +128,7 @@ function othersetting_user_login(&$edit, $account) {
  */
 function othersetting_quote_page_content($nid = NULL) {
   if ($nid) {
-    $node = node_load($nid);    
+    $node = node_load($nid);
   }
   $device_name = '';
   // isset($node) is for node page
@@ -248,12 +253,12 @@ function quote_row_output_table($node = NULL) {
         $device_type_value = field_get_items('node', $reapir_node, 'field_repair_device_type');
         $device_type_label = field_view_value('node', $reapir_node, 'field_repair_device_type', $device_type_value[0]);
       }
-      
+
       $item_value = number_format(0, 2);
       if (isset($reapir_node->field_repair_quote_amount['und'][0]['value'])) {
         $item_value = $reapir_node->field_repair_quote_amount['und'][0]['value'];
       }
-      
+
       $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $item_value . '</td></tr>';
       $sum[] = $item_value;
       $index++;
