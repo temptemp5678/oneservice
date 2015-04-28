@@ -53,10 +53,9 @@ function othersetting_node_access($node, $op, $account) {
   $type = is_string($node) ? $node : $node->type;
   if ($type == 'quote'){
     if (in_array($type, node_permissions_get_configured_types())) {
+      // view page, to test drupal_set_message('view page view');
       if ($op == 'view') {
-        drupal_set_message('view page 2');
         if (user_access('permission for editor role', $account) || user_access('permission for moderator role', $account) || user_access('permission for siteadmin role', $account)) {
-        drupal_set_message('view page 59');
           return NODE_ACCESS_ALLOW;
         }
         else {
