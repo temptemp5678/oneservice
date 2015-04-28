@@ -98,43 +98,46 @@
 
   <div class="content"<?php print $content_attributes; ?>>
     <?php
-      if (theme_get_setting('logo')) {
-        $image = array(
-          'path' => theme_get_setting('logo'),
-          'alt' => 'my logo',
-          'attributes' => array('class' => 'text-center'),
-        );
-        $logo = theme('image', $image); 
-        $print_button = '<div class="visible-print margin-bottom-24">' . $logo . '</div>';
-        print render($print_button);
-      }
+      // print company logo instead of Website Logo
+      $QuoteInfo = new QuoteInfo($node->nid);
+      $company_term_tid = $QuoteInfo->companyNameTid();
+      
+      $CompanyTermInfo = new CompanyTermInfo($company_term_tid);
+      $company_logo_variables = $CompanyTermInfo->companyLogoImageVariables();
+      $company_logo_image = theme('image', $company_logo_variables); 
+    
+      $logo_image = '<div class="visible-print margin-bottom-24">' . $company_logo_image . '</div>';
+      print render($logo_image);
     ?>
     <?php
       // We hide the comments and links now so that we can render them later.
-      print render(othersetting_quote_page_content($node));
+      $node_quote_content = othersetting_quote_page_content($node->nid);
+      print render($node_quote_content);
     ?>
     <?php
       // print authorize_stamp
-      $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
-      $stamp_image_variables = array(
-                                'path' => $stamp_image_path,
-                                'alt' => 'Stamp',
-                                'title' => 'Stamp',
-                                'width' => '128px',
-                                'height' => '128px',
-                               );
-      $stamp_image = theme('image', $stamp_image_variables);
+      $stamp_image = $CompanyTermInfo->authorizeStampImage();
+      
       if ($node->field_quote_authorize_stamp['und'][0]['value']) {
-        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right clear-both">' . $stamp_image . '</div></div>';
+        $hide_stamp_class = '';
+        $print_button_div = '<div class="btn btn-success quote-node-print-button hidden-print margin-top-48 clear-both" type="button">' . t('Print') . '</div>';
       }
       else {
-        $authorize_stamp_div = '<div class="row"><div class="col-xs-12 authorize-stamp-image text-right element-invisible clear-both">' . $stamp_image . '</div></div>';
+        $hide_stamp_class = ' element-invisible';
+        $print_button_div = '';
       }
+      $authorize_stamp_div = '';
+      $authorize_stamp_div .= '<div class="row margin-top-n-84 margin-left-12 height-120">';
+        $authorize_stamp_div .= '<div class="col-xs-12 authorize-stamp-image text-left clear-both' . $hide_stamp_class . '">';
+          $authorize_stamp_div .= $stamp_image;
+        $authorize_stamp_div .= '</div>';
+      $authorize_stamp_div .= '</div>';
+      
       print render($authorize_stamp_div);
     ?>
 
     <?php
-      $print_button = '<div class="btn btn-success quote-node-print-button hidden-print" type="button">' . t('Print') . '</div>';
+      $print_button = $print_button_div;
       print render($print_button);
       drupal_add_js('jQuery(document).ready(function () {
           jQuery(".quote-node-print-button").click(function(){

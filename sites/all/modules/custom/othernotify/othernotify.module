@@ -1,0 +1,91 @@
+<?php
+/**
+ * @file
+ *
+ */
+/**
+ * Implementation of hook_form_alter()
+ */
+function othernotify_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'taxonomy_form_term') {
+    if ($form['#vocabulary']->vid == 7) {
+      if (isset($form['field_notify_ahead_time']['und'][0]['value']['#default_value'])) {
+        // AHEAD TIME to convert day, hours, minutes
+        $seconds = $form['field_notify_ahead_time']['und'][0]['value']['#default_value'];
+
+        $now = new DateTime;
+        $ahead_time_stamp = '@' . ($now->getTimestamp() - $seconds);
+        $ago = new DateTime($ahead_time_stamp);
+        $diff = $now->diff($ago);
+
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+
+        $time_markup_day = $diff->d;
+        $time_markup_hour = $diff->h;
+      }
+
+      if (isset($form['field_notify_ahead_time']['und'][0]['11value'])) {
+        $type_option = _hierarchical_program_type_options($unit_selected);
+        // filter program type options on select menu
+        if (count($type_option) > 0) {
+          $form['field_taxpro_program_type']['und']['#options'] = $type_option;
+        }
+
+        // filter program class options on select menu
+        $form['field_taxpro_program_class']['und']['#options'] = _hierarchical_program_class_options($unit_selected);
+      }
+
+      // only with form show, not save these fields
+      $form['time_markup'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Ahead Time'),
+        '#weight' => 20,
+        '#attributes' => array('class' => array('notify-term-form-ahead-time-wrapper element-invisible')),
+      );
+      $form['time_markup']['day'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Day'),
+        '#default_value' => $time_markup_day,
+        '#size' => 60,
+      );
+      $form['time_markup']['hour'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Hours'),
+        '#default_value' => $time_markup_hour,
+        '#size' => 60,
+      );
+    }
+  }
+}
+
+/**
+ * Implementation of hook_mail()
+ */
+function othernotify_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'repair-node-create':
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['body'];
+    break;
+  }
+}
+
+/*
+ * Implementation of hook_cron()
+ */
+function othernotify_cron() {
+  // to call drupal_mail to send email
+  $OtherNotifyMail = new OtherNotifyMail();
+  $OtherNotifyMail->checkCronNotify();
+}

@@ -48,7 +48,7 @@ function quotetype_menu() {
     'title' => 'Create New Quotation',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('quotetype_add_quote_form'),
-    'access arguments' => array('view site internal content'),
+    'access arguments' => array('permission for editor role'),
     'type' => MENU_CALLBACK,
     'file' => 'quotetype_page_form.inc',
   );
@@ -67,7 +67,7 @@ function quotetype_menu() {
     'title' => t('Delete'),
     'page callback' => 'quotetype_delete_tab_page',
     'page arguments' => array(1),
-    'access callback' => 'quote_delete_tab_access_check',
+    'access callback' => 'quotetype_delete_tab_access_check',
     'access arguments' => array(1),
     'type' => MENU_LOCAL_TASK,
   );
@@ -80,7 +80,7 @@ function quotetype_menu() {
  */
 function quotetype_authorize_tab_form_page_check($nid) {
   if (user_is_logged_in()) {
-    if(user_access('view site internal content')) {
+    if(user_access('permission for moderator role')) {
       $node = node_load($nid);
       if ($node->type == 'quote') {
         return TRUE;
@@ -92,9 +92,9 @@ function quotetype_authorize_tab_form_page_check($nid) {
 /**
  * permission check for hook_menu()
  */
-function quote_delete_tab_access_check($nid) {
+function quotetype_delete_tab_access_check($nid) {
   if (user_is_logged_in()) {
-    if(user_access('view site internal content')) {
+    if(user_access('permission for siteadmin role')) {
       $node = node_load($nid);
       if ($node->type == 'quote') {
         return TRUE;
@@ -149,25 +149,6 @@ function quotetype_form_alter(&$form, &$form_state, $form_id) {
     // @see hook_node_presave() on repairtype.module
     $form['title']['#default_value'] = t('报价');
   }
-}
-
-/**
- * @return
- * Authorize Stamp image
- * @parameter 1 is width of image size, default is 128px
- * @parameter 2 is height of image size, default is 128px
- */
-function quotetype_authorize_stamp_image($width = '128px', $height = '128px') {
-  $stamp_image_path = '/' . drupal_get_path('module', 'quotetype') . '/images/wanbo_quote_stamp.png';
-  $stamp_image_variables = array(
-                            'path' => $stamp_image_path,
-                            'alt' => 'Stamp',
-                            'title' => 'Stamp',
-                            'width' => $width,
-                            'height' => $height,
-                           );
-  $stamp_image = theme('image', $stamp_image_variables);
-  return $stamp_image;
 }
 
 /*

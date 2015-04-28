@@ -5,6 +5,8 @@ package = Zen Other
 
 stylesheets[all][] = css/repairtype.css
 
+files[] = class/repair_node_info.class.inc
+
 ;scripts[] = js/repairtype.js
 
 version  = 7.x-1.1

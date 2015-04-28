@@ -5,6 +5,8 @@ package = Zen Other
 
 stylesheets[all][] = css/quotetype.css
 
+files[] = class/quote_node_info.class.inc
+
 ;scripts[] = js/quotetype.js
 
 version  = 7.x-1.1

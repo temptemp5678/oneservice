@@ -12,7 +12,7 @@ function repairtype_menu() {
   $items['repairtype/create-new'] = array(
     'title' => t('Create New'),
     'page callback' => 'repairtype_create_new_repair',
-    'access arguments' => array('view site internal content'),
+    'access arguments' => array('permission for editor role'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'repairtype_create_new_repair.page.inc',
   );
@@ -23,7 +23,7 @@ function repairtype_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'repairtype_create_new_repair.page.inc',
   );
-  
+
   // add "Print" tab on Repair node page, page callback to fetch Views
   $items['node/%/print'] = array(
     'title' => t('Print'),
@@ -99,15 +99,21 @@ function repairtype_nodetitle_set_title(&$node) {
  * Implementation of hook_form_alter()
  */
 function repairtype_form_alter(&$form, &$form_state, $form_id) {
-// dpm($form_id);
-// dpm($form_state);
   if ($form_id == 'repair_node_form') {
     // hide title field, and assign a default title
     $form['title']['#default_value'] = t('维修');
     $form['title']['#type'] = 'hidden';
     $form['title']['#required'] = FALSE;
+  }
+}
 
-    // $form['field_repair_client_contactname']['und'][0]['value']['#disabled'] = TRUE;
-    // $form['field_repair_client_contactname']['und'][0]['value']['#default_value'] = 'dddddddddddddddd';
+/**
+ * Implements hook_node_insert()
+ */
+function repairtype_node_insert($node) {
+  if($node->type == 'repair') {
+    // to call drupal_mail to send email
+    $OtherNotifyNode = new OtherNotifyNode($node->nid);
+    $OtherNotifyNode->repairNodeCreate();
   }
 }

@@ -5,6 +5,9 @@ package = Zen Other
 
 stylesheets[all][] = css/useradmin.css
 
+files[] = class/otheruserinfo.class.inc
+
+
 ;scripts[] = js/useradmin.js
 
 version  = 7.x-1.1

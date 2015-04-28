@@ -1,0 +1,10 @@
+name = Other Notify
+description = Other Notification to send mail
+core = 7.x
+package = Zen Other
+
+files[] = class/othernotifymail.class.inc
+files[] = class/othernotifynode.class.inc
+files[] = class/othernotifyterm.class.inc
+
+version  = 7.x-1.1

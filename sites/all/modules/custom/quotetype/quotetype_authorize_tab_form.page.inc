@@ -32,7 +32,12 @@ function quotetype_authorize_tab_form($form, &$form_state, $nid = NULL) {
     '#suffix' => '</div></div>',
   );
 
-  $stamp_image = quotetype_authorize_stamp_image();
+  // Authorize Stamp Image
+  $QuoteInfo = new QuoteInfo($nid);
+  $company_term_tid = $QuoteInfo->companyNameTid();
+  
+  $CompanyTermInfo = new CompanyTermInfo($company_term_tid);
+  $stamp_image = $CompanyTermInfo->authorizeStampImage();
   $form['authorize_stamp'] = array(
     '#type' => 'item',
     '#markup' => '<div class="row text-center margin-top-24">' . $stamp_image . '</div>',

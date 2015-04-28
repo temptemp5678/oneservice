@@ -29,11 +29,10 @@ function repairtype_create_new_repair22() {
   $type = 'repair';
   module_load_include('inc', 'node', 'node.pages');
   $form = node_add($type);
-  
+
   $form['field_repair_client_contactphone']['und'][0]['value']['#attributes']['placeholder'] = 'Phone Number';
 
   return $form;
-  // return drupal_render($form);
 }
 
 function repairtype_create_new_repair33() {
@@ -44,18 +43,15 @@ function repairtype_create_new_repair33() {
   $node = (object) array(
     'uid' => $user->uid,
     'name' => (isset($user->name) ? $user->name : ''),
-    'type' => $type,               
+    'type' => $type,
     'language' => LANGUAGE_NONE,
   );
-  
+
   // Invoke hook_nodapi and hook_node
   node_object_prepare($node);
-  
+
   module_load_include('inc', 'node', 'node.pages');
   $form = drupal_get_form($type . '_node_form', $node);
-  
-  // dpm($form);
-  
+
   return drupal_render($form);
 }
-

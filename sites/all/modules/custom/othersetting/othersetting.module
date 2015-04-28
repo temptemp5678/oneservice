@@ -9,23 +9,68 @@
  */
 function othersetting_permission() {
   return array(
-     'view site publish content' => array(
+    'view site publish content' => array(
       'title' => t('View Site Publish Content'),
       'description' => t('Login User can view Site Content'),
     ),
-     'view site internal content' => array(
+    'view site internal content' => array(
       'title' => t('View Site Internal Content'),
       'description' => t('Only internal company user can view content'),
     ),
-     'view my repair link' => array(
+    'view my repair link' => array(
       'title' => t('View My Repair Link'),
       'description' => t('Only Key Client can view this link'),
     ),
-     'roles option for add user' => array(
+    'roles option for add user' => array(
       'title' => t('Roles Option For Add User'),
       'description' => t('Allowed User Roles to be selected on Add new user form page'),
     ),
+    // assign the permission by roles
+    'permission for moderator role' => array(
+      'title' => t('Permission For moderator Role'),
+      'description' => t('The permission is for MODERATOR Role'),
+    ),
+    'permission for siteadmin role' => array(
+      'title' => t('Permission For siteadmin Role'),
+      'description' => t('The permission is for siteadmin Role'),
+    ),
+    'permission for keyclient role' => array(
+      'title' => t('Permission For keyclient Role'),
+      'description' => t('The permission is for KEYCLIENT Role'),
+    ),
+    'permission for editor role' => array(
+      'title' => t('Permission For editor Role'),
+      'description' => t('The permission is for EDITOR Role'),
+    ),
   );
+}
+
+/**
+ * Implements hook_node_access()
+ * to limit node access permission by roles
+ */
+function othersetting_node_access($node, $op, $account) {
+  $type = is_string($node) ? $node : $node->type;
+  if ($type == 'quote'){
+    if (in_array($type, node_permissions_get_configured_types())) {
+      // view page, to test drupal_set_message('view page view');
+      if ($op == 'view') {
+        if (user_access('permission for editor role', $account) || user_access('permission for moderator role', $account) || user_access('permission for siteadmin role', $account)) {
+          return NODE_ACCESS_ALLOW;
+        }
+        else {
+          return NODE_ACCESS_DENY;
+        }
+      }
+      if ($op == 'delete') {
+        if (user_access('permission for siteadmin role', $account)) {
+          return NODE_ACCESS_ALLOW;
+        }
+      }
+    }
+  }
+  // Returning nothing from this function would have the same effect.
+  return NODE_ACCESS_IGNORE;
 }
 
 /**
@@ -44,9 +89,16 @@ function othersetting_menu() {
     'title' => 'Quote Default Value',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('othersetting_set_quote_value_form'),
-    'access arguments' => array('view site internal content'),
+    'access arguments' => array('permission for siteadmin role'),
     'type' => MENU_CALLBACK,
     'file' => 'othersetting_set_quote_value_form_page.inc',
+  );
+  $items['admin-setting/index'] = array(
+    'title' => 'Site Setting',
+    'page callback' => 'othersetting_admin_setting_index',
+    'access arguments' => array('permission for editor role'),
+    'type' => MENU_CALLBACK,
+    'file' => 'othersetting_admin_setting_index.page.inc',
   );
   $items['user/login-link'] = array(
     'title' => 'Log in',
@@ -73,20 +125,25 @@ function othersetting_user_login(&$edit, $account) {
  * @return
  * default Quotation page text content
  */
-function othersetting_quote_page_content($node = NULL) {
+function othersetting_quote_page_content($nid = NULL) {
+  if ($nid) {
+    $node = node_load($nid);
+  }
   $device_name = '';
   // isset($node) is for node page
-  if (isset($node)){
+  if (isset($node)) {
     // for Company Name
     $term = taxonomy_term_load($node->field_quote_company_name['und'][0]['tid']);
 
     // for each device
-    foreach ($node->field_quote_repair_nid['und'] as $key => $row) {
-      if (!empty($row['value'])){
-        $repair_node = node_load($row['value']);
-        if (isset($repair_node)){
-        $device_term = taxonomy_term_load($repair_node->field_repair_device_type['und'][0]['tid']);
-        $device_name .= $device_term->name . '<br />';
+    if (isset($node->field_quote_repair_nid['und'])) {
+      foreach ($node->field_quote_repair_nid['und'] as $key => $row) {
+        if (!empty($row['value'])){
+          $repair_node = node_load($row['value']);
+          if (isset($repair_node)){
+          $device_term = taxonomy_term_load($repair_node->field_repair_device_type['und'][0]['tid']);
+          $device_name .= $device_term->name . '<br />';
+          }
         }
       }
     }
@@ -104,14 +161,13 @@ function othersetting_quote_page_content($node = NULL) {
 
   $output = '';
   $output =  t('产品保修期外维修单') . '<br />'
-               . t('贵公司送修的解码器')
-               . t('型号') . '：' . '<br />'
+               . t('贵公司送修的设备型号') . '：' . '<br />'
                . '<p><span class="quotation_insert_markup_device_type">'
-               . ((isset($node)) ? $device_name : '')
+               . ((!empty($node)) ? $device_name : '')
                . '</span></p>'
                . t('已经超过保修期, 需要更换配件, 维修后仅对该设备配件将提供为期')
                . '<span class="quotation_insert_markup_warranty_day">'
-               . ((isset($node)) ? $node->field_quote_warranty_day['und'][0]['value'] : variable_get('quote_default_value_warranty_day'))
+               . ((!empty($node)) ? $node->field_quote_warranty_day['und'][0]['value'] : variable_get('quote_default_value_warranty_day'))
                . '</span>'
                . t('天的保修服务。')
                . '<br />'
@@ -196,12 +252,12 @@ function quote_row_output_table($node = NULL) {
         $device_type_value = field_get_items('node', $reapir_node, 'field_repair_device_type');
         $device_type_label = field_view_value('node', $reapir_node, 'field_repair_device_type', $device_type_value[0]);
       }
-      
+
       $item_value = number_format(0, 2);
       if (isset($reapir_node->field_repair_quote_amount['und'][0]['value'])) {
         $item_value = $reapir_node->field_repair_quote_amount['und'][0]['value'];
       }
-      
+
       $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $item_value . '</td></tr>';
       $sum[] = $item_value;
       $index++;
