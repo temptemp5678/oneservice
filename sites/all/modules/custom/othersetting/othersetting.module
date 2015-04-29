@@ -142,7 +142,7 @@ function othersetting_quote_page_content($nid = NULL) {
           $repair_node = node_load($row['value']);
           if (isset($repair_node)){
           $device_term = taxonomy_term_load($repair_node->field_repair_device_type['und'][0]['tid']);
-          $device_name .= $device_term->name . '<br />';
+          $device_name .= ($key + 1) . '. ' . $device_term->name . '<br />';
           }
         }
       }
