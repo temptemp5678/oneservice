@@ -64,7 +64,7 @@ class OtherNotifyTerm {
       if ($client_tid > 0 && is_numeric($client_tid)) {
         $ClientTermInfo = new ClientTermInfo($client_tid);
         $sales_uid_array = $ClientTermInfo->clientBundleSales();
-        
+
         if (is_array($sales_uid_array)) {
           foreach ($sales_uid_array as $row) {
             $UserInfo = new UserInfo($row);
@@ -150,7 +150,7 @@ class OtherNotifyTerm {
     }
 
     $to = $this->mailTo($nid);   // to e-mail address
-    $from = "test@example.com"; // from e-mail address
+    $from = "onebandsystem@163.com"; // from e-mail address
 
     $other_body = NULL;
     if ($nid) {
