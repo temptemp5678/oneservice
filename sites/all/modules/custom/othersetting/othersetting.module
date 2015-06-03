@@ -129,6 +129,7 @@ function othersetting_quote_page_content($nid = NULL) {
   if ($nid) {
     $node = node_load($nid);
   }
+
   $device_name = '';
   // isset($node) is for node page
   if (isset($node)) {
@@ -140,9 +141,11 @@ function othersetting_quote_page_content($nid = NULL) {
       foreach ($node->field_quote_repair_nid['und'] as $key => $row) {
         if (!empty($row['value'])){
           $repair_node = node_load($row['value']);
+
+          $RepairInfo = new RepairInfo($row['value']);
           if (isset($repair_node)){
-          $device_term = taxonomy_term_load($repair_node->field_repair_device_type['und'][0]['tid']);
-          $device_name .= $device_term->name . '<br />';
+            $device_term = taxonomy_term_load($repair_node->field_repair_device_type['und'][0]['tid']);
+            $device_name .= ($key + 1) . '. ' . $device_term->name . ' ' . $RepairInfo->serialNumber() . '<br />';
           }
         }
       }
@@ -234,6 +237,7 @@ function quote_row_output_table($node = NULL) {
       $output .= '<tr>';
         $output .= '<th>#</th>';
         $output .= '<th>' . t('型号') . '</th>';
+        $output .= '<th>' . t('序列号') . '</th>';
         $output .= '<th>' . t('价格') . '</th>';
       $output .= '</tr>';
     $output .= '</thead>';
@@ -248,6 +252,8 @@ function quote_row_output_table($node = NULL) {
     $nodes = node_load_multiple($reapir_node_array);
     $index = 1;
     foreach($nodes as $reapir_node) {
+      $RepairInfo = new RepairInfo($reapir_node->nid);
+
       if (isset($reapir_node->field_repair_device_type['und'][0]['tid'])) {
         $device_type_value = field_get_items('node', $reapir_node, 'field_repair_device_type');
         $device_type_label = field_view_value('node', $reapir_node, 'field_repair_device_type', $device_type_value[0]);
@@ -258,7 +264,7 @@ function quote_row_output_table($node = NULL) {
         $item_value = $reapir_node->field_repair_quote_amount['und'][0]['value'];
       }
 
-      $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $item_value . '</td></tr>';
+      $output .= '<tr><td>' . $index . '</td><td>' . $device_type_label['#title'] . '</td><td>' . $RepairInfo->serialNumber() . '</td><td>' . $item_value . '</td></tr>';
       $sum[] = $item_value;
       $index++;
     }
@@ -266,8 +272,8 @@ function quote_row_output_table($node = NULL) {
     $client_name_label = field_view_value('node', $reapir_node, 'field_repair_client_name', $client_name_id[0]);
     $sumRepairAmount = number_format(array_sum($sum), 2, '.', '');
     $dicount_amount = number_format(($node->field_quote_sum_price['und'][0]['value'] - $sumRepairAmount), 2, '.', '');
-    $output .= '<tr><td></td><td>' .  t('折扣') . '</td><td class="quotation-js-insert-final-discount">' . $dicount_amount . '</td></tr>';
-    $output .= '<tr><td></td><td>' . t('总价') . '</td><td class="quotation-insert-markup-sum-price">' . $node->field_quote_sum_price['und'][0]['value'] . '</td></tr>';
+    $output .= '<tr><td></td><td>' .  t('折扣') . '</td><td></td><td class="quotation-js-insert-final-discount">' . $dicount_amount . '</td></tr>';
+    $output .= '<tr><td></td><td>' . t('总价') . '</td><td></td><td class="quotation-insert-markup-sum-price">' . $node->field_quote_sum_price['und'][0]['value'] . '</td></tr>';
   }
       $output .= '</tbody>';
   $output .= '</table>';
