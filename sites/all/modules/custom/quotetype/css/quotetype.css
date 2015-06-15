@@ -7,6 +7,7 @@
 }
 
 .page-node-add-repair #edit-field-repair-quote-status,
+.page-repairtype-create-new #edit-field-repair-quote-status,
 .page-node-edit.node-type-repair #edit-field-repair-quote-status {
   display: none;
 }
