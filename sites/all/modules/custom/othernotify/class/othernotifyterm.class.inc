@@ -5,6 +5,8 @@
 
 /**
  * class
+ * $otherNotifyTerm = new otherNotifyTerm();
+ * dpm($otherNotifyTerm->notifyName());
  */
 class OtherNotifyTerm {
   public $tid;

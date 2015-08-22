@@ -4,6 +4,18 @@
  *
  */
 
+/*
+ * Implementation of hook_init()
+ */
+function otherterm_init() {
+
+  // dpm(taxonomy_vocabulary_get_names());
+  // dpm(taxonomy_get_tree(4));
+  // foreach (taxonomy_get_tree(4) as $key => $value) {
+  //   dpm(',' . $value->name);
+  // }
+}
+
 /**
  * Implements hook_menu()
  */
@@ -31,7 +43,7 @@ function otherterm_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'otherterm_add_term_company.page.inc',
   );
-  
+
   $items['admin-setting/term/edit-term/%'] = array(
     'title' => 'Edit Term',
     'page callback' => 'otherterm_edit_term',
