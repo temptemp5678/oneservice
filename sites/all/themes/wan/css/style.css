@@ -16,3 +16,10 @@ header.navbar-default .navbar-header a.name.navbar-brand {
 header.navbar-default ul.menu.navbar-nav {
   margin-top: 8px;
 }
+
+/**
+ * hide edit menu tabs on page node type
+ */
+.page-node-edit.node-type-page .node-page-form > div > .vertical-tabs{
+  display: none;
+}
